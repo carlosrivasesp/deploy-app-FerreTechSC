@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto';
@@ -59,7 +59,8 @@ export class CotizacionesComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private _productoService: ProductoService,
     private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _clienteService: ClienteService,
-    private cotizacionService: CotizacionService  // Inyecta el servicio
+    private cotizacionService: CotizacionService,
+    private cdr: ChangeDetectorRef
   ) {
     this.clienteForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -235,8 +236,8 @@ export class CotizacionesComponent implements OnInit {
 
   calcularTotales(): void {
   this.total = this.elementosRegistrados.reduce((acc, item) => acc + item.subtotal, 0);
-  this.total = parseFloat(this.total.toFixed(2));  // Redondea el total a 2 decimales
-  this.igv = parseFloat((this.total * 0.18).toFixed(2));  // Redondea el IGV a 2 decimales
+  this.total = parseFloat(this.total.toFixed(2)); 
+  this.igv = parseFloat((this.total * 0.18).toFixed(2));
   this.totalConIGV = parseFloat((this.total + this.igv).toFixed(2));
   }
 
@@ -306,5 +307,37 @@ this.cotizacionService.registrarCotizacion(cotizacion).subscribe(
       month: 'numeric',
       day: 'numeric'
     });
+  }
+
+  aumentarCantidad(item: ElementoRegistrado): void {
+    item.cant++;
+    item.subtotal = item.cant * item.precio;
+    this.calcularTotales();
+  }
+
+  disminuirCantidad(item: ElementoRegistrado): void {
+    if (item.cant > 1) {
+      item.cant--;
+      item.subtotal = item.cant * item.precio;
+      this.calcularTotales();
+    } else {
+      this.toastr.info('La cantidad mínima es 1');
+    }
+  }
+  actualizarSubtotal(p: any): void {
+    if(p.cant<=0){
+        this.toastr.info('La cantidad mínima es 1');
+        p.cant=1;
+    }
+    p.subtotal = p.cant * p.precio;
+    this.calcularTotales();
+  }
+
+
+  eliminarElemento(codigo: string): void {
+      this.elementosRegistrados = this.elementosRegistrados.filter(e => e.codigo !== codigo);
+      this.total = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
+      this.calcularTotales();
+      this.cdr.detectChanges();
   }
 }

@@ -128,12 +128,19 @@
           <tr *ngFor="let p of elementosRegistrados; index as i">
             <td>{{ p.codigo }}</td>
             <td>{{ p.nombre }}</td>
-            <td>{{ p.cant }}</td>
+            <td>
+              <input type="number" [(ngModel)]="p.cant" (ngModelChange)="actualizarSubtotal(p)"
+              class="form-control form-control-sm text-center mx-auto" min="1" style="width: 55px;"/>
+            </td>
             <td>{{ p.precio }}</td>
             <td>{{ p.subtotal }}</td>
-            <!-- <td>
-              <button class="btn btn-sm btn-danger" (click)="onDeleteProduct(i)">Eliminar</button>
-            </td> -->
+            <td>
+            <button class="actions" (click)="aumentarCantidad(p)" title="Aumentar"><i
+                class="bi bi-plus-lg"></i></button>
+            <button class="actions" (click)="disminuirCantidad(p)" title="Disminuir"><i
+                class="bi bi-dash-lg"></i></button>
+            <button class="actions" (click)="eliminarElemento(p.codigo)"><i class="bi bi-trash-fill"></i></button>
+          </td>
           </tr>
         </tbody>
       </table>

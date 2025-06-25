@@ -390,6 +390,15 @@ export class RegistrarCompraComponent {
     }
   }
 
+  actualizarSubtotal(p: any): void {
+    if(p.cant<=0){
+        this.toastr.info('La cantidad mínima es 1');
+        p.cant=1;
+    }
+    p.subtotal = p.cant * p.precio;
+    this.actualizarTotalYIgv();
+  }
+
   eliminarElemento(codigo: string): void {
       this.elementosRegistrados = this.elementosRegistrados.filter(e => e.codigo !== codigo);
       this.total = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);

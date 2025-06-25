@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto';
@@ -75,7 +75,8 @@ export class VentaComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private _productoService: ProductoService,
     private _lugarService: LugarService, private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _clienteService: ClienteService, private aRoute: ActivatedRoute,
-    private _ventaService: VentaService
+    private _ventaService: VentaService,
+    private cdr: ChangeDetectorRef
   ) {
     this.clienteForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -450,8 +451,6 @@ export class VentaComponent implements OnInit {
     this.clearSearch();
   }
 
-
-
   private updateDateTime(): void {
     const now = new Date();
     this.currentDateTime = now.toLocaleString('es-ES', {
@@ -467,6 +466,48 @@ export class VentaComponent implements OnInit {
     const year = today.getFullYear();
 
     return `${day}/${month}/${year}`;  // DD-MM-YYYY
+  }
+
+  private actualizarTotalYIgv(): void {
+    const subtotalTotal = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
+    
+    this.igv = parseFloat((subtotalTotal * 0.18).toFixed(2));
+
+    this.total = parseFloat((subtotalTotal + this.igv).toFixed(2));
+
+    this.ventaForm.patchValue({ total: this.total, igv: this.igv });
+  }
+
+  aumentarCantidad(item: ElementoRegistrado): void {
+    item.cant++;
+    item.subtotal = item.cant * item.precio;
+    this.actualizarTotalYIgv();
+  }
+
+  disminuirCantidad(item: ElementoRegistrado): void {
+    if (item.cant > 1) {
+      item.cant--;
+      item.subtotal = item.cant * item.precio;
+      this.actualizarTotalYIgv();
+    } else {
+      this.toastr.info('La cantidad mínima es 1');
+    }
+  }
+  actualizarSubtotal(p: any): void {
+    if(p.cant<=0){
+        this.toastr.info('La cantidad mínima es 1');
+        p.cant=1;
+    }
+    p.subtotal = p.cant * p.precio;
+    this.actualizarTotalYIgv();
+  }
+
+
+  eliminarElemento(codigo: string): void {
+      this.elementosRegistrados = this.elementosRegistrados.filter(e => e.codigo !== codigo);
+      this.total = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
+      this.actualizarTotalYIgv();
+      this.cdr.detectChanges();
   }
 
 }
