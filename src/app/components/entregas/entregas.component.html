@@ -33,7 +33,12 @@
 
       <div class="group2">
         <div class="input-group">
-          <input type="text" class="form-control" aria-label="" placeholder="Buscar">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="searchTerm"
+            placeholder="Buscar"
+          />
           <span class="input-group-text"><i class="bi bi-search"></i></span>
         </div>
       </div>
