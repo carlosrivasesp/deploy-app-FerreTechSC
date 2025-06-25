@@ -16,6 +16,11 @@ export class EntregasComponent {
 
   listaEntregas: Entregas[] = [];
   entregaSeleccionada: any = null;
+  
+  selectedFilter: string = 'cliente';
+  searchTerm: string = '';
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
 
   direccion: string = '';
   fechaInicio: string = '';
@@ -78,5 +83,37 @@ export class EntregasComponent {
     });
   }
 
+  get filteredEntregas(): Entregas[] {
+    if (!this.searchTerm.trim()) return this.listaEntregas;
+
+    const term = this.searchTerm.toLowerCase();
+    switch (this.selectedFilter) {
+      case 'estado':
+        return this.listaEntregas.filter((v) =>
+          v.estado.toLowerCase().includes(term)
+        );
+      case 'tipoComprobante':
+        return this.listaEntregas.filter((v) =>
+          v.ventaId.tipoComprobante.toLowerCase().includes(term)
+        );
+      default:
+        return this.listaEntregas;
+    }
+  }
+
+  get paginatedEntregas(): Entregas[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredEntregas.slice(start, start + this.itemsPerPage);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredEntregas.length / this.itemsPerPage);
+  }
+
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
 }
 

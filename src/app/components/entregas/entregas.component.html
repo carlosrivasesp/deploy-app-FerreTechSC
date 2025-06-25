@@ -8,33 +8,26 @@
     </div>
 
     <div class="filter">
-      <div class="group1">
-        <p class="description">Filtrar por: </p>
         <div class="group1">
           <p class="description">Filtrar por: </p>
 
           <div class="dropdown">
             <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Nro. Comprobante
+              Tipo Comprobante
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/entregas">Nro. Comprobante</a></li>
-              <li><a class="dropdown-item" href="/entregas">Tipo de comprobante</a></li>
-              <li><a class="dropdown-item" href="/entregas">Dirección</a></li>
-              <li><a class="dropdown-item" href="/entregas">Estado</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="dropdown">
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Nro. Comprobante
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/entregas">Nro. Comprobante</a></li>
-            <li><a class="dropdown-item" href="/entregas">Tipo de comprobante</a></li>
-            <li><a class="dropdown-item" href="/entregas">Dirección</a></li>
-            <li><a class="dropdown-item" href="/entregas">Estado</a></li>
+            <li>
+              <a class="dropdown-item" (click)="selectedFilter = 'tipoComprobante'"
+                >Cliente</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="selectedFilter = 'estado'"
+                >Estado</a
+              >
+            </li>
           </ul>
+          </div>
         </div>
       </div>
 
@@ -66,7 +59,7 @@
         </tr>
       </thead>
       <tbody class="body">
-        <tr *ngFor="let e of listaEntregas">
+        <tr *ngFor="let e of filteredEntregas">
           <td>{{ e.ventaId.tipoComprobante }}</td>
           <td>{{ e.ventaId.serie }}</td>
           <td>{{ e.ventaId.nroComprobante }}</td>
@@ -100,7 +93,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
 
   <!-- MODAL AGREGAR -->
 
