@@ -510,4 +510,21 @@ export class VentaComponent implements OnInit {
       this.cdr.detectChanges();
   }
 
+  itemsPerPage = 5; // filas por página
+  currentPage = 1;
+
+  get paginatedDetalles(): ElementoRegistrado[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.elementosRegistrados.slice(start, start + this.itemsPerPage);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.elementosRegistrados.length / this.itemsPerPage);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
 }

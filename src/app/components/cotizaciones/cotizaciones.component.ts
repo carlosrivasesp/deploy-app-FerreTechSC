@@ -208,31 +208,40 @@ export class CotizacionesComponent implements OnInit {
   }
 
   onRegisterElement(): void {
-    if (!this.elementoSeleccionado) return;
+  if (!this.elementoSeleccionado) return;
 
-    const element = this.elementoSeleccionado;
+  const element = this.elementoSeleccionado;
 
-    const Registrado: ElementoRegistrado = {
+  // Verifica si el producto ya está registrado
+  const existente = this.elementosRegistrados.find(e => e.codigo === element.codigo);
+
+  if (existente) {
+    // Si ya existe, suma la cantidad y actualiza el subtotal
+    existente.cant += this.cantidad;
+    existente.subtotal = parseFloat((existente.cant * existente.precio).toFixed(2));
+  } else {
+    // Si no existe, agrega nuevo elemento
+    const nuevoElemento: ElementoRegistrado = {
       codigo: element.codigo,
       nombre: element.nombre,
       cant: this.cantidad,
       precio: element.valor,
-      subtotal: this.cantidad * element.valor
+      subtotal: parseFloat((this.cantidad * element.valor).toFixed(2))
     };
 
-    this.elementosRegistrados.push(Registrado);
-
-    this.total += parseFloat(this.subtotal.toFixed(3));
-    this.calcularTotales();
-
-    this.clearSearch();
-
-    const dropdownInput = document.getElementById('dropdownInput');
-    if (dropdownInput && (window as any).bootstrap) {
-      const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
-      dropdownInstance.hide();
-    }
+    this.elementosRegistrados.push(nuevoElemento);
   }
+
+  this.calcularTotales();  // Actualiza totales generales
+  this.clearSearch();      // Limpia inputs
+
+  // Cierra dropdown si está abierto
+  const dropdownInput = document.getElementById('dropdownInput');
+  if (dropdownInput && (window as any).bootstrap) {
+    const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
+    dropdownInstance.hide();
+  }
+}
 
   calcularTotales(): void {
   this.total = this.elementosRegistrados.reduce((acc, item) => acc + item.subtotal, 0);
@@ -339,5 +348,23 @@ this.cotizacionService.registrarCotizacion(cotizacion).subscribe(
       this.total = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
       this.calcularTotales();
       this.cdr.detectChanges();
+  }
+
+  itemsPerPage = 5; // filas por página
+  currentPage = 1;
+
+  get paginatedDetalles(): ElementoRegistrado[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.elementosRegistrados.slice(start, start + this.itemsPerPage);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.elementosRegistrados.length / this.itemsPerPage);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
   }
 }
