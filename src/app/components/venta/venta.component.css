@@ -34,6 +34,10 @@
     text-align: center;
 }
 
+thead tr.header th {
+  font-size: 12px;
+}
+
 .header {
     font-size: 12px;
 }

@@ -116,7 +116,7 @@
         </tr>
       </thead>
       <tbody class="body">
-        <tr *ngFor="let p of elementosRegistrados; index as i">
+        <tr *ngFor="let p of paginatedDetalles; index as i">
           <td>{{ p.codigo }}</td>
           <td>{{ p.nombre }}</td>
           <td>
@@ -135,6 +135,22 @@
         </tr>
       </tbody>
     </table>
+
+    <nav *ngIf="totalPages > 1" class="mt-3" aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="changePage(currentPage - 1)">Anterior</a>
+        </li>
+        <li class="page-item"
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            [class.active]="currentPage === i + 1">
+          <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+        </li>
+      </ul>
+    </nav>
 
     <div class="position-absolute text-end" style="right: 1.5rem; bottom: 1.5rem">
       <div style="font-size: 0.85rem">
