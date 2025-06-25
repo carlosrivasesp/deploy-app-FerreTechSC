@@ -6,8 +6,8 @@ import { DetalleVenta } from "./detalleV";
 export class Ingreso {
     _id? : String;
     tipoOperacion : String;
-    compraId : Compra;
-    ventaId : Venta;
+    compraId?: Compra;
+    ventaId?: Venta;
     cantidadTotal : number;
     fechaIngreso : Date;
     detalles: DetalleVenta[] = [];
