@@ -65,12 +65,12 @@ export class IngresarProductosComponent {
         
       case 'compra':
         return this.listIngresos.filter(i =>
-          i.compraId.nroComprobante?.toLowerCase().startsWith(term)
+          i.compraId?.nroComprobante?.toLowerCase().startsWith(term)
         );
       
       case 'venta':
         return this.listIngresos.filter(i =>
-          i.ventaId.nroComprobante.toLowerCase().startsWith(term)
+          i.ventaId?.nroComprobante.toLowerCase().startsWith(term)
         );
 
       case 'fecha':
