@@ -62,6 +62,12 @@ thead tr.header th {
     font-size: 12px;
 }
 
+.actions {
+    border: none;
+    margin: 2px;
+    background-color: #60aa7156;
+}
+
 .pagination {
     display: flex;
     gap: 8px;
