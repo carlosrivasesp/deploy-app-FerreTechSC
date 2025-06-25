@@ -1,0 +1,61 @@
+.main-content{
+    height: 100%;
+    margin-left: 300px;
+    padding: 20px;
+}
+
+.separador{
+    margin-top:70px;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.form-label {
+    font-size: 12px;
+}
+
+.form-select {
+    font-size: 12px;
+}
+
+
+.form-control {
+    font-size: 12px;
+}
+
+.button-agregar{
+    margin-top: 20px;
+}
+
+.table {
+    margin-top: 20px;
+    border-color: black;
+    text-align: center;
+    width: 100%;
+}
+
+.header {
+    font-size: 12px;
+}
+
+.body {
+    font-size: 12px;
+}
+
+.btn {
+    background-color: #10401b;
+    color: white;
+    font-size: 12px;
+}
+
+.newClient {
+    text-decoration: none;
+    color: grey;
+    font-weight: bold;
+}
+
+.input-group-text {
+    font-size: 12px;
+}

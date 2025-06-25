@@ -1,0 +1,310 @@
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ProductoService } from '../../services/producto.service';
+import { Producto } from '../../models/producto';
+import { forkJoin } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Cliente } from '../../models/cliente';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ClienteService } from '../../services/cliente.service';
+import { CotizacionService } from '../../services/cotizacion.service';  // Importa el servicio
+
+export interface ElementoRegistrado {
+  codigo: string;
+  nombre: string;
+  cant: number;
+  precio: number;
+  subtotal: number;
+}
+
+interface ListaUnificada {
+  codigo: string;
+  tipo: 'producto';
+  nombre: string;
+  valor: number;
+}
+
+@Component({
+  selector: 'app-cotizaciones',
+  standalone: false,
+  templateUrl: './cotizaciones.component.html',
+  styleUrls: ['./cotizaciones.component.css']
+})
+export class CotizacionesComponent implements OnInit {
+
+  listaProducto_Lugar: ListaUnificada[] = [];
+  elementosRegistrados: ElementoRegistrado[] = [];
+  elementoSeleccionado: ListaUnificada | null = null;
+
+  currentDateTime: string = '';
+  searchTerm: string = '';
+
+  precioSeleccionado: number = 0;
+  cantidad: number = 1;
+  subtotal: number = 0;
+  total: number = 0.0;
+  igv: number = 0.0;
+  totalConIGV: number = 0.0;
+  moneda: string = 'S/';
+  tipoCambio: number = 3.66;
+
+  listClientes: Cliente[] = [];
+  clienteForm: FormGroup;
+
+  clienteSearchTerm: string = '';
+  clienteSeleccionado: Cliente | null = null;
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private _productoService: ProductoService,
+    private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _clienteService: ClienteService,
+    private cotizacionService: CotizacionService  // Inyecta el servicio
+  ) {
+    this.clienteForm = this.fb.group({
+      nombre: ['', Validators.required],
+      tipoDoc: ['', Validators.required],
+      nroDoc: ['', Validators.required],
+      telefono: ['', Validators.required],
+      correo: ['', Validators.required],
+      estado: ['Activo']
+    });
+  }
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.updateDateTime();
+      setInterval(() => this.updateDateTime(), 1000);
+    }
+    this.obtenerDatos();
+    this.obtenerClientes();
+  }
+
+  obtenerDatos(): void {
+    forkJoin({
+      productos: this._productoService.getAllProductos()
+    }).subscribe(({ productos }) => {
+      const productosTransformados = productos.map((p: Producto) => ({
+        ...p,
+        tipo: 'producto',
+        codigo: p.codInt,
+        nombre: p.nombre,
+        valor: p.precio
+      }));
+      this.listaProducto_Lugar = productosTransformados;
+    }, error => {
+      console.error('Error al obtener productos:', error);
+    });
+  }
+
+  obtenerClientes() {
+    this._clienteService.getAllClientes().subscribe(data => {
+      this.listClientes = data;
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  registrarCliente() {
+    const CLIENTE: Cliente = {
+      nombre: this.clienteForm.get('nombre')?.value,
+      tipoDoc: this.clienteForm.get('tipoDoc')?.value,
+      nroDoc: this.clienteForm.get('nroDoc')?.value,
+      telefono: this.clienteForm.get('telefono')?.value,
+      correo: this.clienteForm.get('correo')?.value,
+      estado: this.clienteForm.get('estado')?.value
+    };
+    this._clienteService.guardarCliente(CLIENTE).subscribe(data => {
+      this.toastr.success('El Cliente fue registrado exitosamente', 'Cliente registrado');
+      this.router.navigate(['/new-cotizaciones']);
+      this.obtenerClientes();
+    }, error => {
+      console.log(error);
+      this.clienteForm.reset();
+    });
+  }
+
+  get filteredDatos(): ListaUnificada[] {
+    if (!this.searchTerm.trim()) {
+      return [];
+    }
+
+    const term = this.searchTerm.trim().toLowerCase();
+    return this.listaProducto_Lugar.filter(p =>
+      p.nombre.toLowerCase().startsWith(term) ||
+      p.codigo.toString().startsWith(term)
+    );
+  }
+
+  get filteredClientes(): Cliente[] {
+    if (!this.clienteSearchTerm.trim()) {
+      return [];
+    }
+    const term = this.clienteSearchTerm.trim().toLowerCase();
+    return this.listClientes.filter(p =>
+      p.nombre.toLowerCase().startsWith(term) ||
+      p.nroDoc.toLowerCase().startsWith(term)
+    );
+  }
+
+  onSelectCliente(cliente: Cliente): void {
+    this.clienteSearchTerm = `${cliente.nroDoc} - ${cliente.nombre}`;
+    this.clienteSeleccionado = cliente;
+
+    const dropdownInput = document.getElementById('dropdownCliente');
+    if (dropdownInput && (window as any).bootstrap) {
+      const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
+      dropdownInstance.hide();
+    }
+  }
+
+  onClienteInputChange(valor: string): void {
+    if (!valor.trim()) {
+      this.clienteSeleccionado = null;
+    }
+  }
+
+  clearClienteSearch(): void {
+    this.clienteSearchTerm = '';
+    this.clienteSeleccionado = null;
+  }
+
+  onSelectElement(element: ListaUnificada): void {
+    this.searchTerm = `${element.codigo}-${element.nombre}`;
+    this.elementoSeleccionado = element;
+    this.precioSeleccionado = element.valor;
+    this.onValueSubTotal();
+
+    const dropdownInput = document.getElementById('dropdownInput');
+    if (dropdownInput && (window as any).bootstrap) {
+      const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
+      dropdownInstance.hide();
+    }
+  }
+
+  onElementChange(valor: string): void {
+    if (!valor.trim()) {
+      this.precioSeleccionado = 0;
+      this.subtotal = 0;
+      this.cantidad = 1;
+    }
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.precioSeleccionado = 0;
+    this.elementoSeleccionado = null;
+    this.subtotal = 0;
+    this.cantidad = 1;
+  }
+
+  resetFormulario(): void {
+    this.clienteForm.reset();
+  }
+
+  onValueSubTotal(): void {
+    this.subtotal = parseFloat((this.precioSeleccionado * this.cantidad).toFixed(2));
+  }
+
+  onRegisterElement(): void {
+    if (!this.elementoSeleccionado) return;
+
+    const element = this.elementoSeleccionado;
+
+    const Registrado: ElementoRegistrado = {
+      codigo: element.codigo,
+      nombre: element.nombre,
+      cant: this.cantidad,
+      precio: element.valor,
+      subtotal: this.cantidad * element.valor
+    };
+
+    this.elementosRegistrados.push(Registrado);
+
+    this.total += parseFloat(this.subtotal.toFixed(3));
+    this.calcularTotales();
+
+    this.clearSearch();
+
+    const dropdownInput = document.getElementById('dropdownInput');
+    if (dropdownInput && (window as any).bootstrap) {
+      const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
+      dropdownInstance.hide();
+    }
+  }
+
+  calcularTotales(): void {
+  this.total = this.elementosRegistrados.reduce((acc, item) => acc + item.subtotal, 0);
+  this.total = parseFloat(this.total.toFixed(2));  // Redondea el total a 2 decimales
+  this.igv = parseFloat((this.total * 0.18).toFixed(2));  // Redondea el IGV a 2 decimales
+  this.totalConIGV = parseFloat((this.total + this.igv).toFixed(2));
+  }
+
+// Método para enviar la cotización al backend
+onGenerarCotizacion(): void {
+  if (this.elementosRegistrados.length === 0) {
+      this.toastr.error('No hay productos registrados', 'Error');
+      return;
+  }
+
+  if (!this.clienteSeleccionado) {
+      this.toastr.error('Debe seleccionar un cliente', 'Error');
+      return;
+  }
+
+  if (!this.clienteSeleccionado._id) {
+      this.toastr.error('Cliente seleccionado no válido', 'Error');
+      return;
+  }
+
+// Cuerpo de la cotización que se enviará al backend
+const cotizacion = {
+  cliente: this.clienteSeleccionado,
+  contacto: this.clienteSeleccionado.nombre,
+  telefono: this.clienteSeleccionado.telefono, 
+  fechaEmision: new Date(),
+  fechaVenc: new Date(),
+  moneda: this.moneda,
+  tipoCambio: this.tipoCambio,
+  tiempoValidez: 15,
+  igv: this.igv,
+  total: this.total,
+  estado: 'Pendiente',
+  detalleC: this.elementosRegistrados.map(p => ({
+      nombre: p.nombre,
+      cantidad: p.cant,
+      precio: p.precio,
+      subtotal: p.subtotal
+  }))
+};
+
+// Verifica el objeto antes de enviarlo
+console.log('Cotización a enviar:', cotizacion);
+
+// Enviar la solicitud al backend
+this.cotizacionService.registrarCotizacion(cotizacion).subscribe(
+    response => {
+        this.toastr.success('Cotización registrada correctamente', 'Éxito');
+        this.elementosRegistrados = [];
+        this.total = 0;
+
+      this.router.navigate(['/lista-cotizaciones']);
+
+    },
+    error => {
+        this.toastr.error('Error al registrar cotización', 'Error');
+        console.error(error);
+        
+    }
+);
+}
+
+  private updateDateTime(): void {
+    const now = new Date();
+    this.currentDateTime = now.toLocaleString('es-ES', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    });
+  }
+}
