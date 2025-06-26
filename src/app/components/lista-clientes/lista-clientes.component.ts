@@ -31,7 +31,7 @@ export class ListaClientesComponent {
       nroDoc: ['', Validators.required],
       telefono: ['', Validators.required],
       correo: ['', Validators.required],
-      estado: ['', Validators.required]
+      estado: ['Activo', Validators.required]
     })
     this.idCliente = this.aRoute.snapshot.paramMap.get('id');
   }
@@ -65,7 +65,7 @@ export class ListaClientesComponent {
       nroDoc : this.clienteForm.get('nroDoc')?.value,
       telefono : this.clienteForm.get('telefono')?.value,
       correo : this.clienteForm.get('correo')?.value,
-      estado: this.clienteForm.get('estado')?.value
+      estado: 'Activo'
     }    
       this._clienteService.guardarCliente(Cliente).subscribe(data => {
         this.toastr.success('El Cliente fue registrado exitosamente', 'Cliente registrado');

@@ -30,7 +30,7 @@ export class ListaProveedoresComponent {
       nroDoc: ['', Validators.required],
       telefono: ['', Validators.required],
       correo: ['', Validators.required],
-      estado: ['', Validators.required]
+      estado: ['Activo', Validators.required]
     })
     this.idProveedor = this.aRoute.snapshot.paramMap.get('id');
   }
@@ -64,7 +64,7 @@ export class ListaProveedoresComponent {
       nroDoc : this.proveedorForm.get('nroDoc')?.value,
       telefono : this.proveedorForm.get('telefono')?.value,
       correo : this.proveedorForm.get('correo')?.value,
-      estado : this.proveedorForm.get('estado')?.value
+      estado : 'Activo'
     }
       this._proveedorService.guardarProveedor(PROVEEDOR).subscribe(data => {
         this.toastr.success('El proveedor fue registrado exitosamente', 'Proveedor registrado');
