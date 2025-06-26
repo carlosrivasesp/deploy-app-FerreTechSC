@@ -30,7 +30,7 @@ export class ListaProveedoresComponent {
       nroDoc: ['', Validators.required],
       telefono: ['', Validators.required],
       correo: ['', Validators.required],
-      estado: ['Activo', Validators.required]
+      estado: 'Activo'
     })
     this.idProveedor = this.aRoute.snapshot.paramMap.get('id');
   }

@@ -31,7 +31,7 @@ export class ListaClientesComponent {
       nroDoc: ['', Validators.required],
       telefono: ['', Validators.required],
       correo: ['', Validators.required],
-      estado: ['Activo', Validators.required]
+      estado: 'Activo'
     })
     this.idCliente = this.aRoute.snapshot.paramMap.get('id');
   }
