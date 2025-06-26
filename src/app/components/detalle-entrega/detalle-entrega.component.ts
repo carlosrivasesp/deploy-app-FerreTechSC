@@ -64,7 +64,6 @@ export class DetalleEntregaComponent {
     }    
       this._lugarService.guardarLugar(Lugar).subscribe(data => {
         this.toastr.success('La entrega fue registrada exitosamente', 'Entrega registrada');
-        this.router.navigate(['/lugar']);
         this.obtenerLugar();
       }, error => {
         console.log(error);
