@@ -19,7 +19,6 @@ import { ReportesComponent } from './components/reportes/reportes.component';
 import { IngresarProductosComponent } from './components/ingresar-productos/ingresar-productos.component';
 import { SalidaProductosComponent } from './components/salida-productos/salida-productos.component';
 import { PagosPendientesComponent } from './components/pagos-pendientes/pagos-pendientes.component';
-import { ComprobantePagosPendientesComponent } from './components/comprobante-pagos-pendientes/comprobante-pagos-pendientes.component';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { RegistrarCompraComponent } from './components/registrar-compra/registrar-compra.component';
 import { ListadoComprasComponent } from './components/listado-compras/listado-compras.component';
@@ -56,7 +55,6 @@ const routes: Routes = [
   { path: 'salidas', component: SalidaProductosComponent, canActivate: [AuthGuard] },
   { path: 'new-cotizaciones', component: CotizacionesComponent, canActivate: [AuthGuard] },
   { path: 'pagos-pendientes', component: PagosPendientesComponent, canActivate: [AuthGuard] },
-  { path: 'comprobantepagospendientes', component: ComprobantePagosPendientesComponent, canActivate: [AuthGuard] },
   { path: 'principal', component: PrincipalComponent, canActivate: [AuthGuard] },
   { path: 'registrar-compra', component: RegistrarCompraComponent, canActivate: [AuthGuard] },
   { path: 'listado-compras', component: ListadoComprasComponent, canActivate: [AuthGuard] },

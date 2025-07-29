@@ -32,7 +32,6 @@ import { IngresarProductosComponent } from './components/ingresar-productos/ingr
 import { SalidaProductosComponent } from './components/salida-productos/salida-productos.component';
 import { CotizacionesComponent } from './components/cotizaciones/cotizaciones.component';
 import { PagosPendientesComponent } from './components/pagos-pendientes/pagos-pendientes.component';
-import { ComprobantePagosPendientesComponent } from './components/comprobante-pagos-pendientes/comprobante-pagos-pendientes.component';
 import { FormsModule } from '@angular/forms';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { NavbarPrincipalComponent } from './components/navbar-principal/navbar-principal.component';
@@ -65,7 +64,6 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
     DetalleEntregaComponent,
     EntregasComponent,
     PagosPendientesComponent,
-    ComprobantePagosPendientesComponent,
     ReportesComponent,
     IngresarProductosComponent,
     SalidaProductosComponent,

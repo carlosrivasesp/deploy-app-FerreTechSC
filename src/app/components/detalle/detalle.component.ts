@@ -39,7 +39,7 @@ export class DetalleComponent implements OnInit {
       total: ['', Validators.required],
       estado: ['', Validators.required],
       moneda: ['', Validators.required],
-      tipoCambio: ['', Validators.required],
+      servicioDelivery: false,
       cliente: ['', Validators.required],
       metodoPago: ['', Validators.required],
       detalles: this.fb.array([]), // Para los productos y lugares
@@ -92,6 +92,7 @@ export class DetalleComponent implements OnInit {
           igv:data.igv,
           total: data.total,
           estado: data.estado,
+          servicioDelivery: data.servicioDelivery,
           moneda: data.moneda,
           tipoCambio: data.tipoCambio,
           metodoPago: data.metodoPago,

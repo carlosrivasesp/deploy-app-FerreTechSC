@@ -86,11 +86,7 @@
             <option selected>S/</option>
           </select>
         </div>
-        <!--cambio-->
-        <div class="col-md-2">
-          <label for="inputCambio" class="form-label">Tipo de cambio</label>
-          <input type="text" class="form-control" id="inputCambio" value="3.66" formControlName="tipoCambio" />
-        </div>
+
         <!--metodo de pago-->
         <div class="col-md-2">
           <label for="inputTipoDoc" class="form-label">Metodo de pago</label>
@@ -103,6 +99,18 @@
             <option value="Transferencia">Transferencia</option>
           </select>
         </div>
+
+        <!--servicio de entrega-->
+        <div class="col-md-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="checkDefault"
+              formControlName="servicioDelivery" />
+            <label class="form-label" for="checkDefault">
+              Servicio de entrega
+            </label>
+          </div>
+        </div>
+
       </form>
     </div>
 
@@ -118,10 +126,11 @@
         <thead>
           <tr class="header">
             <th scope="col">Codigo</th>
-            <th scope="col">Producto/Servicio</th>
+            <th scope="col">Producto</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Precio Unitario</th>
             <th scope="col">Subtotal</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody class="body">
@@ -184,7 +193,7 @@
               <form class="row g-3">
                 <!-- Buscar Producto/Servicio -->
                 <div class="col-12">
-                  <label class="form-label">Producto/Servicio</label>
+                  <label class="form-label">Producto</label>
                   <div class="dropdown input-group">
                     <input type="text" class="form-control dropdown-toggle" id="dropdownInput" data-bs-toggle="dropdown"
                       aria-expanded="false" placeholder="Buscar Producto" [(ngModel)]="searchTerm" name="busqueda"
@@ -199,12 +208,12 @@
                   id="dropdownOptions"
                   style="width: 100%"
                 >
-                  <li *ngFor="let elemento of filteredDatos">
+                  <li *ngFor="let producto of filteredProductos">
                     <a
                       class="dropdown-item"
-                      (click)="onSelectElement(elemento)"
+                      (click)="onSelectProducto(producto)"
                     >
-                      {{ elemento.codigo }} - {{ elemento.nombre }}
+                      {{ producto.codInt }} - {{ producto.nombre }}
                     </a>
                   </li>
                 </ul>
@@ -215,7 +224,7 @@
                 <div class="col-md-4">
                   <label for="inputCantidad" class="form-label">Cantidad</label>
                   <input type="number" class="form-control" id="inputCantidad" value="1" min="1" name="cantidad"
-                    [(ngModel)]="cantidad" (ngModelChange)="onValueSubTotal()" [disabled]="LugarSeleccionado" />
+                    [(ngModel)]="cantidad" (ngModelChange)="onValueSubTotal()"/>
                 </div>
 
                 <!-- Precio Unitario -->

@@ -10,28 +10,27 @@ import { Router } from '@angular/router';
   selector: 'app-entregas',
   standalone: false,
   templateUrl: './entregas.component.html',
-  styleUrl: './entregas.component.css'
+  styleUrl: './entregas.component.css',
 })
 export class EntregasComponent {
-
   listaEntregas: Entregas[] = [];
   entregaSeleccionada: any = null;
-  
-  selectedFilter: string = 'cliente';
+
+  selectedFilter: string = 'Tipo Comprobante';
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
   direccion: string = '';
-  fechaInicio: string = '';
-  fechaFin: string = '';
+  distrito: string = 'Surco';
+  fechaEntrega: string = '';
+  costo: number = 0;
 
   constructor(
     private _entregasService: EntregaService,
     private toastr: ToastrService,
-    private router: Router,
-  ) {
-  }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.obtenerEntregas();
@@ -45,22 +44,23 @@ export class EntregasComponent {
       },
       error: (err) => {
         console.error('Error al obtener entregas', err);
-      }
+      },
     });
   }
   cambiarEstado(entregaId: string, nuevoEstado: string) {
     const payload: any = {
       estado: nuevoEstado,
       direccion: this.direccion,
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin
+      distrito: this.distrito,
+      fechaEntrega: this.fechaEntrega,
+      costo: this.costo,
     };
 
     this._entregasService.editarEstado(entregaId, payload).subscribe({
       next: (res) => {
-        if (nuevoEstado === "En proceso") {
+        if (nuevoEstado === 'En proceso') {
           this.toastr.success('Entrega programada', 'Éxito');
-        } else if (nuevoEstado === "Finalizado") {
+        } else if (nuevoEstado === 'Finalizado') {
           this.toastr.success('Entrega finalizada', 'Éxito');
         }
 
@@ -70,8 +70,9 @@ export class EntregasComponent {
 
         // Limpiar los inputs después de cerrar el modal (opcional)
         this.direccion = '';
-        this.fechaInicio = '';
-        this.fechaFin = '';
+        this.distrito = '';
+        this.fechaEntrega = '';
+        this.costo = 0;
 
         this.obtenerEntregas();
       },
@@ -79,7 +80,7 @@ export class EntregasComponent {
         this.toastr.error('Error al cambiar estado.', 'Error');
         console.error('Error actualizando estado', err);
         alert(err.error?.mensaje || 'Error al actualizar estado');
-      }
+      },
     });
   }
 
@@ -88,13 +89,13 @@ export class EntregasComponent {
 
     const term = this.searchTerm.toLowerCase();
     switch (this.selectedFilter) {
-      case 'estado':
+      case 'Estado':
         return this.listaEntregas.filter((v) =>
-          v.estado.toLowerCase().includes(term)
+          v.estado.toLowerCase().startsWith(term)
         );
-      case 'tipoComprobante':
+      case 'Tipo Comprobante':
         return this.listaEntregas.filter((v) =>
-          v.ventaId.tipoComprobante.toLowerCase().includes(term)
+          v.ventaId.tipoComprobante.toLowerCase().startsWith(term)
         );
       default:
         return this.listaEntregas;
@@ -116,4 +117,3 @@ export class EntregasComponent {
     }
   }
 }
-
