@@ -1,5 +1,5 @@
-<app-header/>
-<app-sidebar/>
+<app-header />
+<app-sidebar />
 
 <main class="main-content">
   <div class="separador">
@@ -19,13 +19,19 @@
           </button>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" (click)="selectedFilter = 'proveedor'">Proveedor</a>
+              <a class="dropdown-item" (click)="selectedFilter = 'proveedor'"
+                >Proveedor</a
+              >
             </li>
             <li>
-              <a class="dropdown-item" (click)="selectedFilter = 'fecha'">Fecha</a>
+              <a class="dropdown-item" (click)="selectedFilter = 'fecha'"
+                >Fecha</a
+              >
             </li>
             <li>
-              <a class="dropdown-item" (click)="selectedFilter = 'estado'">Estado</a>
+              <a class="dropdown-item" (click)="selectedFilter = 'estado'"
+                >Estado</a
+              >
             </li>
           </ul>
         </div>
@@ -47,15 +53,15 @@
     <table class="table">
       <thead>
         <tr class="header">
-          <th scope="col" style="width: 200px;">Tipo de comprobante</th>
-          <th scope="col" style="width: 100px;">Serie</th>
-          <th scope="col" style="width: 150px;">Nro. Comprobante</th>
-          <th scope="col" style="width: 150px;">Proveedor</th>
-          <th scope="col" style="width: 150px;">Fecha de emisión</th>
-          <th scope="col" style="width: 150px;">Método de pago</th>
-          <th scope="col" style="width: 100px;">Total</th>
-          <th scope="col" style="width: 120px;">Estado</th>
-          <th scope="col" style="width: 80px;">Acciones</th>
+          <th scope="col" style="width: 200px">Tipo de comprobante</th>
+          <th scope="col" style="width: 100px">Serie</th>
+          <th scope="col" style="width: 150px">Nro. Comprobante</th>
+          <th scope="col" style="width: 150px">Proveedor</th>
+          <th scope="col" style="width: 150px">Fecha de emisión</th>
+          <th scope="col" style="width: 150px">Método de pago</th>
+          <th scope="col" style="width: 100px">Total</th>
+          <th scope="col" style="width: 120px">Estado</th>
+          <th scope="col" style="width: 80px">Acciones</th>
         </tr>
       </thead>
       <tbody class="body">
@@ -72,47 +78,44 @@
             }}
           </td>
           <td>{{ compra.metodoPago }}</td>
-          <td>{{compra.moneda}} {{ compra.total }}</td>
+          <td>{{ compra.moneda }} {{ compra.total }}</td>
           <td>{{ compra.estado }}</td>
+          
           <td>
-            <a
-              class="actions"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <button><i class="bi bi-three-dots-vertical"></i></button>
-            </a>
-
-            <ul class="dropdown-menu">
-              <li>
-                <a
-                  class="dropdown-item"
-                  [routerLink]="['/detalle-compra', compra._id]"
-                  >Ver Detalles</a
-                >
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalEdit"
-                  (click)="editarCompra(compra)"
-                  *ngIf="compra.estado === 'Pendiente' "
-                  >Editar</a
-                >
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalDelete"
-                  (click)="setCompraAAnular(compra)"
-                  *ngIf="compra.estado !== 'Anulado'"
-                  >Anular</a
-                >
-              </li>
-            </ul>
+            <div class="links">
+              <a
+                [routerLink]="['/detalle-compra', compra._id]"
+                ><i class="bi bi-eye"></i
+              ></a>
+              <a
+                data-bs-toggle="modal"
+                data-bs-target="#modalEdit"
+                (click)="editarCompra(compra)"
+                *ngIf="compra.estado === 'Pendiente'"
+              >
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a
+                class="actions"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-gear"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalDelete"
+                    (click)="setCompraAAnular(compra)"
+                    *ngIf="compra.estado !== 'Anulado'"
+                    >Anular</a
+                  >
+                </li>
+              </ul>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -157,7 +160,9 @@
           <div class="modal-body">
             <form [formGroup]="compraForm" class="row g-3">
               <div class="col-md-6">
-                <label for="inputMetodoPago" class="form-label">Método de pago</label>
+                <label for="inputMetodoPago" class="form-label"
+                  >Método de pago</label
+                >
                 <select
                   id="inputMetodoPago"
                   class="form-select"
@@ -188,7 +193,8 @@
                   Cancelar
                 </button>
                 <button
-                  class="btn btn-success"
+                  class="btn"
+                  style="background-color: #10401b"
                   (click)="actualizarCompra()"
                   data-bs-dismiss="modal"
                 >

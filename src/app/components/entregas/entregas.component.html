@@ -71,16 +71,12 @@
         <td>{{ e.distrito }}</td>
         <td>{{ e.costo }}</td>
         <td>{{ e.estado }}</td>
+        
         <td>
-          <a
-            class="actions"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <button><i class="bi bi-three-dots-vertical"></i></button>
-          </a>
-
+          <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-gear"></i>
+              </a>
+          
           <ul class="dropdown-menu">
             <li>
               <a
@@ -197,7 +193,7 @@
           >
             Cancelar
           </button>
-          <button type="button" class="btn btn-success">Registrar</button>
+          <button type="button" class="btn" style="background-color: #10401b;">Registrar</button>
         </div>
       </div>
     </div>
@@ -280,7 +276,8 @@
           </button>
           <button
             type="button"
-            class="btn btn-success"
+            class="btn"
+            style="background-color: #10401b;"
             (click)="cambiarEstado(entregaSeleccionada._id!, 'En proceso')"
           >
             Programar

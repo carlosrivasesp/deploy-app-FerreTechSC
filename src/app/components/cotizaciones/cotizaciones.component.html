@@ -100,7 +100,7 @@
         data-bs-toggle="modal"
         data-bs-target="#modalAdd"
       >
-        <i class="bi bi-plus"></i> Agregar Producto
+        <i class="bi bi-plus" style="color: aliceblue;"></i> Agregar Producto
       </button>
     </div>
 
@@ -159,7 +159,7 @@
           <strong>Total:</strong> S/ <span id="total">{{ totalConIGV }}</span>
         </div>
       </div>
-      <button class="btn btn-success" (click)="onGenerarCotizacion()">Generar Cotización</button>
+      <button class="btn" (click)="onGenerarCotizacion()" style="background-color: #10401b;">Generar Cotización</button>
     </div>
   </div>
 
@@ -287,9 +287,9 @@
           </button>
           <button
             type="button"
-            class="btn btn-success"
+            class="btn"
             (click)="onRegisterElement()"
-            
+            style="background-color: #10401b;"
           >
             Registrar
           </button>
@@ -388,8 +388,9 @@
               <button
                 type="submit"
                 [disabled]="clienteForm.invalid"
-                class="btn btn-success"
+                class="btn"
                 data-bs-dismiss="modal"
+                style="background-color: #10401b;"
               >
                 Registrar
               </button>

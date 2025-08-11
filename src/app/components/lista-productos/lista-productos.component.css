@@ -163,5 +163,11 @@ thead tr.header th {
     font-style: italic;
   }
   
+a {
+        cursor: pointer;
+    }
 
+    a i {
+        color: #10401b;
+    }
   

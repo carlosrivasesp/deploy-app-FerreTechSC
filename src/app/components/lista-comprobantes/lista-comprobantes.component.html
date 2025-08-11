@@ -53,15 +53,15 @@
     <table class="table">
       <thead>
         <tr class="header">
-          <th scope="col" style="width: 200px;">Tipo de comprobante</th>
-          <th scope="col" style="width: 100px;">Serie</th>
-          <th scope="col" style="width: 150px;">Nro. Comprobante</th>
-          <th scope="col" style="width: 150px;">Cliente</th>
-          <th scope="col" style="width: 150px;">Fecha de emisión</th>
-          <th scope="col" style="width: 150px;">Método de pago</th>
-          <th scope="col" style="width: 100px;">Total</th>
-          <th scope="col" style="width: 100px;">Estado</th>
-          <th scope="col" style="width: 80px;">Acciones</th>
+          <th scope="col" style="width: 200px">Tipo de comprobante</th>
+          <th scope="col" style="width: 100px">Serie</th>
+          <th scope="col" style="width: 150px">Nro. Comprobante</th>
+          <th scope="col" style="width: 150px">Cliente</th>
+          <th scope="col" style="width: 150px">Fecha de emisión</th>
+          <th scope="col" style="width: 150px">Método de pago</th>
+          <th scope="col" style="width: 100px">Total</th>
+          <th scope="col" style="width: 100px">Estado</th>
+          <th scope="col" style="width: 80px">Acciones</th>
         </tr>
       </thead>
       <tbody class="body">
@@ -78,43 +78,27 @@
             }}
           </td>
           <td>{{ venta.metodoPago }}</td>
-          <td>{{venta.moneda}} {{ venta.total.toFixed(2) }}</td>
+          <td>{{ venta.moneda }} {{ venta.total.toFixed(2) }}</td>
           <td>{{ venta.estado }}</td>
           <td>
-            <a
-              class="actions"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <button><i class="bi bi-three-dots-vertical"></i></button>
-            </a>
-
-            <ul class="dropdown-menu">
-              <li>
-                <a
-                  class="dropdown-item"
-                  [routerLink]="['/detalle-comprobante', venta._id]"
-                  >Ver Detalles</a
-                >
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalEdit"
-                  (click)="editarVenta(venta)"
-                  *ngIf="venta.estado === 'Pendiente' "
-                  >Editar</a
-                >
-              </li>
+           <div class="links">
+              <a [routerLink]="['/detalle-comprobante', venta._id]"><i class="bi bi-eye"></i></a>
+              <a *ngIf="venta.estado === 'Pendiente'" data-bs-toggle="modal" data-bs-target="#modalEdit" (click)="editarVenta(venta)">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-gear"></i>
+              </a>
+              <ul class="dropdown-menu">
               <li>
                 <a
                   class="dropdown-item"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDelete"
                   (click)="setVentaAAnular(venta)"
-                  *ngIf="venta.estado !== 'Anulado' && venta.estado !== 'Devolución'"
+                  *ngIf="
+                    venta.estado !== 'Anulado' && venta.estado !== 'Devolución'
+                  "
                   >Anular</a
                 >
               </li>
@@ -129,6 +113,8 @@
                 >
               </li>
             </ul>
+            </div>
+            
           </td>
         </tr>
       </tbody>
@@ -207,7 +193,8 @@
                   Cancelar
                 </button>
                 <button
-                  class="btn btn-success"
+                  class="btn" 
+                  style="background-color: #10401b;"
                   (click)="actualizarVenta()"
                   data-bs-dismiss="modal"
                 >
@@ -273,7 +260,10 @@
           <div class="modal-body">
             <form>
               <div class="mb-3">
-                <p>¿Estás seguro que deseas modificar el comprobante a devolución?</p>
+                <p>
+                  ¿Estás seguro que deseas modificar el comprobante a
+                  devolución?
+                </p>
               </div>
             </form>
           </div>
@@ -297,6 +287,5 @@
         </div>
       </div>
     </div>
-
   </div>
 </main>

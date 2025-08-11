@@ -27,8 +27,8 @@
         </div>
 
         <div class="group3">
-          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetFormulario()">
-            <i class="bi bi-plus"></i>
+          <button type="button" class="btn" style="background-color: #10401b;" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetFormulario()">
+            <i class="bi bi-plus" style="color: aliceblue;"></i>
           </button>
         </div>
       </div>
@@ -46,14 +46,9 @@
             <td>{{categoria.nombre}}</td>
             <td>{{categoria.descripcion}}</td>
             <td>
-              <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <button><i class="bi bi-three-dots-vertical"></i></button>
+              <a data-bs-toggle="modal" data-bs-target="#modalEdit" (click)="editarCategoria(categoria)">
+                  <i class="bi bi-pencil"></i>
               </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEdit" (click)="editarCategoria(categoria)">Editar</a>
-                </li>
-              </ul>
             </td>
           </tr>
         </tbody>
@@ -106,7 +101,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetFormulario()">Cancelar</button>
-                  <button type="submit" [disabled]="categoriaForm.invalid" class="btn btn-success" data-bs-dismiss="modal">Registrar</button>
+                  <button type="submit" [disabled]="categoriaForm.invalid" class="btn" style="background-color: #10401b;" data-bs-dismiss="modal">Registrar</button>
                 </div>
               </form>
             </div>
@@ -140,7 +135,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetFormulario()">Cancelar</button>
-                  <button type="button" class="btn btn-success" (click)="actualizarCategoria()" data-bs-dismiss="modal">Aceptar</button>
+                  <button type="button" class="btn" style="background-color: #10401b;" (click)="actualizarCategoria()" data-bs-dismiss="modal">Aceptar</button>
                 </div>
               </form>
             </div>

@@ -173,3 +173,17 @@ thead tr.header th {
     border-color: #dee2e6;
     font-style: italic;
   }
+
+  .links {
+    display: flex;
+    gap: 8px; /* espacio automático entre todos los <a> */
+    align-items: center;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    .bi {
+        color: #10401b;
+    }

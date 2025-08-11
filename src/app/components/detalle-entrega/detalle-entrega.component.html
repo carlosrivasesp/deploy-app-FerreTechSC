@@ -28,12 +28,12 @@
       </div>
 
       <div class="group3">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetFormulario()">
-            <i class="bi bi-plus"></i>
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetFormulario()" style="background-color: #10401b;"> 
+            <i class="bi bi-plus" style="color: aliceblue;"></i>
         </button>
       </div>
       <div class="group4">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal">
+        <button type="button" class="btn" data-bs-toggle="modal" style="background-color: #10401b;">
             <a href="/entregas">Entregas pendientes</a>
         </button>
       </div>
@@ -58,13 +58,9 @@
             <td>S/ {{lugar.costo}}</td>
             <td>{{lugar.inicio}} - {{lugar.fin}}</td>
             <td>
-              <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <button><i class="bi bi-three-dots-vertical"></i></button>
+              <a data-bs-toggle="modal" data-bs-target="#modalEdit"(click)="editarLugar(lugar)">
+                  <i class="bi bi-pencil"></i>
               </a>
-  
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEdit"(click)="editarLugar(lugar)">Editar</a></li>           
-              </ul>
             </td>
           </tr>
         </tbody>
@@ -128,7 +124,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetFormulario()">Cancelar</button>
-                <button type="submit" [disabled]="lugarForm.invalid" class="btn btn-success" data-bs-dismiss="modal">Registrar</button>
+                <button type="submit" [disabled]="lugarForm.invalid" class="btn" data-bs-dismiss="modal" style="background-color: #10401b;">Registrar</button>
               </div>
             </form>
           </div>
@@ -168,7 +164,7 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                     (click)="resetFormulario()">Cancelar</button>
-                  <button type="button" class="btn btn-success" (click)="actualizarLugar()"
+                  <button type="button" class="btn" style="background-color: #10401b;" (click)="actualizarLugar()"
                     data-bs-dismiss="modal">Aceptar</button>
                 </div>
               </form>

@@ -103,7 +103,7 @@
 
     <div class="button-agregar">
       <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalAdd">
-        <i class="bi bi-plus"></i> Agregar Producto
+        <i class="bi bi-plus" style="color: aliceblue;"></i> Agregar Producto
       </button>
     </div>
 
@@ -147,7 +147,7 @@
           <strong>Total:</strong> S/ <span id="total">{{ total.toFixed(2) }}</span>
         </div>
       </div>
-      <button class="btn btn-success" (click)="registrarCompra()">Generar Comprobante</button>
+      <button class="btn" style="background-color: #10401b;" (click)="registrarCompra()">Generar Comprobante</button>
     </div>
 
     <nav *ngIf="totalPages > 1" class="mt-3" aria-label="Page navigation">
@@ -290,7 +290,8 @@
             </button>
             <button
               type="button"
-              class="btn btn-success"
+              class="btn"
+              style="background-color: #10401b;"
               (click)="onRegisterElement()"
             >
               Registrar
@@ -367,7 +368,8 @@
                 <button
                   type="submit"
                   [disabled]="proveedorForm.invalid"
-                  class="btn btn-success"
+                  class="btn"
+                  style="background-color: #10401b;"
                   data-bs-dismiss="modal"
                 >
                   Registrar

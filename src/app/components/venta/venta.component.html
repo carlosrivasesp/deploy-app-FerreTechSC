@@ -118,7 +118,7 @@
 
       <div class="button-agregar">
         <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#modalAdd">
-          <i class="bi bi-plus"></i> Agregar Producto
+          <i class="bi bi-plus" style="color: aliceblue;"></i> Agregar Producto
         </button>
       </div>
 
@@ -160,7 +160,7 @@
             <strong>Total:</strong> S/ <span id="total">{{ total }}</span>
           </div>
         </div>
-        <button class="btn btn-success" (click)="crearVenta()">Generar Comprobante</button>
+        <button class="btn" style="background-color: #10401b;" (click)="crearVenta()">Generar Comprobante</button>
       </div>
 
       <nav *ngIf="totalPages > 1" class="mt-3" aria-label="Page navigation">
@@ -185,7 +185,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="modalAdd">Registrar Venta</h1>
+              <h1 class="modal-title fs-5" id="modalAdd">Agregar producto</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                 (click)="clearSearch()"></button>
             </div>
@@ -247,7 +247,7 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearSearch()">
                 Cancelar
               </button>
-              <button type="button" class="btn btn-success" (click)="onRegisterElement()">
+              <button type="button" class="btn" style="background-color: #10401b;" (click)="onRegisterElement()">
                 Registrar
               </button>
             </div>
@@ -303,7 +303,7 @@
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetFormulario()">
                     Cancelar
                   </button>
-                  <button type="submit" [disabled]="clienteForm.invalid" class="btn btn-success"
+                  <button type="submit" [disabled]="clienteForm.invalid" class="btn" style="background-color: #10401b;"
                     data-bs-dismiss="modal">
                     Registrar
                   </button>

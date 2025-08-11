@@ -29,8 +29,8 @@
         </div>
 
         <div class="group3">
-          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetFormulario()">
-              <i class="bi bi-plus"></i>
+          <button type="button" class="btn" style="background-color: #10401b;" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetFormulario()">
+              <i class="bi bi-plus" style="color: aliceblue;"></i>
           </button>
         </div>
         
@@ -52,14 +52,9 @@
             <td>{{marca.nombre}}</td>
             <td>{{marca.proveedor.nombre}}</td> 
             <td>
-                <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <button><i class="bi bi-three-dots-vertical"></i></button>
-                </a>
-              
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEdit" (click)="editarMarca(marca)">Editar</a></li> <!--href="#"-->
-                  <li><a class="dropdown-item" (click)="eliminarMarca(marca._id)">Eliminar</a></li> <!-- data-bs-toggle="modal" data-bs-target="#modalDelete" -->
-                </ul>
+              <a data-bs-toggle="modal" data-bs-target="#modalEdit" (click)="editarMarca(marca)">
+                  <i class="bi bi-pencil"></i>
+              </a>
             </td>
           </tr>
         </tbody>
@@ -111,7 +106,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetFormulario()">Cancelar</button>
-                  <button type="submit" [disabled]="marcaForm.invalid" class="btn btn-success" data-bs-dismiss="modal">Registrar</button>
+                  <button type="submit" [disabled]="marcaForm.invalid" class="btn" style="background-color: #10401b;" data-bs-dismiss="modal">Registrar</button>
                 </div>
 
               </form>
@@ -149,7 +144,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetFormulario()">Cancelar</button>
-                  <button type="button" class="btn btn-success" (click)="actualizarMarca()" data-bs-dismiss="modal">Aceptar</button>
+                  <button type="button" class="btn" style="background-color: #10401b;" (click)="actualizarMarca()" data-bs-dismiss="modal">Aceptar</button>
                 </div>
                 
               </form>
