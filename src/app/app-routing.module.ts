@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
@@ -20,6 +21,7 @@ import { IngresarProductosComponent } from './components/ingresar-productos/ingr
 import { SalidaProductosComponent } from './components/salida-productos/salida-productos.component';
 import { PagosPendientesComponent } from './components/pagos-pendientes/pagos-pendientes.component';
 import { PrincipalComponent } from './components/principal/principal.component';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { RegistrarCompraComponent } from './components/registrar-compra/registrar-compra.component';
 import { ListadoComprasComponent } from './components/listado-compras/listado-compras.component';
 import { DetalleCompraComponent } from './components/detalle-compra/detalle-compra.component';
@@ -56,6 +58,7 @@ const routes: Routes = [
   { path: 'new-cotizaciones', component: CotizacionesComponent, canActivate: [AuthGuard] },
   { path: 'pagos-pendientes', component: PagosPendientesComponent, canActivate: [AuthGuard] },
   { path: 'principal', component: PrincipalComponent, canActivate: [AuthGuard] },
+   { path: 'nosotros', component: NosotrosComponent },
   { path: 'registrar-compra', component: RegistrarCompraComponent, canActivate: [AuthGuard] },
   { path: 'listado-compras', component: ListadoComprasComponent, canActivate: [AuthGuard] },
   { path: 'detalle-compra/:id', component: DetalleCompraComponent, canActivate: [AuthGuard] },
