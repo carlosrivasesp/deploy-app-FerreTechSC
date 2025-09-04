@@ -1,67 +1,130 @@
-<app-navbar-principal/>
+<app-navbar-principal></app-navbar-principal>
 
 <div class="main-content">
 
+  <!-- Sección: Carousel Principal -->
+  <section id="main-carousel" class="mb-5">
     <div id="carousel" class="carousel slide">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="img1.jpg" class="d-block w-100" alt="imagen1">
-          </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="img1.jpg" class="d-block w-100" alt="imagen1" />
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
-
-    
-    <div class="container mt-5">
-        <div class="title-cards text-center mb-4">
-            <h4>Productos destacados</h4>
-        </div>
-        <!-- Fila de cards -->
-        <div class="row">
-          <!-- Card 1 -->
-          <div class="col-md-4">
-            <div class="card" style="width: 100%;">
-              <img src="cemento.jpg" class="card-img-top p-3 mx-auto" style="max-height: 300px; width: auto;" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Producto 1</h5>
-                <p class="card-text">Marca: Sol</p>
-                <p class="card-text">Precio: 29.90</p>
-                <button class="btn btn-primary">Agregar al carrito</button>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Card 2 -->
-          <div class="col-md-4">
-            <div class="card" style="width: 100%;">
-              <img src="cemento.jpg" class="card-img-top p-3 mx-auto" style="max-height: 300px; width: auto;" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Producto 2</h5>
-                <p class="card-text">Descripción breve del producto para mostrar en la tarjeta.</p>
-                <button class="btn btn-primary">Agregar al carrito</button>
-              </div>
-            </div>
-          </div>
-      
-          <!-- Card 3 -->
-          <div class="col-md-4">
-            <div class="card" style="width: 100%;">
-              <img src="cemento.jpg" class="card-img-top p-3 mx-auto" style="max-height: 300px; width: auto;" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Producto 3</h5>
-                <p class="card-text">Descripción breve del producto para mostrar en la tarjeta.</p>
-                <button class="btn btn-primary">Agregar al carrito</button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
-      
+  </section>
+
+  <!-- Sección: Categorías más solicitadas -->
+  <section id="categorias">
+    <div class="container">
+      <div class="title-cards text-center">
+        <h4>Categorías más solicitadas</h4>
+      </div>
+    </div>
+
+    <div class="categorias-carousel-wrapper position-relative">
+      <button class="btn btn-dark btn-sm btn-prev" (click)="prev()" aria-label="Anterior">
+        ‹
+      </button>
+      <button class="btn btn-dark btn-sm btn-next" (click)="next()" aria-label="Siguiente">
+        ›
+      </button>
+
+      <div class="carousel-track-wrapper overflow-hidden">
+        <div class="carousel-track" [style.transform]="'translateX(' + offsetPercent + '%)'"
+          [style.transition]="'transform 0.6s ease'">
+          <div *ngFor="let prod of productosExpandido" class="card-slide" [style.flex]="'0 0 ' + slideWidth">
+            <div class="card">
+              <img src="cemento.jpg" alt="Producto {{ prod }}" class="card-img-top p-3 mx-auto"
+                style="height: 150px; object-fit: contain;" />
+              <div class="card-body text-center">
+                <h6 class="card-title">Producto {{ prod }}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección: Productos más vendidos -->
+  <section id="productos-mas-vendidos" class="mb-5">
+    <div class="container">
+      <h4 class="text-center mb-4">Productos más vendidos</h4>
+
+      <div class="productos-grid-4x2">
+        <div class="card" *ngFor="let prod of productosMasVendidos">
+          <img src="cemento.jpg" class="card-img-top" alt="Producto {{ prod.nombre }}" />
+          <div class="card-body text-center">
+            <h6 class="card-title">{{ prod.nombre }}</h6>
+            <p class="card-text">Precio: S/ {{ prod.precio }}</p>
+            <button class="btn2">
+              <span class="spn2">Comprar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Sección: Comentarios -->
+<section id="comentarios" class="py-5">
+  <div class="container">
+    <div class="comentarios-box p-4 shadow">
+      <h5 class="mb-4 text-center">Deja tu comentario</h5>
+      <form class="formulario-comentario">
+        <div class="mb-3">
+          <label for="usuario" class="form-label">Nombre</label>
+          <input
+            type="text"
+            id="usuario"
+            name="usuario"
+            class="form-control"
+            placeholder="Tu nombre completo"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="mensaje" class="form-label">Comentario</label>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            class="form-control"
+            rows="4"
+            placeholder="Escribe tu opinión aquí..."
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn-shadcn">
+          Enviar Comentario
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer text-light py-5">
+  <div class="container text-center">
+    <div class="footer-top mb-3">
+      <h5 class="mb-2">Mi Tienda</h5>
+      <p class="mb-1">infomitienda.com</p>
+      <p>Teléfono: +51 123 456 789</p>
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom mt-3">
+      <p class="small mb-0">&copy; 2025 Mi Tienda - Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
 </div>
