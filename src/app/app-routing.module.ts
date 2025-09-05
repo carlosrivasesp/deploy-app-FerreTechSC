@@ -68,7 +68,7 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
-  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },  // Ruta para el carrito
+  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
 
   // Redirecciones
   { path: '', redirectTo: 'login', pathMatch: 'full' },

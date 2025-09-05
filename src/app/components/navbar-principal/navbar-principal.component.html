@@ -57,10 +57,13 @@
     </form>
 
     <!-- Carrito -->
-    <div class="car" (click)="toggleCarrito()">
-      <i class="bi bi-cart-fill fs-4"></i>
-      <span class="badge bg-primary">{{ cartItems.length }}</span> <!-- Muestra la cantidad de productos -->
+    <div class="car">
+      <a routerLink="/carrito"> <!-- Al hacer clic en el carrito, redirige a la ruta del carrito -->
+        <i class="bi bi-cart-fill fs-4"></i>
+        <span class="badge bg-primary">{{ cartItems.length }}</span> <!-- Muestra la cantidad de productos -->
+      </a>
     </div>
+
   </div>
 </nav>
 
