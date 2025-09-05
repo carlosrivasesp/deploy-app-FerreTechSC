@@ -1,0 +1,58 @@
+<app-header />
+<app-sidebar />
+
+<main class="main-content">
+  <div class="separador">
+    <p class="title">Carrito de Compras</p>
+
+    <div class="filter">
+      <div class="group1">
+        <p class="description">Filtrar por: </p>
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ selectedFilter | uppercase }}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" (click)="selectedFilter = 'nombre'">Nombre</a></li>
+            <li><a class="dropdown-item" (click)="selectedFilter = 'precio'">Precio</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="group2">
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Buscar en el carrito">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr class="header">
+          <th scope="col">Producto</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Total</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="body">
+        <tr *ngFor="let item of cartItems">
+          <td>{{ item.nombre }}</td>
+          <td>S/ {{ item.precio }}</td>
+          <td><input type="number" class="form-control" [(ngModel)]="item.cantidad" min="1" (change)="updateTotal()"></td>
+          <td>S/ {{ item.precio * item.cantidad }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="removeItem(item)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cart-summary">
+      <p>Total: <span class="total-price">S/ {{ totalPrice }}</span></p>
+      <button class="btn btn-success">Proceder a Checkout</button>
+    </div>
+  </div>
+</main>
