@@ -6,6 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 
+import { LOCALE_ID } from '@angular/core';
+import localeEsPe from '@angular/common/locales/es-PE';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEsPe, 'es-PE');
+
 //importacion para chartjs (graficas), las versiones se encuentran en el package.json
 import { NgChartsModule } from 'ng2-charts';
 
@@ -45,6 +51,7 @@ import { DetalleCotizacionComponent } from './components/detalle-cotizacion/deta
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
 import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
+import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +86,8 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
     DetalleCotizacionComponent,
     ComprasSugeridasComponent,
     DevolucionesComponent,
-    DetalleDevolucionProductosComponent
+    DetalleDevolucionProductosComponent,
+    HistorialCarritoComponent
   ],
   imports: [
     BrowserModule,
@@ -93,9 +101,13 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
     LoginComponent,
     HeaderComponent
 
-    
+
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es-PE' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+

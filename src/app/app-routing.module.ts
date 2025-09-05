@@ -31,13 +31,15 @@ import { AuthGuard } from './services/auth.guard';
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
 import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
+import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
+
 
 const routes: Routes = [
   // Rutas públicas
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotpasswordComponent },
-  
+
   // Rutas protegidas (requieren autenticación)
   { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard] },
   { path: 'productos', component: ListaProductosComponent, canActivate: [AuthGuard] },
@@ -67,6 +69,8 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
+  { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
+
 
   // Redirecciones
   { path: '', redirectTo: 'login', pathMatch: 'full' },
