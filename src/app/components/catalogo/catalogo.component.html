@@ -1,0 +1,55 @@
+
+  <app-navbar-principal></app-navbar-principal>
+
+
+<!-- Separador visual -->
+<div class="spacer" style="height: 150px;"></div>
+
+<!-- Contenedor principal del catálogo -->
+<div class="catalogo-wrapper container mb-5">
+
+  <!-- Título del catálogo -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="fw-bold">Catálogo de Productos</h2>
+      <hr class="mx-auto" style="width: 200px; border-top: 2px solid #333;" />
+    </div>
+  </div>
+
+  <!-- Buscador de productos -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-6 col-sm-8">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="🔍 Buscar productos..."
+        [(ngModel)]="searchTerm"
+      />
+    </div>
+  </div>
+
+  <!-- Grid de productos -->
+  <div class="row">
+    <div
+      class="col-sm-6 col-md-4 col-lg-3 mb-4"
+      *ngFor="let producto of productosFiltrados"
+    >
+      <div class="card h-100 shadow-sm">
+        <img
+          [src]="producto.imagen"
+          class="card-img-top"
+          alt="Imagen del producto"
+          onerror="this.src='https://via.placeholder.com/150'"
+        />
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="card-title">{{ producto.nombre }}</h5>
+            <p class="card-text text-muted">{{ producto.descripcion }}</p>
+          </div>
+          <p class="fw-bold text-success mt-3">S/ {{ producto.precio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

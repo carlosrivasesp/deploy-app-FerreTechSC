@@ -1,0 +1,15 @@
+/* Añade un pequeño margen debajo del navbar */
+.navbar-wrapper {
+  margin-bottom: 2rem;
+}
+
+/* Ajuste visual adicional entre navbar y contenido */
+.spacer {
+  height: 40px;
+}
+
+/* Estilo para el input */
+input::placeholder {
+  font-size: 1rem;
+  color: #999;
+}

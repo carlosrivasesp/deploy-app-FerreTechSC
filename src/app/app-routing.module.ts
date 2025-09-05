@@ -31,6 +31,7 @@ import { AuthGuard } from './services/auth.guard';
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
 import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
+import { CatalogoComponent } from './components/catalogo/catalogo.component';
 
 const routes: Routes = [
   // Rutas públicas
@@ -40,6 +41,7 @@ const routes: Routes = [
   
   // Rutas protegidas (requieren autenticación)
   { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard] },
+  { path: 'catalogo', component: CatalogoComponent, canActivate: [AuthGuard] },
   { path: 'productos', component: ListaProductosComponent, canActivate: [AuthGuard] },
   { path: 'clientes', component: ListaClientesComponent, canActivate: [AuthGuard] },
   { path: 'ventas', component: VentaComponent, canActivate: [AuthGuard] },

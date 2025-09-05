@@ -45,6 +45,7 @@ import { DetalleCotizacionComponent } from './components/detalle-cotizacion/deta
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
 import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
+import { CatalogoComponent } from './components/catalogo/catalogo.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
     DetalleCotizacionComponent,
     ComprasSugeridasComponent,
     DevolucionesComponent,
-    DetalleDevolucionProductosComponent
+    DetalleDevolucionProductosComponent,
+    CatalogoComponent
   ],
   imports: [
     BrowserModule,
