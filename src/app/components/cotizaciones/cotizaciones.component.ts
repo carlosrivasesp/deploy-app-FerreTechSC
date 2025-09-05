@@ -9,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ClienteService } from '../../services/cliente.service';
 import { CotizacionService } from '../../services/cotizacion.service';  // Importa el servicio
+import { DetalleOperacion } from '../../models/detalleOperacion';
+import { Operacion } from '../../models/operacion';
+import { OperacionService } from '../../services/operacion.service';
 
 export interface ElementoRegistrado {
   codigo: string;
@@ -16,13 +19,6 @@ export interface ElementoRegistrado {
   cant: number;
   precio: number;
   subtotal: number;
-}
-
-interface ListaUnificada {
-  codigo: string;
-  tipo: 'producto';
-  nombre: string;
-  valor: number;
 }
 
 @Component({
@@ -33,9 +29,9 @@ interface ListaUnificada {
 })
 export class CotizacionesComponent implements OnInit {
 
-  listaProducto_Lugar: ListaUnificada[] = [];
+  listaProductos: Producto[] = [];
   elementosRegistrados: ElementoRegistrado[] = [];
-  elementoSeleccionado: ListaUnificada | null = null;
+  elementoSeleccionado: Producto | null = null;
 
   currentDateTime: string = '';
   searchTerm: string = '';
@@ -45,12 +41,10 @@ export class CotizacionesComponent implements OnInit {
   subtotal: number = 0;
   total: number = 0.0;
   igv: number = 0.0;
-  totalConIGV: number = 0.0;
-  moneda: string = 'S/';
-  tipoCambio: number = 3.66;
 
   listClientes: Cliente[] = [];
   clienteForm: FormGroup;
+  cotizacionForm: FormGroup;
 
   clienteSearchTerm: string = '';
   clienteSeleccionado: Cliente | null = null;
@@ -59,7 +53,7 @@ export class CotizacionesComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private _productoService: ProductoService,
     private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _clienteService: ClienteService,
-    private cotizacionService: CotizacionService,
+    private cotizacionService: OperacionService,
     private cdr: ChangeDetectorRef
   ) {
     this.clienteForm = this.fb.group({
@@ -70,6 +64,16 @@ export class CotizacionesComponent implements OnInit {
       correo: ['', Validators.required],
       estado: ['Activo']
     });
+
+    this.cotizacionForm = this.fb.group({
+      nroComprobante: [''],
+      fechaEmision: [this.getTodayString(), Validators.required],
+      fechaVenc: [this.getTodayString(), Validators.required],
+      total: ['', Validators.required],
+      estado: ['Pendiente', Validators.required],
+      cliente: ['', Validators.required],
+      detalles: this.fb.array([]),
+    });
   }
 
   ngOnInit(): void {
@@ -77,35 +81,24 @@ export class CotizacionesComponent implements OnInit {
       this.updateDateTime();
       setInterval(() => this.updateDateTime(), 1000);
     }
-    this.obtenerDatos();
+    this.obtenerProductos();
     this.obtenerClientes();
   }
 
-  obtenerDatos(): void {
-    forkJoin({
-      productos: this._productoService.getAllProductos()
-    }).subscribe(({ productos }) => {
-      const productosTransformados = productos.map((p: Producto) => ({
-        ...p,
-        tipo: 'producto',
-        codigo: p.codInt,
-        nombre: p.nombre,
-        valor: p.precio
-      }));
-      this.listaProducto_Lugar = productosTransformados;
-    }, error => {
-      console.error('Error al obtener productos:', error);
+  obtenerProductos() {
+    this._productoService.getAllProductos().subscribe({
+      next: (data) => this.listaProductos = data,
+      error: (err) => console.error('Error al obtener productos:', err)
     });
   }
 
   obtenerClientes() {
-    this._clienteService.getAllClientes().subscribe(data => {
-      this.listClientes = data;
-    }, error => {
-      console.log(error);
-    })
+    this._clienteService.getAllClientes().subscribe({
+      next: (data) => this.listClientes = data,
+      error: (err) => console.error('Error al obtener clientes:', err)
+    });
   }
-
+  
   registrarCliente() {
     const CLIENTE: Cliente = {
       nombre: this.clienteForm.get('nombre')?.value,
@@ -125,15 +118,12 @@ export class CotizacionesComponent implements OnInit {
     });
   }
 
-  get filteredDatos(): ListaUnificada[] {
-    if (!this.searchTerm.trim()) {
-      return [];
-    }
-
+  get filteredProductos(): Producto[] {
+    if (!this.searchTerm.trim()) return [];
     const term = this.searchTerm.trim().toLowerCase();
-    return this.listaProducto_Lugar.filter(p =>
-      p.nombre.toLowerCase().startsWith(term) ||
-      p.codigo.toString().startsWith(term)
+    return this.listaProductos.filter(p =>
+      p.stockActual > 0 &&
+      (p.nombre.toLowerCase().startsWith(term) || p.codInt.startsWith(term))
     );
   }
 
@@ -151,6 +141,8 @@ export class CotizacionesComponent implements OnInit {
   onSelectCliente(cliente: Cliente): void {
     this.clienteSearchTerm = `${cliente.nroDoc} - ${cliente.nombre}`;
     this.clienteSeleccionado = cliente;
+    this.cotizacionForm.controls['cliente'].setValue(cliente._id);
+    console.log('Cliente seleccionado:', this.cotizacionForm.controls['cliente'].value)
 
     const dropdownInput = document.getElementById('dropdownCliente');
     if (dropdownInput && (window as any).bootstrap) {
@@ -170,12 +162,13 @@ export class CotizacionesComponent implements OnInit {
     this.clienteSeleccionado = null;
   }
 
-  onSelectElement(element: ListaUnificada): void {
-    this.searchTerm = `${element.codigo}-${element.nombre}`;
-    this.elementoSeleccionado = element;
-    this.precioSeleccionado = element.valor;
+  onSelectProducto(producto: Producto): void {
+    this.precioSeleccionado = producto.precio;
+    this.elementoSeleccionado = producto;
+    this.searchTerm = `${producto.codInt} - ${producto.nombre}`; // ← importante
     this.onValueSubTotal();
 
+    // Opcional: cerrar dropdown si usas Bootstrap
     const dropdownInput = document.getElementById('dropdownInput');
     if (dropdownInput && (window as any).bootstrap) {
       const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
@@ -210,105 +203,79 @@ export class CotizacionesComponent implements OnInit {
   onRegisterElement(): void {
   if (!this.elementoSeleccionado) return;
 
-  const element = this.elementoSeleccionado;
-
-  // Verifica si el producto ya está registrado
-  const existente = this.elementosRegistrados.find(e => e.codigo === element.codigo);
+  const producto = this.elementoSeleccionado;
+  const existente = this.elementosRegistrados.find(e => e.codigo === producto.codInt);
 
   if (existente) {
-    // Si ya existe, suma la cantidad y actualiza el subtotal
     existente.cant += this.cantidad;
     existente.subtotal = parseFloat((existente.cant * existente.precio).toFixed(2));
   } else {
-    // Si no existe, agrega nuevo elemento
-    const nuevoElemento: ElementoRegistrado = {
-      codigo: element.codigo,
-      nombre: element.nombre,
-      cant: this.cantidad,
-      precio: element.valor,
-      subtotal: parseFloat((this.cantidad * element.valor).toFixed(2))
+    this.elementosRegistrados.push({
+        codigo: producto.codInt,
+        nombre: producto.nombre,
+        cant: this.cantidad,
+        precio: producto.precio,
+        subtotal: this.cantidad * producto.precio
+      });
+    };
+    this.actualizarTotalYIgv();
+    this.clearSearch();
+  }
+
+  private actualizarTotalYIgv(): void {
+    const subtotalTotal = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
+    
+    this.igv = parseFloat((subtotalTotal * 0.18).toFixed(2));
+
+    this.total = parseFloat((subtotalTotal + this.igv).toFixed(2));
+
+    this.cotizacionForm.patchValue({ total: this.total, igv: this.igv });
+  }
+
+onGenerarCotizacion(): void {
+    if (!this.clienteSeleccionado || this.elementosRegistrados.length === 0) {
+      this.toastr.error('Debe seleccionar un cliente y agregar al menos un producto.', 'Error');
+      return;
+    }
+
+    const form = this.cotizacionForm.value;
+
+    const detalles: DetalleOperacion[] = this.elementosRegistrados.map(item => {
+      const producto = this.listaProductos.find(p => p.codInt === item.codigo);
+      return new DetalleOperacion(
+        {} as any,
+        producto!,
+        item.codigo,
+        item.nombre,
+        item.cant,
+        item.precio,
+        item.subtotal
+      );
+    });
+
+    const nuevaCotizacion: Operacion = {
+      tipoOperacion: 3, // Cotización
+      nroComprobante: form.nroComprobante,
+      fechaEmision: new Date(),
+      fechaVenc: new Date(),
+      igv: this.igv,
+      total: this.total,
+      estado: 'Pendiente',
+      cliente: form.cliente,
+      detalles: detalles
     };
 
-    this.elementosRegistrados.push(nuevoElemento);
-  }
-
-  this.calcularTotales();  // Actualiza totales generales
-  this.clearSearch();      // Limpia inputs
-
-  // Cierra dropdown si está abierto
-  const dropdownInput = document.getElementById('dropdownInput');
-  if (dropdownInput && (window as any).bootstrap) {
-    const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
-    dropdownInstance.hide();
-  }
-}
-
-  calcularTotales(): void {
-  this.total = this.elementosRegistrados.reduce((acc, item) => acc + item.subtotal, 0);
-  this.total = parseFloat(this.total.toFixed(2)); 
-  this.igv = parseFloat((this.total * 0.18).toFixed(2));
-  this.totalConIGV = parseFloat((this.total + this.igv).toFixed(2));
-  }
-
-// Método para enviar la cotización al backend
-onGenerarCotizacion(): void {
-  if (this.elementosRegistrados.length === 0) {
-      this.toastr.error('No hay productos registrados', 'Error');
-      return;
-  }
-
-  if (!this.clienteSeleccionado) {
-      this.toastr.error('Debe seleccionar un cliente', 'Error');
-      return;
-  }
-
-  if (!this.clienteSeleccionado._id) {
-      this.toastr.error('Cliente seleccionado no válido', 'Error');
-      return;
-  }
-
-// Cuerpo de la cotización que se enviará al backend
-const cotizacion = {
-  cliente: this.clienteSeleccionado,
-  contacto: this.clienteSeleccionado.nombre,
-  telefono: this.clienteSeleccionado.telefono, 
-  fechaEmision: new Date(),
-  fechaVenc: new Date(),
-  moneda: this.moneda,
-  tipoCambio: this.tipoCambio,
-  tiempoValidez: 15,
-  igv: this.igv,
-  total: this.total,
-  estado: 'Pendiente',
-  detalleC: this.elementosRegistrados.map(p => ({
-      nombre: p.nombre,
-      cantidad: p.cant,
-      precio: p.precio,
-      subtotal: p.subtotal
-  }))
-};
-
-// Verifica el objeto antes de enviarlo
-console.log('Cotización a enviar:', cotizacion);
-
-// Enviar la solicitud al backend
-this.cotizacionService.registrarCotizacion(cotizacion).subscribe(
-    response => {
+    this.cotizacionService.registrarCotizacion(nuevaCotizacion).subscribe({
+      next: () => {
         this.toastr.success('Cotización registrada correctamente', 'Éxito');
-        this.elementosRegistrados = [];
-        this.total = 0;
-
-      this.router.navigate(['/lista-cotizaciones']);
-
-    },
-    error => {
+        this.router.navigate(['/lista-cotizaciones']);
+      },
+      error: (err) => {
+        console.error('Error al registrar cotización:', err);
         this.toastr.error('Error al registrar cotización', 'Error');
-        console.error(error);
-        
-    }
-);
+      }
+    });
 }
-
   private updateDateTime(): void {
     const now = new Date();
     this.currentDateTime = now.toLocaleString('es-ES', {
@@ -321,14 +288,14 @@ this.cotizacionService.registrarCotizacion(cotizacion).subscribe(
   aumentarCantidad(item: ElementoRegistrado): void {
     item.cant++;
     item.subtotal = item.cant * item.precio;
-    this.calcularTotales();
+    this.actualizarTotalYIgv();
   }
 
   disminuirCantidad(item: ElementoRegistrado): void {
     if (item.cant > 1) {
       item.cant--;
       item.subtotal = item.cant * item.precio;
-      this.calcularTotales();
+      this.actualizarTotalYIgv();
     } else {
       this.toastr.info('La cantidad mínima es 1');
     }
@@ -339,14 +306,14 @@ this.cotizacionService.registrarCotizacion(cotizacion).subscribe(
         p.cant=1;
     }
     p.subtotal = p.cant * p.precio;
-    this.calcularTotales();
+    this.actualizarTotalYIgv();
   }
 
 
   eliminarElemento(codigo: string): void {
       this.elementosRegistrados = this.elementosRegistrados.filter(e => e.codigo !== codigo);
       this.total = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
-      this.calcularTotales();
+      this.actualizarTotalYIgv();
       this.cdr.detectChanges();
   }
 
@@ -367,4 +334,14 @@ this.cotizacionService.registrarCotizacion(cotizacion).subscribe(
       this.currentPage = page;
     }
   }
+
+  private getTodayString(): string {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');  // Añade un cero al inicio si el día es menor a 10
+    const month = String(today.getMonth() + 1).padStart(2, '0');  // `getMonth()` es cero-indexado, por eso sumamos 1
+    const year = today.getFullYear();
+
+    return `${day}/${month}/${year}`;  // DD-MM-YYYY
+  }
+
 }

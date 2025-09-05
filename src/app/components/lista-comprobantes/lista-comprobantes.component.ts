@@ -37,8 +37,6 @@ export class ListaComprobantesComponent implements OnInit {
       fechaVenc: [{ value: '', disabled: true }],
       total: [''],
       estado: ['', Validators.required],
-      moneda: [''],
-      tipoCambio: [''],
       cliente: [''],
       metodoPago: ['', Validators.required],
       detalles: this.fb.array([]),

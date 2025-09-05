@@ -236,8 +236,6 @@ export class VentaComponent implements OnInit {
     this.ventaForm.controls['cliente'].setValue(cliente._id);
     console.log('Cliente seleccionado:', this.ventaForm.controls['cliente'].value)
 
-
-    // Cierra el dropdown (opcional si usas Bootstrap)
     const dropdownInput = document.getElementById('dropdownClientes');
     if (dropdownInput && (window as any).bootstrap) {
       const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
@@ -254,6 +252,7 @@ export class VentaComponent implements OnInit {
     this.clienteSearchTerm = '';
     this.clienteSeleccionado = null;
   }
+  
   resetFormulario() {
     this.clienteForm.reset(); // Esto limpia todos los campos
   }

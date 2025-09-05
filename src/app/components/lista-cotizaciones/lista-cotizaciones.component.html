@@ -3,7 +3,7 @@
 
 <main class="main-content">
   <div class="separador">
-    <p class="title">Listado de Cotizaciones</p>
+    <p class="title">Listado de comprobantes</p>
 
     <div class="filter">
       <div class="group1">
@@ -25,7 +25,7 @@
             </li>
             <li>
               <a class="dropdown-item" (click)="selectedFilter = 'fecha'"
-                >Fecha de Emisión</a
+                >Fecha</a
               >
             </li>
             <li>
@@ -50,74 +50,65 @@
       </div>
     </div>
 
-    <!-- Tabla de Cotizaciones -->
     <table class="table">
       <thead>
         <tr class="header">
-          <th scope="col" style="width: 150px;">Cliente</th>
-          <th scope="col" style="width: 150px;">Contacto</th>
-          <th scope="col" style="width: 150px;">Teléfono</th>
-          <th scope="col" style="width: 150px;">Fecha de Emisión</th>
-          <th scope="col" style="width: 150px;">Fecha de Vencimiento</th>
-          <th scope="col" style="width: 100px;">Total</th>
-          <th scope="col" style="width: 100px;">Estado</th>
-          <th scope="col" style="width: 80px;">Acciones</th>
+          <th scope="col" style="width: 150px">Nro. Cotizacion</th>
+          <th scope="col" style="width: 150px">Cliente</th>
+          <th scope="col" style="width: 150px">Fecha de emisión</th>
+          <th scope="col" style="width: 150px">Fecha de Vencimiento</th>
+          <th scope="col" style="width: 100px">Total</th>
+          <th scope="col" style="width: 100px">Estado</th>
+          <th scope="col" style="width: 80px">Acciones</th>
         </tr>
       </thead>
       <tbody class="body">
-        <tr *ngFor="let cotizacion of paginatedCotizaciones; let i = index">
-          <td>{{ cotizacion.cliente.nombre }}</td>
-          <td>{{ cotizacion.contacto }}</td>
-          <td>{{ cotizacion.telefono }}</td>
-          <td>{{ cotizacion.fechaEmision | date : "dd/MM/yyyy" }}</td>
+        <tr *ngFor="let cot of paginatedCotizaciones">
+          <td>{{ cot.nroComprobante }}</td>
+          <td>{{ cot.cliente?.nombre }}</td>
           <td>
             {{
-              calcularFechaVencimiento(
-                cotizacion.fechaEmision,
-                cotizacion.tiempoValidez
-              ) | date : "dd/MM/yyyy"
+              cot.fechaEmision
+                ? (cot.fechaEmision | date : "dd/MM/yyyy")
+                : "Sin fecha"
             }}
           </td>
-
-          <td>{{ cotizacion.moneda }} {{ cotizacion.total }}</td>
-
+          <td>{{
+              cot.fechaVenc
+                ? (cot.fechaVenc | date : "dd/MM/yyyy")
+                : "Sin fecha"
+            }}</td>
+          <td>S/ {{ cot.total?.toFixed(2) }}</td>
+          <td>{{ cot.estado }}</td>
+          
           <td>
-            <select
-              class="form-select form-select-sm w-auto mx-auto"
-              [ngModel]="cotizacion.estado"
-              [disabled]="cotizacion.estado !== 'Pendiente'"
-              (ngModelChange)="cambiarEstado(cotizacion, $event)"
-            >
-              <option value="Pendiente">Pendiente</option>
-              <option value="Confirmada">Confirmada</option>
-              <option value="Anulada">Anulada</option>
-            </select>
-          </td>
-
-          <td class="text-center">
-              <a
-                class="actions"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <button>
-                  <i class="bi bi-three-dots-vertical"></i>
-                </button>
+           <div class="links">
+              <a [routerLink]="['/detalle-comprobante', cot._id]"><i class="bi bi-eye"></i></a>
+              <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-gear"></i>
               </a>
-
               <ul class="dropdown-menu">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    [routerLink]="['/detalle-cotizacion', cotizacion._id]"
-                    >Ver Detalles</a
-                  >
-                </li>
-                <li>
-                </li>
-              </ul>
-            </td>
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="marcarComoAceptado(cot)"
+                  *ngIf="cot.estado === 'Pendiente'"
+                  >Aceptar</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="rechazarCotizacion(cot)"
+                  *ngIf="cot.estado === 'Pendiente'"
+                  >Rechazar</a
+                >
+              </li>
+            </ul>
+            </div>
+            
+          </td>
+        
         </tr>
       </tbody>
     </table>
@@ -147,73 +138,3 @@
     </nav>
   </div>
 </main>
-
-<!-- Modal Confirmación -->
-<div
-  class="modal fade"
-  id="modalConfirmacion"
-  tabindex="-1"
-  aria-labelledby="modalConfirmacionLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalConfirmacionLabel">Confirmar Cotización</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="row g-3">
-            <!-- Tipo de Comprobante -->
-            <div class="col-md-6">
-              <label class="form-label">Tipo de Comprobante</label>
-              <select
-                class="form-select"
-                [(ngModel)]="formData.tipoComprobante"
-                name="tipoComprobante"
-                (change)="onTipoComprobanteChange()"
-              >
-                <option value="">Seleccionar</option>
-                <option value="BOLETA DE VENTA ELECTRONICA">BOLETA DE VENTA ELECTRONICA</option>
-                <option value="FACTURA DE VENTA ELECTRONICA">FACTURA DE VENTA ELECTRONICA</option>
-              </select>
-            </div>
-
-            <!-- Serie (No editable) -->
-            <div class="col-md-6">
-              <label class="form-label">Serie</label>
-              <input
-                class="form-control"
-                [value]="formData.serie"
-                readonly
-              />
-            </div>
-
-            <!-- Método de pago -->
-            <div class="col-md-6">
-              <label class="form-label">Método de pago</label>
-              <select
-                class="form-select"
-                [(ngModel)]="formData.metodoPago"
-                name="metodoPago"
-              >
-                <option value="">Seleccionar</option>
-                <option value="Efectivo">Efectivo</option>
-                <option value="Tarjeta de debito">Tarjeta de débito</option>
-                <option value="Tarjeta de credito">Tarjeta de crédito</option>
-                <option value="Yape">Yape</option>
-                <option value="Plin">Plin</option>
-                <option value="Transferencia">Transferencia</option>
-              </select>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn" style="background-color: #10401b;" (click)="guardarConfirmacion()">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
