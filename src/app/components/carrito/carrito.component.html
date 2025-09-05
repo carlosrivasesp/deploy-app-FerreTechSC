@@ -10,18 +10,18 @@
         <p class="description">Filtrar por: </p>
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ selectedFilter | uppercase }}
+           <!-- {{ selectedFilter | uppercase }}-->
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" (click)="selectedFilter = 'nombre'">Nombre</a></li>
-            <li><a class="dropdown-item" (click)="selectedFilter = 'precio'">Precio</a></li>
+            <li><a class="dropdown-item" >Nombre</a></li> <!--(click)="selectedFilter = 'nombre'"-->
+            <li><a class="dropdown-item" >Precio</a></li>
           </ul>
         </div>
       </div>
 
       <div class="group2">
         <div class="input-group">
-          <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Buscar en el carrito">
+          <input type="text" class="form-control" placeholder="Buscar en el carrito"> <!--[(ngModel)]="searchTerm"-->
           <span class="input-group-text"><i class="bi bi-search"></i></span>
         </div>
       </div>
