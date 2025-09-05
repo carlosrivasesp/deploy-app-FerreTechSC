@@ -18,7 +18,6 @@ import { EntregasComponent } from './components/entregas/entregas.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { IngresarProductosComponent } from './components/ingresar-productos/ingresar-productos.component';
 import { SalidaProductosComponent } from './components/salida-productos/salida-productos.component';
-import { PagosPendientesComponent } from './components/pagos-pendientes/pagos-pendientes.component';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { RegistrarCompraComponent } from './components/registrar-compra/registrar-compra.component';
 import { ListadoComprasComponent } from './components/listado-compras/listado-compras.component';
@@ -29,8 +28,6 @@ import { ListadoCotizacionesComponent } from './components/lista-cotizaciones/li
 import { DetalleCotizacionComponent } from './components/detalle-cotizacion/detalle-cotizacion.component';
 import { AuthGuard } from './services/auth.guard';
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
-import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
-import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
 
 const routes: Routes = [
   // Rutas públicas
@@ -54,7 +51,6 @@ const routes: Routes = [
   { path: 'ingresos', component: IngresarProductosComponent, canActivate: [AuthGuard] },
   { path: 'salidas', component: SalidaProductosComponent, canActivate: [AuthGuard] },
   { path: 'new-cotizaciones', component: CotizacionesComponent, canActivate: [AuthGuard] },
-  { path: 'pagos-pendientes', component: PagosPendientesComponent, canActivate: [AuthGuard] },
   { path: 'principal', component: PrincipalComponent, canActivate: [AuthGuard] },
   { path: 'registrar-compra', component: RegistrarCompraComponent, canActivate: [AuthGuard] },
   { path: 'listado-compras', component: ListadoComprasComponent, canActivate: [AuthGuard] },
@@ -65,8 +61,6 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'compras-sugeridas', component: ComprasSugeridasComponent, canActivate: [AuthGuard] },
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
-  { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
-  { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
 
   // Redirecciones
   { path: '', redirectTo: 'login', pathMatch: 'full' },

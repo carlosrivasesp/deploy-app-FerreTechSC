@@ -69,7 +69,7 @@
           <td>{{ venta.tipoComprobante }}</td>
           <td>{{ venta.serie }}</td>
           <td>{{ venta.nroComprobante }}</td>
-          <td>{{ venta.cliente.nombre }}</td>
+          <td>{{ venta.cliente?.nombre }}</td>
           <td>
             {{
               venta.fechaEmision
@@ -78,14 +78,12 @@
             }}
           </td>
           <td>{{ venta.metodoPago }}</td>
-          <td>{{ venta.moneda }} {{ venta.total.toFixed(2) }}</td>
+          <td>S/ {{ venta.total?.toFixed(2) }}</td>
           <td>{{ venta.estado }}</td>
+          
           <td>
            <div class="links">
               <a [routerLink]="['/detalle-comprobante', venta._id]"><i class="bi bi-eye"></i></a>
-              <a *ngIf="venta.estado === 'Pendiente'" data-bs-toggle="modal" data-bs-target="#modalEdit" (click)="editarVenta(venta)">
-                <i class="bi bi-pencil"></i>
-              </a>
               <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear"></i>
               </a>
@@ -93,29 +91,24 @@
               <li>
                 <a
                   class="dropdown-item"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalDelete"
-                  (click)="setVentaAAnular(venta)"
-                  *ngIf="
-                    venta.estado !== 'Anulado' && venta.estado !== 'Devolución'
-                  "
-                  >Anular</a
+                  (click)="marcarComoPagado(venta)"
+                  *ngIf="venta.estado === 'Pendiente'"
+                  >Pagado</a
                 >
               </li>
               <li>
                 <a
                   class="dropdown-item"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalDevolver"
-                  (click)="setVentaADevolver(venta)"
-                  *ngIf="venta.estado == 'Registrado'"
-                  >Devolución</a
+                  (click)="anularOperacion(venta)"
+                  *ngIf="venta.estado === 'Pendiente' || venta.estado === 'Pagado'"
+                  >Anular</a
                 >
               </li>
             </ul>
             </div>
             
           </td>
+        
         </tr>
       </tbody>
     </table>
@@ -144,71 +137,8 @@
       </ul>
     </nav>
 
-    <!-- MODAL EDITAR -->
-
-    <div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">{{ selectedVenta }}</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="ventaForm" class="row g-3">
-              <div class="col-md-6">
-                <label for="inputMetodoPago" class="form-label"
-                  >Método de pago</label
-                >
-                <select
-                  id="inputMetodoPago"
-                  class="form-select"
-                  formControlName="metodoPago"
-                >
-                  <option value="Efectivo">Efectivo</option>
-                  <option value="Tarjeta de credito">Tarjeta de credito</option>
-                  <option value="Tarjeta de debito">Tarjeta de debito</option>
-                  <option value="Yape">Yape</option>
-                  <option value="Plin">Plin</option>
-                  <option value="Transferencia">Transferencia</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label for="inputEstado" class="form-label">Estado</label>
-                <select
-                  id="inputEstado"
-                  class="form-select"
-                  formControlName="estado"
-                >
-                  <option value="Pendiente">Pendiente</option>
-                  <option value="Registrado">Registrado</option>
-                </select>
-              </div>
-
-              <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">
-                  Cancelar
-                </button>
-                <button
-                  class="btn" 
-                  style="background-color: #10401b;"
-                  (click)="actualizarVenta()"
-                  data-bs-dismiss="modal"
-                >
-                  Modificar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- MODAL ANULAR -->
-
+<!--
     <div
       class="modal fade"
       id="modalDelete"
@@ -245,47 +175,6 @@
         </div>
       </div>
     </div>
-
-    <!-- MODAL DEVOLVER -->
-
-    <div
-      class="modal fade"
-      id="modalDevolver"
-      tabindex="-1"
-      aria-labelledby="modalDevolver"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <p>
-                  ¿Estás seguro que deseas modificar el comprobante a
-                  devolución?
-                </p>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              No
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-              (click)="devolverVenta(VentaADevolver)"
-            >
-              Sí, modificar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  -->
   </div>
 </main>

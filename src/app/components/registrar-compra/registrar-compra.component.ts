@@ -6,11 +6,11 @@ import { Proveedor } from '../../models/proveedor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProveedorService } from '../../services/proveedor.service';
-import { CompraService } from '../../services/compra.service';
-import { Compra } from '../../models/compra';
+import { OperacionService } from '../../services/operacion.service';
+import { DetalleOperacion } from '../../models/detalleOperacion';
+import { Operacion } from '../../models/operacion';
 
 interface ElementoRegistrado {
-  producto: Producto;
   codigo: string;
   nombre: string;
   cant: number;
@@ -28,7 +28,7 @@ type listaSeries = "BOLETA DE COMPRA ELECTRONICA" | "FACTURA DE COMPRA ELECTRONI
 })
 export class RegistrarCompraComponent {
 
-  listaProducto: Producto[] = [];
+  listaProductos: Producto[] = [];
   elementosRegistrados: ElementoRegistrado[] = [];
   elementoSeleccionado: Producto | null = null;
 
@@ -40,6 +40,7 @@ export class RegistrarCompraComponent {
   subtotal: number = 0;
   igv: number = 0.0;
   total: number = 0.0;
+  serie: string = "B01";
 
   listProveedores: Proveedor[] = [];
   proveedorForm: FormGroup;
@@ -49,8 +50,6 @@ export class RegistrarCompraComponent {
   proveedorSeleccionado: Proveedor | null = null;
   selectedProveedor: any = null;
 
-  serie: string = "B01";
-
   constructor(
     private _productoService: ProductoService,
     private fb: FormBuilder,
@@ -58,7 +57,7 @@ export class RegistrarCompraComponent {
     private toastr: ToastrService,
     private _proveedorService: ProveedorService,
     private aRoute: ActivatedRoute,
-    private _compraService: CompraService,
+    private _compraService: OperacionService,
     private cdr: ChangeDetectorRef
   ) {
     this.proveedorForm = this.fb.group({
@@ -66,7 +65,8 @@ export class RegistrarCompraComponent {
       tipoDoc: ['', Validators.required],
       nroDoc: ['', Validators.required],
       telefono: [{ value: '', disabled: true }, Validators.required],
-      correo: [{ value: '', disabled: true }, Validators.required]
+      correo: [{ value: '', disabled: true }, Validators.required],
+      estado: ['Activo']
     });
 
     this.compraForm = this.fb.group({
@@ -77,12 +77,10 @@ export class RegistrarCompraComponent {
       fechaVenc: [ this.getTodayString(), Validators.required ],
       total: ['', Validators.required],
       estado: ['Pendiente', Validators.required],
-      moneda: ['S/', Validators.required],
-      tipoCambio: ['3.66', Validators.required],
       proveedor: ['', Validators.required],
       igv: ['', Validators.required],
       metodoPago: ['', Validators.required],
-      detalleC: this.fb.array([]),
+      detalles: this.fb.array([]),
     })
   }
 
@@ -127,19 +125,22 @@ export class RegistrarCompraComponent {
     }
     
     const form = this.compraForm.value;
-    console.log('Proveedor del formulario:', form.proveedor);
 
-    const productos = this.elementosRegistrados.map(item => ({
-      compraId: '',
-      producto: item.producto, 
-      codInt: item.codigo,
-      nombre: item.nombre,
-      cantidad: item.cant,
-      precio: item.precio,
-      subtotal: item.subtotal
-    }));
+    const detalles: DetalleOperacion[] = this.elementosRegistrados.map(item => {
+      const producto = this.listaProductos.find(p => p.codInt === item.codigo);
+      return new DetalleOperacion(
+        {} as any,
+        producto!,
+        item.codigo,
+        item.nombre,
+        item.cant,
+        item.precio,
+        item.subtotal
+      );
+    });
   
-    const nuevaCompra = {
+    const nuevaCompra: Operacion = {
+      tipoOperacion: 2,
       serie: form.serie,
       nroComprobante: form.nroComprobante,
       fechaEmision: new Date(),
@@ -147,12 +148,10 @@ export class RegistrarCompraComponent {
       tipoComprobante: form.tipoComprobante,
       igv: this.igv,
       total: this.total,
-      estado: form.estado,
-      moneda: form.moneda,
-      tipoCambio: form.tipoCambio,
+      estado: 'Pendiente',
       proveedor: form.proveedor,
       metodoPago: form.metodoPago,
-      detalleC: productos 
+      detalles: detalles
     };
     console.log(nuevaCompra);  // Esto te permitirá ver el objeto completo que estás enviando
 
@@ -168,7 +167,7 @@ export class RegistrarCompraComponent {
 
   obtenerDatos(): void {
     this._productoService.getAllProductos().subscribe((productos: Producto[]) => {
-        this.listaProducto = productos;
+        this.listaProductos = productos;
       }, error => {
       console.error('Error al obtener productos:', error);
     });
@@ -197,6 +196,7 @@ export class RegistrarCompraComponent {
       this.toastr.success('El Proveedor fue registrado exitosamente', 'Proveedor registrado');
       this.router.navigate(['/compras']);
       this.obtenerProveedores();
+      this.resetFormulario();
     }, error => {
       console.log(error);
       this.proveedorForm.reset();
@@ -206,7 +206,7 @@ export class RegistrarCompraComponent {
   get filteredDatos(): Producto[] {
     if (!this.searchTerm.trim()) return [];
     const term = this.searchTerm.trim().toLowerCase();
-    return this.listaProducto.filter(p =>
+    return this.listaProductos.filter(p =>
       p.nombre.toLowerCase().startsWith(term) ||
       p.codInt.toLowerCase().startsWith(term)
     );
@@ -237,7 +237,7 @@ export class RegistrarCompraComponent {
   console.log('Proveedor seleccionado en el formulario:', this.compraForm.controls['proveedor'].value);
 
   // Limpiar productos actuales y selección
-  this.listaProducto = [];
+  this.listaProductos = [];
   this.searchTerm = '';
   this.elementoSeleccionado = null;
   this.precioSeleccionado = 0;
@@ -247,7 +247,7 @@ export class RegistrarCompraComponent {
   // Llamar al servicio para obtener productos por proveedor
   this._productoService.getProductosPorProveedorSinStock(proveedor._id).subscribe(
     (productos: Producto[]) => {
-      this.listaProducto = productos;
+      this.listaProductos = productos;
       if (productos.length === 0) {
       this.toastr.info('No hay productos para este proveedor');
       } else {
@@ -271,7 +271,7 @@ export class RegistrarCompraComponent {
   // 🔹 Llamada para llenar el autocompletado con todos los productos del proveedor
   this._productoService.getProductosPorProveedor(proveedor._id).subscribe(
     (productos: Producto[]) => {
-      this.listaProducto = productos;
+      this.listaProductos = productos;
     },
     error => {
       console.error('Error al obtener todos los productos:', error);
@@ -357,7 +357,6 @@ export class RegistrarCompraComponent {
   } else {
     // Agregar nuevo si no existe
     const nuevoElemento: ElementoRegistrado = {
-      producto: this.elementoSeleccionado,
       codigo: codInt,
       nombre,
       cant: this.cantidad,

@@ -2,20 +2,14 @@ import { Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angu
 import { isPlatformBrowser } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto';
-import { Lugar } from '../../models/lugar';
-import { LugarService } from '../../services/lugar.service';
-import { forkJoin } from 'rxjs';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ClienteService } from '../../services/cliente.service';
-import { Venta } from '../../models/venta';
-import { VentaService } from '../../services/venta.service';
-import { Categoria } from '../../models/categoria';
-import { Marca } from '../../models/marca';
-import { DetalleVenta } from '../../models/detalleV';
-
+import { OperacionService } from '../../services/operacion.service';
+import { DetalleOperacion } from '../../models/detalleOperacion';
+import { Operacion } from '../../models/operacion';
 
 interface ElementoRegistrado {
   codigo: string;
@@ -25,9 +19,7 @@ interface ElementoRegistrado {
   subtotal: number;
 }
 
-
 type listaSeries = "BOLETA DE VENTA ELECTRONICA" | "FACTURA DE VENTA ELECTRONICA"
-
 
 @Component({
   selector: 'app-venta',
@@ -39,8 +31,6 @@ type listaSeries = "BOLETA DE VENTA ELECTRONICA" | "FACTURA DE VENTA ELECTRONICA
 export class VentaComponent implements OnInit {
 
   listaProductos: Producto[] = [];
-  listaLugares: Lugar[] = [];
-
   elementosRegistrados: ElementoRegistrado[] = [];
   elementoSeleccionado: Producto | null = null; 
 
@@ -65,7 +55,7 @@ export class VentaComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private _productoService: ProductoService, private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _clienteService: ClienteService, private aRoute: ActivatedRoute,
-    private _ventaService: VentaService,
+    private _ventaService: OperacionService,
     private cdr: ChangeDetectorRef
   ) {
     this.clienteForm = this.fb.group({
@@ -86,13 +76,13 @@ export class VentaComponent implements OnInit {
       igv: ['', Validators.required],
       total: ['', Validators.required],
       estado: ['Pendiente', Validators.required],
-      moneda: ['S/', Validators.required],
       servicioDelivery: false,
       cliente: ['', Validators.required],
       metodoPago: ['', Validators.required],
       detalles: this.fb.array([]),
     })
   }
+
   onSelectSerie(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
 
@@ -113,16 +103,17 @@ export class VentaComponent implements OnInit {
     }
   }
 
-  crearVenta(): void {
+  crearOperacion(): void {
     if (!this.clienteSeleccionado || this.elementosRegistrados.length === 0) {
       this.toastr.error('Debe seleccionar un cliente y agregar al menos un producto.', 'Error');
       return;
     }
 
     const form = this.ventaForm.value;
-    const detalles: DetalleVenta[] = this.elementosRegistrados.map(item => {
+
+    const detalles: DetalleOperacion[] = this.elementosRegistrados.map(item => {
       const producto = this.listaProductos.find(p => p.codInt === item.codigo);
-      return new DetalleVenta(
+      return new DetalleOperacion(
         {} as any,
         producto!,
         item.codigo,
@@ -133,30 +124,30 @@ export class VentaComponent implements OnInit {
       );
     });
 
-    const nuevaVenta = new Venta(
-      form.serie,
-      form.nroComprobante,
-      new Date(),
-      new Date(),
-      form.tipoComprobante,
-      this.total,
-      this.igv,
-      form.estado,
-      form.moneda,
-      form.servicioDelivery,
-      form.cliente,
-      form.metodoPago,
-      detalles
-    );
+    const nuevaOperacion: Operacion = {
+      tipoOperacion: 1,
+      serie: form.serie,
+      nroComprobante: form.nroComprobante,
+      fechaEmision: new Date(),
+      fechaVenc: new Date(),
+      tipoComprobante: form.tipoComprobante,
+      igv: this.igv,
+      total: this.total,
+      estado: 'Pendiente',
+      servicioDelivery: form.servicioDelivery,
+      cliente: form.cliente,
+      metodoPago: form.metodoPago,
+      detalles: detalles
+    };
 
-    this._ventaService.registrarVenta(nuevaVenta).subscribe({
+    this._ventaService.registrarVenta(nuevaOperacion).subscribe({
       next: () => {
-        this.toastr.success('Venta registrada correctamente', 'Éxito');
+        this.toastr.success('Operación registrada correctamente', 'Éxito');
         this.router.navigate(['/comprobantes']);
       },
       error: (err) => {
-        console.error('Error al registrar la venta', err);
-        this.toastr.error('Hubo un error al registrar la venta', 'Error');
+        console.error('Error al registrar la operación', err);
+        this.toastr.error('Hubo un error al registrar la operación', 'Error');
       }
     });
   }

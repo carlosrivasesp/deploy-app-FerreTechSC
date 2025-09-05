@@ -79,13 +79,6 @@
           </div>
           <input type="hidden" formControlName="cliente">
         </div>
-        <!--moneda-->
-        <div class="col-md-1">
-          <label for="inputMoneda" class="form-label">Moneda</label>
-          <select id="inputMoneda" class="form-select" formControlName="moneda">
-            <option selected>S/</option>
-          </select>
-        </div>
 
         <!--metodo de pago-->
         <div class="col-md-2">
@@ -160,7 +153,7 @@
             <strong>Total:</strong> S/ <span id="total">{{ total }}</span>
           </div>
         </div>
-        <button class="btn" style="background-color: #10401b;" (click)="crearVenta()">Generar Comprobante</button>
+        <button class="btn" style="background-color: #10401b;" (click)="crearOperacion()">Generar Comprobante</button>
       </div>
 
       <nav *ngIf="totalPages > 1" class="mt-3" aria-label="Page navigation">

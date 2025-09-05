@@ -44,7 +44,6 @@ setActiveLink(link: string): void {
 
     'ingresos': 'submenu4',
     'salidas': 'submenu4',
-    'devoluciones': 'submenu4',
 
     'registrar-compra': 'submenu5',
     'listado-compras': 'submenu5',

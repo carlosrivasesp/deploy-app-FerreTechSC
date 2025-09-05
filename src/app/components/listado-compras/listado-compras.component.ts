@@ -4,6 +4,8 @@ import { CompraService } from '../../services/compra.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Operacion } from '../../models/operacion';
+import { OperacionService } from '../../services/operacion.service';
 
 @Component({
   selector: 'app-listado-compras',
@@ -12,7 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './listado-compras.component.css'
 })
 export class ListadoComprasComponent {
-  listCompras: Compra[] = [];
+  listCompras: Operacion[] = [];
   idCompra: string | null;
   compraForm: FormGroup;
   selectedCompra: any = null;
@@ -23,7 +25,7 @@ export class ListadoComprasComponent {
   itemsPerPage: number = 10;
 
   constructor(
-    private _compraService: CompraService,
+    private _compraService: OperacionService,
     private toastr: ToastrService,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -42,7 +44,7 @@ export class ListadoComprasComponent {
       tipoCambio: [''],
       proveedor: [''],
       metodoPago: ['', Validators.required],
-      detalleC: this.fb.array([]),
+      detalles: this.fb.array([]),
     });
     
 
@@ -54,7 +56,7 @@ export class ListadoComprasComponent {
   }
 
   obtenerCompras(): void {
-    this._compraService.getAllCompras().subscribe({
+    this._compraService.getOperaciones(2).subscribe({
       next: (data) => (this.listCompras = data.reverse()),
       error: (err) => {
         console.error(err);
@@ -63,65 +65,43 @@ export class ListadoComprasComponent {
     });
   }
 
-  editarCompra(compra: Compra) {
-    this.idCompra = compra._id || null;
-    this.selectedCompra = `${compra.serie}-${compra.nroComprobante}`;
-    this.compraForm.patchValue({
-      estado: compra.estado,
-      metodoPago: compra.metodoPago,
-    });
-  }
-
-  actualizarCompra() {
-    if (this.compraForm.invalid || !this.idCompra) {
-      console.warn('Formulario inválido o idCompra nulo');
-      return;
-    }
-
-    const compra: Compra = this.compraForm.value;
-
-    this._compraService.editarCompra(this.idCompra, compra).subscribe(
-      () => {
-        this.toastr.info(
-          'El comprobante fue actualizado exitosamente',
-          'Compra actualizada'
-        );
-        this.compraForm.reset();
-        this.idCompra = null;
-        this.obtenerCompras();
-      },
-      (error) => {
-        console.log(error);
-        this.compraForm.reset();
-      }
-    );
-  }
-
-  compraAAnular: any;
-
-  setCompraAAnular(compra: any): void {
-    this.compraAAnular = compra;
-  }
-
-  anularCompra(compra: Compra): void {
-    const compraActualizada = {
-      ...compra,
-      estado: 'Anulado',
+  marcarComoPagado(operacion: Operacion): void {
+    const operacionActualizada = {
+      ...operacion,
+      nuevoEstado: 'Pagado'
     };
 
-    this._compraService.editarCompra(compra._id!, compraActualizada).subscribe({
+    this._compraService.actualizarEstado(operacion._id!, operacionActualizada).subscribe({
       next: () => {
-        this.toastr.error('Comprobante anulado correctamente', 'Anulado');
+        this.toastr.success('Operación marcada como Pagada', 'Éxito');
         this.obtenerCompras();
       },
-      error: (error) => {
-        console.error(error);
-        this.toastr.error('No se pudo anular el comprobante', 'Error');
-      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('No se pudo actualizar la operación', 'Error');
+      }
     });
   }
 
-  get filteredCompras(): Compra[] {
+  anularOperacion(operacion: Operacion): void {
+    const operacionActualizada = {
+      ...operacion,
+      nuevoEstado: 'Anulado'
+    };
+
+    this._compraService.actualizarEstado(operacion._id!, operacionActualizada).subscribe({
+      next: () => {
+        this.toastr.error('Operación Anulada correctamente', 'Anulado');
+        this.obtenerCompras();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('No se pudo anular la operación', 'Error');
+      }
+    });
+  }
+
+  get filteredCompras(): Operacion[] {
     if (!this.searchTerm.trim()) return this.listCompras;
 
     const term = this.searchTerm.toLowerCase();
@@ -138,7 +118,7 @@ export class ListadoComprasComponent {
         );
       case 'estado':
         return this.listCompras.filter((c) =>
-          c.estado.toLowerCase().includes(term)
+          c.estado?.toLowerCase().includes(term)
         );
       default:
         return this.listCompras;
@@ -153,7 +133,7 @@ export class ListadoComprasComponent {
     return `${day}/${month}/${year}`;
   }
 
-  get paginatedCompras(): Compra[] {
+  get paginatedCompras(): Operacion[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredCompras.slice(start, start + this.itemsPerPage);
   }

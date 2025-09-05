@@ -69,7 +69,7 @@
           <td>{{ compra.tipoComprobante }}</td>
           <td>{{ compra.serie }}</td>
           <td>{{ compra.nroComprobante }}</td>
-          <td>{{ compra.proveedor.nombre }}</td>
+          <td>{{ compra.proveedor?.nombre }}</td>
           <td>
             {{
               compra.fechaEmision
@@ -78,43 +78,35 @@
             }}
           </td>
           <td>{{ compra.metodoPago }}</td>
-          <td>{{ compra.moneda }} {{ compra.total }}</td>
+          <td> S/ {{ compra.total?.toFixed(2) }}</td>
           <td>{{ compra.estado }}</td>
-          
           <td>
             <div class="links">
               <a
                 [routerLink]="['/detalle-compra', compra._id]"
                 ><i class="bi bi-eye"></i
               ></a>
-              <a
-                data-bs-toggle="modal"
-                data-bs-target="#modalEdit"
-                (click)="editarCompra(compra)"
-                *ngIf="compra.estado === 'Pendiente'"
-              >
-                <i class="bi bi-pencil"></i>
-              </a>
-              <a
-                class="actions"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+              <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear"></i>
               </a>
               <ul class="dropdown-menu">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalDelete"
-                    (click)="setCompraAAnular(compra)"
-                    *ngIf="compra.estado !== 'Anulado'"
-                    >Anular</a
-                  >
-                </li>
-              </ul>
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="marcarComoPagado(compra)"
+                  *ngIf="compra.estado === 'Pendiente'"
+                  >Pagado</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="anularOperacion(compra)"
+                  *ngIf="compra.estado === 'Pendiente' || compra.estado === 'Pagado'"
+                  >Anular</a
+                >
+              </li>
+            </ul>
             </div>
           </td>
         </tr>
@@ -144,105 +136,5 @@
         </li>
       </ul>
     </nav>
-
-    <!-- MODAL EDITAR -->
-    <div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">{{ selectedCompra }}</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="compraForm" class="row g-3">
-              <div class="col-md-6">
-                <label for="inputMetodoPago" class="form-label"
-                  >Método de pago</label
-                >
-                <select
-                  id="inputMetodoPago"
-                  class="form-select"
-                  formControlName="metodoPago"
-                >
-                  <option value="Efectivo">Efectivo</option>
-                  <option value="Tarjeta de credito">Tarjeta de credito</option>
-                  <option value="Tarjeta de debito">Tarjeta de debito</option>
-                  <option value="Yape">Yape</option>
-                  <option value="Plin">Plin</option>
-                  <option value="Transferencia">Transferencia</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label for="inputEstado" class="form-label">Estado</label>
-                <select
-                  id="inputEstado"
-                  class="form-select"
-                  formControlName="estado"
-                >
-                  <option value="Pendiente">Pendiente</option>
-                  <option value="Registrado">Registrado</option>
-                </select>
-              </div>
-
-              <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">
-                  Cancelar
-                </button>
-                <button
-                  class="btn"
-                  style="background-color: #10401b"
-                  (click)="actualizarCompra()"
-                  data-bs-dismiss="modal"
-                >
-                  Modificar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODAL ANULAR -->
-    <div
-      class="modal fade"
-      id="modalDelete"
-      tabindex="-1"
-      aria-labelledby="modalDelete"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <p>¿Estás seguro que deseas anular la compra?</p>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              No
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-              (click)="anularCompra(compraAAnular)"
-            >
-              Sí, anular
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </main>

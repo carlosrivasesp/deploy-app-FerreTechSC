@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Entregas } from '../../models/entregas';
 import { EntregaService } from '../../services/entregas.service';
-import { VentaService } from '../../services/venta.service';
-import { Venta } from '../../models/venta';
+import { OperacionService } from '../../services/operacion.service';
+import { Operacion } from '../../models/operacion';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -95,7 +95,7 @@ export class EntregasComponent {
         );
       case 'Tipo Comprobante':
         return this.listaEntregas.filter((v) =>
-          v.ventaId.tipoComprobante.toLowerCase().startsWith(term)
+          v.ventaId.tipoComprobante?.toLowerCase().startsWith(term)
         );
       default:
         return this.listaEntregas;

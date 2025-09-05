@@ -31,7 +31,6 @@ import { ReportesComponent } from './components/reportes/reportes.component';
 import { IngresarProductosComponent } from './components/ingresar-productos/ingresar-productos.component';
 import { SalidaProductosComponent } from './components/salida-productos/salida-productos.component';
 import { CotizacionesComponent } from './components/cotizaciones/cotizaciones.component';
-import { PagosPendientesComponent } from './components/pagos-pendientes/pagos-pendientes.component';
 import { FormsModule } from '@angular/forms';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { NavbarPrincipalComponent } from './components/navbar-principal/navbar-principal.component';
@@ -43,8 +42,6 @@ import { DetalleSalidaProductosComponent } from './components/detalle-salida-pro
 import { ListadoCotizacionesComponent } from './components/lista-cotizaciones/lista-cotizaciones.component';
 import { DetalleCotizacionComponent } from './components/detalle-cotizacion/detalle-cotizacion.component';
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
-import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
-import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +60,6 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
     DetalleComponent,
     DetalleEntregaComponent,
     EntregasComponent,
-    PagosPendientesComponent,
     ReportesComponent,
     IngresarProductosComponent,
     SalidaProductosComponent,
@@ -77,9 +73,7 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
     DetalleSalidaProductosComponent,
     ListadoCotizacionesComponent,
     DetalleCotizacionComponent,
-    ComprasSugeridasComponent,
-    DevolucionesComponent,
-    DetalleDevolucionProductosComponent
+    ComprasSugeridasComponent
   ],
   imports: [
     BrowserModule,

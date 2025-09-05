@@ -90,13 +90,6 @@
             </option>
           </select>
         </div>
-        <!--moneda-->
-        <div class="col-md-1">
-          <label for="inputMoneda" class="form-label">Moneda</label>
-          <select id="inputMoneda" class="form-select" formControlName="moneda">
-            <option selected>S/</option>
-          </select>
-        </div>
 
         <!--metodo de pago-->
         <div class="col-md-2">
@@ -131,32 +124,30 @@
             </label>
           </div>
         </div>
+
+        <table class="table">
+          <thead>
+            <tr class="header">
+              <th scope="col">Codigo</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Precio Unitario</th>
+              <th scope="col">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="detalles">
+            <tr *ngFor="let detalle of detalles.controls; let i = index" [formGroupName]="i">
+              <td>{{ detalle.get('codInt')?.value }}</td>
+              <td>{{ detalle.get('nombre')?.value }}</td>
+              <td>{{ detalle.get('cantidad')?.value }}</td>
+              <td>{{ detalle.get('precio')?.value }}</td>
+              <td>{{ detalle.get('subtotal')?.value }}</td>
+            </tr>
+          </tbody>   
+        </table>
       </form>
     </div>
-
-    <table class="table">
-      <thead>
-        <tr class="header">
-          <th scope="col">Codigo</th>
-          <th scope="col">Producto</th>
-          <th scope="col">Cantidad</th>
-          <th scope="col">Precio Unitario</th>
-          <th scope="col">Subtotal</th>
-        </tr>
-      </thead>
-      <tbody class="body">
-        <tr *ngFor="let detalle of detalles.controls">
-          <tr *ngFor="let detalle of detalles.controls">
-            <td>{{ detalle.get('codigo')?.value }}</td>
-            <td>{{ detalle.get('descripcion')?.value }}</td>
-            <td>{{ detalle.get('cantidad')?.value }}</td>
-            <td>{{ detalle.get('precio')?.value }}</td>
-            <td>{{ detalle.get('subtotal')?.value }}</td>
-          </tr>
-      </tbody>      
-    </table>
     
-
     <div
       class="position-absolute text-end"
       style="right: 1.5rem; bottom: 1.5rem"

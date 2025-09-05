@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Venta } from '../../models/venta';
-import { VentaService } from '../../services/venta.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Operacion } from '../../models/operacion';
+import { OperacionService } from '../../services/operacion.service';
 
 @Component({
   selector: 'app-lista-comprobantes',
@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./lista-comprobantes.component.css'],
 })
 export class ListaComprobantesComponent implements OnInit {
-  listVentas: Venta[] = [];
+  listVentas: Operacion[] = [];
   idVenta: string | null;
   ventaForm: FormGroup;
   selectedVenta: any = null;
@@ -23,7 +23,7 @@ export class ListaComprobantesComponent implements OnInit {
   itemsPerPage: number = 10;
 
   constructor(
-    private _ventaService: VentaService,
+    private _ventaService: OperacionService,
     private toastr: ToastrService,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -52,7 +52,7 @@ export class ListaComprobantesComponent implements OnInit {
   }
 
   obtenerVentas(): void {
-    this._ventaService.getAllVentas().subscribe({
+    this._ventaService.getOperaciones(1).subscribe({
       next: (data) => (this.listVentas = data.reverse()),
       error: (err) => {
         console.error(err);
@@ -61,96 +61,50 @@ export class ListaComprobantesComponent implements OnInit {
     });
   }
 
-  editarVenta(Venta: Venta) {
-    this.idVenta = Venta._id || null;
-    this.selectedVenta = `${Venta.serie}-${Venta.nroComprobante}`;
-    this.ventaForm.patchValue({
-      estado: Venta.estado,
-      metodoPago: Venta.metodoPago
-    });
-  }
-
-  actualizarVenta() {
-    if (this.ventaForm.invalid || !this.idVenta) {
-      console.warn('Formulario inválido o idVenta nulo');
-      return;
-    }
-
-    const Venta: Venta = this.ventaForm.value;
-
-    this._ventaService.editarVenta(this.idVenta, Venta).subscribe(data => {
-        this.toastr.info(
-          'El comprobante fue actualizado exitosamente',
-          'Producto actualizado'
-        );
-        this.ventaForm.reset();
-        this.idVenta = null;
-        this.obtenerVentas();
-      },
-      (error) => {
-        console.log(error);
-        this.ventaForm.reset();
-      }
-    );
-  }
-
-  ventaAAnular: any; 
-
-  setVentaAAnular(venta: any): void {
-    this.ventaAAnular = venta;
-  }
-
-  anularVenta(venta: Venta): void {  
-    const ventaActualizada = {
-      ...venta,
-      estado: 'Anulado'
+  marcarComoPagado(operacion: Operacion): void {
+    const operacionActualizada = {
+      ...operacion,
+      nuevoEstado: 'Pagado'
     };
-  
-    this._ventaService.editarVenta(venta._id!, ventaActualizada).subscribe({
+
+    this._ventaService.actualizarEstado(operacion._id!, operacionActualizada).subscribe({
       next: () => {
-        this.toastr.error('Comprobante anulado correctamente', 'Anulado');
+        this.toastr.success('Operación marcada como Pagada', 'Éxito');
         this.obtenerVentas();
       },
-      error: (error) => {
-        console.error(error);
-        this.toastr.error('No se pudo anular el comprobante', 'Error');
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('No se pudo actualizar la operación', 'Error');
       }
     });
   }
 
-  VentaADevolver: any; 
-
-  setVentaADevolver(venta: any): void {
-    this.VentaADevolver = venta;
-  }
-
-  devolverVenta(venta: Venta): void {  
-    const ventaActualizada = {
-      ...venta,
-      estado: 'Devolución'
+  anularOperacion(operacion: Operacion): void {
+    const operacionActualizada = {
+      ...operacion,
+      nuevoEstado: 'Anulado'
     };
-  
-    this._ventaService.editarVenta(venta._id!, ventaActualizada).subscribe({
+
+    this._ventaService.actualizarEstado(operacion._id!, operacionActualizada).subscribe({
       next: () => {
-        this.toastr.info('Comprobante modificado correctamente', 'Devolución');
+        this.toastr.error('Operación Anulada correctamente', 'Anulado');
         this.obtenerVentas();
       },
-      error: (error) => {
-        console.error(error);
-        this.toastr.error('No se pudo modificar el comprobante', 'Error');
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('No se pudo anular la operación', 'Error');
       }
     });
   }
-  
 
-  get filteredVentas(): Venta[] {
+  get filteredVentas(): Operacion[] {
     if (!this.searchTerm.trim()) return this.listVentas;
 
     const term = this.searchTerm.toLowerCase();
     switch (this.selectedFilter) {
       case 'cliente':
         return this.listVentas.filter((v) =>
-          v.cliente?.nombre?.toLowerCase().includes(term)
+          v.cliente?.nombre?.toLowerCase().startsWith(term)
         );
       case 'fecha':
         return this.listVentas.filter((s) =>
@@ -160,7 +114,7 @@ export class ListaComprobantesComponent implements OnInit {
         );
       case 'estado':
         return this.listVentas.filter((v) =>
-          v.estado.toLowerCase().includes(term)
+          v.estado?.toLowerCase().startsWith(term)
         );
       default:
         return this.listVentas;
@@ -175,7 +129,7 @@ export class ListaComprobantesComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
-  get paginatedVentas(): Venta[] {
+  get paginatedVentas(): Operacion[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredVentas.slice(start, start + this.itemsPerPage);
   }

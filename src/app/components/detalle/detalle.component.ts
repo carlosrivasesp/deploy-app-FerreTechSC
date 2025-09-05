@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClienteService } from '../../services/cliente.service'; // Servicio para obtener clientes
+import { OperacionService } from '../../services/operacion.service';
+import { DetalleOperacion } from '../../models/detalleOperacion';
 
 @Component({
   selector: 'app-detalle',
@@ -22,27 +24,23 @@ export class DetalleComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private aRouter: ActivatedRoute,
-    private ventaService: VentaService,
-    private cotizacionService: CotizacionService,
-    private toastr: ToastrService,
-    private router: Router,
+    private ventaService: OperacionService,
     private fb: FormBuilder,
     private _clienteService: ClienteService // Inyección del servicio de clientes
   ) {
     this.ventaForm = this.fb.group({
-      tipoComprobante: ['', Validators.required],
-      serie: ['', Validators.required],
-      nroComprobante: ['', Validators.required],
-      fechaEmision: [{ value: '', disabled: true }],
-      fechaVenc: [{ value: '', disabled: true }],
-      igv: ['', Validators.required],
-      total: ['', Validators.required],
-      estado: ['', Validators.required],
-      moneda: ['', Validators.required],
+      tipoComprobante: [''],
+      serie: [''],
+      nroComprobante: [''],
+      fechaEmision: [''],
+      fechaVenc: [''],
+      igv: [''],
+      total: [''],
+      estado: [''],
       servicioDelivery: false,
-      cliente: ['', Validators.required],
-      metodoPago: ['', Validators.required],
-      detalles: this.fb.array([]), // Para los productos y lugares
+      metodoPago: [''],
+      cliente: [''],
+      detalles: this.fb.array([])
     });
 
     this.idVenta = this.aRouter.snapshot.paramMap.get('id');
@@ -78,7 +76,7 @@ export class DetalleComponent implements OnInit {
 
   verDetalle(): void {
     if (this.idVenta !== null) {
-      this.ventaService.obtenerVenta(this.idVenta).subscribe((data) => {
+      this.ventaService.getOperacionById(this.idVenta).subscribe((data) => {
         console.log('Venta:', data);
 
         console.log('Detalles desde venta:', data.detalles);
@@ -102,37 +100,20 @@ export class DetalleComponent implements OnInit {
         const detallesArray = this.ventaForm.get('detalles') as FormArray;
         detallesArray.clear();
 
-        this.cotizacionService.obtenerDetallesCotizacionPorVenta(this.idVenta!).subscribe((resp) => {
-          console.log('Detalles Cotización por Venta:', resp);
-
-          const detallesParaMostrar = resp.detalles && resp.detalles.length > 0 ? resp.detalles : data.detalles;
-
-          detallesParaMostrar.forEach((detalle: any) => {
+        if (data.detalles && Array.isArray(data.detalles)) {
+          data.detalles.forEach((detalle: DetalleOperacion) => {
             detallesArray.push(
               this.fb.group({
-                codigo: detalle.producto?.codInt || detalle.codInt,
-                descripcion: detalle.producto?.nombre || detalle.nombre,
+                codigo: detalle.producto.codInt,
+                descripcion: detalle.producto.nombre,
                 cantidad: detalle.cantidad,
                 precio: detalle.precio,
-                subtotal: detalle.subtotal,
+                subtotal: detalle.subtotal
               })
             );
           });
-
-          if (data.lugar) {
-            detallesArray.push(
-              this.fb.group({
-                codigo: data.lugar.codigo,
-                descripcion: `Servicio de entrega - ${data.lugar.distrito}`,
-                cantidad: 1,
-                precio: data.lugar.costo,
-                subtotal: data.lugar.costo,
-              })
-            );
-          }
-
-          this.ventaForm.disable();
-        });
+        }
+        this.ventaForm.disable();
       });
     }
   }
