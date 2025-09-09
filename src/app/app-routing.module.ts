@@ -33,6 +33,7 @@ import { DevolucionesComponent } from './components/devoluciones/devoluciones.co
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
+  { path: 'nosotros', component: NosotrosComponent, canActivate: [AuthGuard]},
 
   // Redirecciones
   { path: '', redirectTo: 'login', pathMatch: 'full' },

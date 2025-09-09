@@ -53,6 +53,7 @@ import { DevolucionesComponent } from './components/devoluciones/devoluciones.co
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
     DevolucionesComponent,
     DetalleDevolucionProductosComponent,
     CatalogoComponent,
-    HistorialCarritoComponent
+    HistorialCarritoComponent,
+    NosotrosComponent
   ],
   imports: [
     BrowserModule,
