@@ -76,8 +76,8 @@ const routes: Routes = [
   { path: 'nosotros', component: NosotrosComponent, canActivate: [AuthGuard]},
 
   // Redirecciones
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '', redirectTo: 'principal', pathMatch: 'full' },
+  { path: '**', redirectTo: 'principal' }
 ];
 
 @NgModule({
