@@ -7,8 +7,8 @@
     background-color: #10401b;
     padding: 20px;
     display: flex;
-    justify-content: space-between; 
-    z-index:1000;
+    justify-content: space-between;
+    z-index: 1000;
 }
 
 .header-title {
@@ -92,17 +92,18 @@
 
 @media (max-width: 768px) {
     .info-gen {
-      flex-direction: column;
-      align-items: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
     }
-  
-    .info, .dropdown {
-      margin-right: 0;
-      margin-bottom: 5px;
+
+    .info,
+    .dropdown {
+        margin-right: 0;
+        margin-bottom: 5px;
     }
-  
+
     .header-title {
-      margin-bottom: 10px;
+        margin-bottom: 10px;
     }
 
     .title {
@@ -125,8 +126,8 @@
         background-color: #10401b;
         padding: 20px;
         display: flex;
-        justify-content: space-between; 
-        z-index:1000;
+        justify-content: space-between;
+        z-index: 1000;
     }
 
     .navbar {
@@ -134,4 +135,16 @@
         z-index: 10;
         position: relative;
     }
-  }
+}
+
+.car {
+    position: relative;
+    cursor: pointer;
+}
+
+.car .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.8rem;
+}

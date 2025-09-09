@@ -35,6 +35,7 @@ import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 
+import { CarritoComponent } from './components/carrito/carrito.component';
 
 const routes: Routes = [
   // Rutas públicas
@@ -74,6 +75,7 @@ const routes: Routes = [
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
   { path: 'nosotros', component: NosotrosComponent, canActivate: [AuthGuard]},
+  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
 
   // Redirecciones
   { path: '', redirectTo: 'principal', pathMatch: 'full' },

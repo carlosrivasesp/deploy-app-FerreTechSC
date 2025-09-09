@@ -1,0 +1,77 @@
+/* Contenedor principal: ocupa todo el ancho */
+.main-content {
+  width: 100%;
+  /* Ocupar todo el ancho */
+  height: 100%;
+  /* Ocupar toda la altura */
+  padding: 20px;
+  box-sizing: border-box;
+  margin-left: 0;
+  /* Quitar huecos a la izquierda */
+}
+
+/* Separador para no chocar con el navbar */
+.separador {
+  margin-top: 100px;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Tabla del carrito */
+.table {
+  margin-top: 20px;
+  border-color: #727374;
+  table-layout: fixed;
+  width: 100%;
+  /* Siempre ocupar todo el ancho */
+  text-align: start;
+}
+
+.table th,
+.table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  padding: 8px;
+}
+
+.body {
+  font-size: 11px;
+}
+
+/* Input de cantidad */
+.cantidad-input {
+  width: 70px;
+  /* Más pequeño y fijo */
+  height: 28px;
+  font-size: 12px;
+  text-align: center;
+  padding: 4px;
+}
+
+/* Resumen del carrito */
+.cart-summary {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: right;
+  font-size: 12px;
+}
+
+.cart-summary .total-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Botones */
+.btn {
+  font-size: 12px;
+}

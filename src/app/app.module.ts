@@ -54,7 +54,8 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
-
+import { CarritoComponent } from './components/carrito/carrito.component';
+CarritoComponent
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +92,8 @@ import { NosotrosComponent } from './components/nosotros/nosotros.component';
     DetalleDevolucionProductosComponent,
     CatalogoComponent,
     HistorialCarritoComponent,
-    NosotrosComponent
+    NosotrosComponent,
+    CarritoComponent
   ],
   imports: [
     BrowserModule,

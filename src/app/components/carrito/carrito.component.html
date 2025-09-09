@@ -1,0 +1,46 @@
+<app-header />
+
+<main class="main-content">
+  <div class="separador">
+    <!-- Título principal -->
+    <p class="title">Carrito de Compras</p>
+
+    <!-- Tabla de los productos en el carrito -->
+    <table class="table">
+      <thead>
+        <tr class="header">
+          <th scope="col">Producto</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Total</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="body">
+        <!-- Mostrar los productos del carrito con un *ngFor -->
+        <tr *ngFor="let item of cartItems">
+          <td>{{ item.nombre }}</td>
+          <td>S/ {{ item.precio }}</td>
+          <td>
+            <input type="number" class="form-control form-control-sm cantidad-input" [(ngModel)]="item.cantidad" min="1"
+              (change)="updateTotal()" />
+          </td>
+          <td>S/ {{ item.precio * item.cantidad }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="removeItem(item)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Resumen del carrito con el total -->
+    <div class="cart-summary">
+      <p>
+        Total: <span class="total-price">S/ {{ totalPrice }}</span>
+      </p>
+      <button class="btn btn-success">Proceder a Checkout</button>
+    </div>
+  </div>
+</main>
