@@ -1,25 +1,113 @@
-/* 5 columnas exactas en pantallas grandes */
-@media (min-width: 1200px) {
-  .col-xl-1-5 {
-    flex: 0 0 20%;
-    max-width: 20%;
-  }
-}
-
 /* Contenedor personalizado */
 .container-perso {
-  max-width: 1600px;   /* el ancho máximo que tú quieras */
-  margin: 0 auto;      /* centra el contenido */
-  padding-left: 20px;  /* margen interno izquierdo */
-  padding-right: 20px; /* margen interno derecho */
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
 }
-
-/* Opcional: en pantallas pequeñas ocupa todo */
 @media (max-width: 768px) {
   .container-perso {
     max-width: 100%;
     padding-left: 10px;
     padding-right: 10px;
+  }
+}
+
+/* Sidebar filtros móvil */
+.filtros-sidebar {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Sidebar fijo en escritorio */
+@media (min-width: 992px) {
+  .filtros-sidebar {
+    position: fixed;
+    top: 100px; /* altura navbar */
+    left: 0;
+    width: 300px;
+    height: calc(100vh); /* full viewport menos navbar */
+    overflow-y: auto;
+    border-radius: 0 10px 10px 0;
+    margin: 0;
+    box-shadow: 2px 0 8px rgb(0 0 0 / 0.1);
+    z-index: 4;
+  }
+
+  /* Contenido principal con margen para evitar tapar el sidebar */
+  section.col-12.col-md-8.col-lg-9 {
+    margin-left: 320px; /* un poco más que sidebar */
+  }
+}
+
+/* Ajustes internos del wrapper de filtros para que se integre con sidebar fijo */
+.filtros-wrapper {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  /* Padding dentro del sidebar ya está en filtros-sidebar */
+}
+
+.filtros-wrapper .mb-3 {
+  margin-bottom: 2.5rem;
+}
+
+.filtros-wrapper h4 {
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+/* Scroll scrollbar del sidebar */
+.filtros-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+.filtros-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* Imagenes productos */
+.img-container {
+  width: 100%;
+  height: 200px;
+  background-color: black;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Skeleton shimmer */
+.no-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(
+    90deg,
+    #f3f3f3 25%,
+    #e0e0e0 37%,
+    #f3f3f3 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 
@@ -39,10 +127,6 @@
   cursor: pointer;
 }
 
-.btn-shadcn i {
-  font-size: 1rem;
-}
-
 .btn-shadcn:hover {
   background-color: #15803d;
   border-color: #15803d;
@@ -58,136 +142,240 @@
   cursor: not-allowed;
 }
 
-/* 🎨 Estilo personalizado para los sliders de precio */
-.form-range {
-  height: 0.6rem;
-  border-radius: 1rem;
-  background: linear-gradient(to right, #16a34a, #16a34a) no-repeat, #e5e7eb;
-  background-size: 50% 100%;
-  background-position: left center;
+.filter-section:last-child {
+  border-bottom: none;
 }
 
-/* Track */
-.form-range::-webkit-slider-runnable-track {
-  height: 0.6rem;
-  background: #16a34a;
-  border-radius: 1rem;
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #16a34a; /* verde para que combine */
+  margin-bottom: 0.5rem;
 }
 
-.form-range::-moz-range-track {
-  height: 0.6rem;
-  background: #16a34a;
-  border-radius: 1rem;
+/* Reducir tamaño de texto y inputs en el aside */
+.filtros-sidebar {
+  font-size: 0.85rem; /* texto más pequeño */
+  padding: 1rem;
 }
 
-/* Thumb */
-.form-range::-webkit-slider-thumb {
-  height: 1.2rem;
-  width: 1.2rem;
-  background: #000;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  margin-top: -0.3rem;
-  transition: transform 0.2s;
-}
-.form-range::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+.filtros-sidebar input[type="text"],
+.filtros-sidebar select {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.form-range::-moz-range-thumb {
-  height: 1.2rem;
-  width: 1.2rem;
-  background: #000;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.form-range::-moz-range-thumb:hover {
-  transform: scale(1.2);
+/* Títulos más pequeños y con separación */
+.filtros-sidebar h4 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.3rem;
 }
 
-/* 📱 Ajustes para móviles: TODO más pequeño y consistente */
-@media (max-width: 576px) {
-  body {
-    font-size: 0.85rem; /* texto base más pequeño */
+/* Checkbox marcas en dos columnas */
+.marcas-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 1rem; /* filas y columnas con separación */
+}
+
+.marcas-checkboxes label {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.marcas-checkboxes input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(0.9); /* checkbox un poco más pequeño */
+}
+
+/* Reducir espacio entre secciones del sidebar */
+.filtros-sidebar .mb-3 {
+  margin-bottom: 1rem !important; /* antes 2.5rem o más */
+}
+
+/* También puedes reducir el padding general */
+.filtros-sidebar {
+  padding: 1rem;
+  font-size: 0.85rem;
+}
+
+/* Si estás usando títulos entre secciones (como h4) */
+.filtros-wrapper h4 {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #16a34a;
+}
+/* Estilos generales para cards, adaptables */
+.card {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Texto de título dentro de la card más pequeño en pantallas pequeñas */
+.card .card-title {
+  font-size: 1.1rem;
+}
+
+.card .card-body p, .card .card-body .price, .card .card-body .fw-bold {
+  font-size: 0.9rem;
+}
+
+/* Botón dentro de la card más pequeño */
+.btn-shadcn {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+/* Imagen de la card ajustada para pantallas pequeñas */
+@media (max-width: 768px) {
+  .img-container {
+    height: 150px; /* menos altura */
   }
 
-  h2, .card-title {
-    font-size: 1rem; /* títulos */
+  .card .card-title {
+    font-size: 1rem;
   }
 
-  .card-text, 
-  .card-body p,
-  .form-label,
-  .text-muted {
-    font-size: 0.75rem; /* descripciones, labels */
-  }
-
-  .form-control,
-  .form-select {
-    font-size: 0.8rem; /* inputs más pequeños */
-    padding: 0.35rem 0.5rem;
-    height: auto;
-  }
-
-  .btn-shadcn {
-    padding: 0.25rem 0.6rem;
-    font-size: 0.75rem;
-    border-radius: 0.5rem;
-  }
-
-  .btn-shadcn i {
+  .card .card-body p, .card .card-body .fw-bold {
     font-size: 0.8rem;
   }
 
-  .form-range {
-    height: 0.4rem; /* más delgado en móvil */
-  }
-
-  .form-range::-webkit-slider-thumb,
-  .form-range::-moz-range-thumb {
-    height: 1rem;
-    width: 1rem;
+  .btn-shadcn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
   }
 }
-/* Imagen del producto con hover */
-.card-img-top {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 0.5rem;
-}
 
-/* Efecto al pasar el mouse */
-.card-img-top:hover {
-  transform: scale(1.05); /* zoom suave */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* sombra */
+/* Aún más pequeño en móviles extremos */
+@media (max-width: 576px) {
+  .img-container {
+    height: 120px;
+  }
+
+  .card .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card .card-body p, .card .card-body .fw-bold {
+    font-size: 0.75rem;
+  }
+
+  .btn-shadcn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+  }
 }
 
 .footer {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--footer-bg, #2c2c2c);
+  color: var(--footer-text, #ffffff);
+  font-family: 'Segoe UI', sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer .footer-divider {
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .footer h5 {
-  font-size: 1.3rem;
   font-weight: 600;
+  font-size: 1.2rem;
 }
 
 .footer p {
+  margin-bottom: 0.4rem;
+}
+
+.footer-bottom p {
+  font-size: 0.85rem;
+  color: var(--footer-muted, #bbbbbb);
+}
+
+/* Soporte modo oscuro con variables */
+body.dark-theme {
+  --footer-bg: #1a1a1a;
+  --footer-text: #f1f1f1;
+  --footer-muted: #888888;
+}
+
+body.light-theme {
+  --footer-bg: #f8f9fa;
+  --footer-text: #222222;
+  --footer-muted: #555555;
+}
+
+/* Contenedor productos encontrados + paginación */
+.resultados-paginacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Texto productos encontrados */
+.resultados-paginacion .productos-encontrados {
+  color: #16a34a; /* verde acorde a tu tema */
+}
+
+/* Paginación */
+.pagination {
   margin: 0;
-  font-size: 0.95rem;
-  color: #dddddd;
+  user-select: none;
+  font-size: 0.85rem;
 }
 
-.footer-divider {
-  border: 0;
-  border-top: 1px solid #444444;
-  margin: 1.5rem 0;
+.pagination .page-item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 0.25rem;
 }
 
-.footer-bottom {
-  font-size: 0.875rem;
-  color: #aaaaaa;
+.pagination .page-item:first-child {
+  margin-left: 0;
+}
+
+.pagination .page-item.disabled .page-link {
+  cursor: not-allowed;
+  color: #aaa;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.3rem;
+}
+
+.pagination .page-link {
+  border-radius: 0.3rem;
+  color: #16a34a;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+.pagination .page-link:hover:not(.disabled):not(.active) {
+  background-color: #d1fae5; /* verde claro suave */
+  color: #15803d;
+  border-color: #15803d;
+}
+@media (min-width: 992px) {
+  footer {
+    margin-left: 320px; /* mismo ancho que el sidebar */
+  }
 }
 

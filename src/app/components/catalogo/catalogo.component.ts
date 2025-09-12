@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProductoService } from '../../services/producto.service';
+import { Producto } from '../../models/producto';
 
 @Component({
   selector: 'app-catalogo',
@@ -6,61 +8,67 @@ import { Component } from '@angular/core';
   styleUrls: ['./catalogo.component.css'],
   standalone: false
 })
-export class CatalogoComponent {
+export class CatalogoComponent implements OnInit {
   searchTerm: string = '';
   selectedCategory: string = '';
   sortOrder: string = 'az'; // 'az' = A-Z, 'za' = Z-A
 
-  // Rango de precios
+  // Precios fijos
   minPrice: number = 0;
   maxPrice: number = 100;
   selectedMinPrice: number = 0;
   selectedMaxPrice: number = 100;
+  selectedMarcas: { [marca: string]: boolean } = {};
 
-  productos: any[] = [
-    { nombre: 'Pegamento 1', descripcion: 'Descripción del producto', precio: 10, categoria: 'Pegamentos', imagen: 'cemento.jpg' },
-    { nombre: 'Pegamento 2', descripcion: 'Descripción del producto', precio: 12, categoria: 'Pegamentos', imagen: 'cemento.jpg' },
-    { nombre: 'Pegamento 3', descripcion: 'Descripción del producto', precio: 15, categoria: 'Pegamentos', imagen: 'cemento.jpg' },
-    { nombre: 'Pegamento 4', descripcion: 'Descripción del producto', precio: 8, categoria: 'Pegamentos', imagen: 'cemento.jpg' },
-    { nombre: 'Pegamento 5', descripcion: 'Descripción del producto', precio: 18, categoria: 'Pegamentos', imagen: 'cemento.jpg' },
-    { nombre: 'Herramienta 1', descripcion: 'Descripción del producto', precio: 25, categoria: 'Herramientas', imagen: 'cemento.jpg' },
-    { nombre: 'Herramienta 2', descripcion: 'Descripción del producto', precio: 30, categoria: 'Herramientas', imagen: 'cemento.jpg' },
-    { nombre: 'Herramienta 3', descripcion: 'Descripción del producto', precio: 28, categoria: 'Herramientas', imagen: 'cemento.jpg' },
-    { nombre: 'Herramienta 4', descripcion: 'Descripción del producto', precio: 35, categoria: 'Herramientas', imagen: 'cemento.jpg' },
-    { nombre: 'Herramienta 5', descripcion: 'Descripción del producto', precio: 40, categoria: 'Herramientas', imagen: 'cemento.jpg' },
-    { nombre: 'Accesorio 1', descripcion: 'Descripción del producto', precio: 5, categoria: 'Accesorios', imagen: 'cemento.jpg' },
-    { nombre: 'Accesorio 2', descripcion: 'Descripción del producto', precio: 7, categoria: 'Accesorios', imagen: 'cemento.jpg' },
-    { nombre: 'Accesorio 3', descripcion: 'Descripción del producto', precio: 6, categoria: 'Accesorios', imagen: 'cemento.jpg' },
-    { nombre: 'Accesorio 4', descripcion: 'Descripción del producto', precio: 9, categoria: 'Accesorios', imagen: 'cemento.jpg' },
-    { nombre: 'Accesorio 5', descripcion: 'Descripción del producto', precio: 11, categoria: 'Accesorios', imagen: 'cemento.jpg' },
-    { nombre: 'Producto Extra 1', descripcion: 'Descripción de producto extra', precio: 20, categoria: 'Pegamentos', imagen: 'cemento.jpg' },
-    { nombre: 'Producto Extra 2', descripcion: 'Descripción de producto extra', precio: 22, categoria: 'Herramientas', imagen: 'cemento.jpg' },
-    { nombre: 'Producto Extra 3', descripcion: 'Descripción de producto extra', precio: 24, categoria: 'Accesorios', imagen: 'cemento.jpg' },
-    { nombre: 'Producto Extra 4', descripcion: 'Descripción de producto extra', precio: 26, categoria: 'Herramientas', imagen: 'cemento.jpg' },
-    { nombre: 'Producto Extra 5', descripcion: 'Descripción de producto extra', precio: 29, categoria: 'Pegamentos', imagen: 'cemento.jpg' },
-  ];
+  productos: Producto[] = [];
+
+  // Paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 30;
+
+  constructor(private productoService: ProductoService) {}
+
+  ngOnInit(): void {
+    this.productoService.getAllProductos().subscribe((data: Producto[]) => {
+      this.productos = data;
+    });
+  }
 
   // Categorías únicas para el dropdown
   get categorias(): string[] {
-    return [...new Set(this.productos.map(p => p.categoria))];
+    return [...new Set(this.productos.map(p => p.categoria.nombre))];
   }
 
-  // Lógica de búsqueda, filtro, rango y ordenamiento
-  get productosFiltrados() {
+  // Marcas únicas para filtros
+  get marcas(): string[] {
+    return [...new Set(this.productos.map(p => p.marca?.nombre).filter(Boolean))];
+  }
+
+  // Productos filtrados sin paginar
+  get productosFiltradosSinPaginar(): Producto[] {
     let filtrados = [...this.productos];
+
+    // Solo productos con estado "Activo"
+    filtrados = filtrados.filter(p => p.estado === 'Activo');
 
     // Filtro por texto
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
       filtrados = filtrados.filter(p =>
         p.nombre.toLowerCase().includes(term) ||
-        p.descripcion.toLowerCase().includes(term)
+        (p.categoria && p.categoria.nombre.toLowerCase().includes(term)) ||
+        (p.marca && p.marca.nombre.toLowerCase().includes(term))
       );
+    }
+
+    // Filtro por marcas seleccionadas
+    if (Object.values(this.selectedMarcas).some(selected => selected)) {
+      filtrados = filtrados.filter(p => this.selectedMarcas[p.marca?.nombre || ''] === true);
     }
 
     // Filtro por categoría
     if (this.selectedCategory) {
-      filtrados = filtrados.filter(p => p.categoria === this.selectedCategory);
+      filtrados = filtrados.filter(p => p.categoria.nombre === this.selectedCategory);
     }
 
     // Filtro por rango de precios
@@ -78,5 +86,24 @@ export class CatalogoComponent {
     });
 
     return filtrados;
+  }
+
+  // Productos filtrados para mostrar solo la página actual
+  get productosFiltrados(): Producto[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    return this.productosFiltradosSinPaginar.slice(start, end);
+  }
+
+  // Total de páginas para paginación
+  get totalPages(): number {
+    return Math.ceil(this.productosFiltradosSinPaginar.length / this.itemsPerPage);
+  }
+
+  // Cambiar página
+  setPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
   }
 }
