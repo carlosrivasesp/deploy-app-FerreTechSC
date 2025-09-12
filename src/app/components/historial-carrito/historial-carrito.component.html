@@ -1,0 +1,151 @@
+<div class="page">
+  <app-navbar-principal></app-navbar-principal>
+  <div class="top-spacer"></div>
+  <div class="container-xl historial-container">
+    <h2 class="historial-title">
+      <i class="bi bi-clock-history"></i> Historial de Compras
+    </h2>
+
+    <div class="row g-2 filtros mb-3">
+      <div class="col-12 col-md-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar N° Comprobante (Ej: F001-1234)"
+          [(ngModel)]="filtroComprobante"
+        />
+      </div>
+
+      <div class="col-6 col-md-4">
+        <select class="form-select" [(ngModel)]="filtroEstado">
+          <option value="">Todos los estados</option>
+          <option value="Pendiente">Pendiente</option>
+          <option value="Completado">Completado</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <select class="form-select" [(ngModel)]="ordenMonto">
+          <option value="">Sin ordenar</option>
+          <option value="asc">Monto: Menor a Mayor</option>
+          <option value="desc">Monto: Mayor a Menor</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Tipo</th>
+        <th>N° Comprobante</th>
+        <th>Estado</th>
+        <th>Monto (S/)</th>
+        <th>Fecha</th>
+        <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let compra of comprasFiltradas()">
+        <td>
+          <span class="badge bg-info text-dark">{{ compra.tipo }}</span>
+        </td>
+        <td>{{ compra.numero }}</td>
+        <td>
+          <span
+            class="badge rounded-pill"
+            [ngClass]="{
+              'bg-success': compra.estado === 'Completado',
+              'bg-warning text-dark': compra.estado === 'Pendiente'
+            }"
+          >
+            {{ compra.estado }}
+          </span>
+        </td>
+        <td>
+          {{ compra.monto | currency:'PEN':'symbol-narrow':'1.2-2':'es-PE' }}
+        </td>
+        <td>
+          {{ compra.fecha | date:'dd/MM/yyyy, HH:mm' }}
+        </td>
+        <td class="text-center">
+          <button
+            class="btn btn-sm btn-outline-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalDetalle"
+            (click)="verDetalles(compra)"
+          >
+            <i class="bi bi-eye"></i> Ver Detalles
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="comprasFiltradas().length === 0">
+        <td colspan="6" class="text-center text-muted py-4">
+          No se encontraron resultados.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  </div>
+
+  <!-- Modal Detalle -->
+<!-- Modal Detalle -->
+<div
+  class="modal fade"
+  id="modalDetalle"
+  tabindex="-1"
+  aria-labelledby="modalDetalleLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalDetalleLabel">
+          Detalle de {{ seleccionado?.tipo }} - {{ seleccionado?.numero }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex flex-column gap-2 mb-3">
+          <div><strong>Estado:</strong> {{ seleccionado?.estado }}</div>
+          <div><strong>Monto:</strong> {{ seleccionado?.monto | currency:'PEN':'symbol-narrow':'1.2-2':'es-PE' }}</div>
+          <div><strong>Fecha:</strong> {{ seleccionado?.fecha | date:'dd/MM/yyyy, HH:mm' }}</div>
+        </div>
+
+        <!-- Tabla de Ítems -->
+        <div *ngIf="seleccionado?.items?.length" class="table-responsive">
+          <table class="table table-sm table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Producto</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-end">Precio (S/)</th>
+                <th class="text-end">Subtotal (S/)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let it of seleccionado?.items">
+                <td>{{ it.nombre }}</td>
+                <td class="text-center">{{ it.cantidad }}</td>
+                <td class="text-end">
+                  {{ it.precio | currency:'PEN':'symbol-narrow':'1.2-2':'es-PE' }}
+                </td>
+                <td class="text-end">
+                  {{ (it.cantidad * it.precio) | currency:'PEN':'symbol-narrow':'1.2-2':'es-PE' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

@@ -32,13 +32,17 @@ import { ComprasSugeridasComponent } from './components/compras-sugeridas/compra
 import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
+import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
+
+import { CarritoComponent } from './components/carrito/carrito.component';
 
 const routes: Routes = [
   // Rutas públicas
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotpasswordComponent },
-  
+
   // Rutas protegidas (requieren autenticación)
   { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard] },
   { path: 'catalogo', component: CatalogoComponent, canActivate: [AuthGuard] },
@@ -69,10 +73,13 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
+  { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
+  { path: 'nosotros', component: NosotrosComponent, canActivate: [AuthGuard]},
+  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
 
   // Redirecciones
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '', redirectTo: 'principal', pathMatch: 'full' },
+  { path: '**', redirectTo: 'principal' }
 ];
 
 @NgModule({
