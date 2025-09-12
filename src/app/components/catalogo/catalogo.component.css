@@ -163,3 +163,31 @@
   transform: scale(1.05); /* zoom suave */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* sombra */
 }
+
+.footer {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.footer h5 {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #dddddd;
+}
+
+.footer-divider {
+  border: 0;
+  border-top: 1px solid #444444;
+  margin: 1.5rem 0;
+}
+
+.footer-bottom {
+  font-size: 0.875rem;
+  color: #aaaaaa;
+}
+

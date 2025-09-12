@@ -26,7 +26,7 @@
   width: 40px;
   height: 80px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 5;
   border-radius: 6px;
   transition: background-color 0.3s ease;
 }
@@ -409,4 +409,21 @@
 .footer-bottom {
   font-size: 0.875rem;
   color: #aaaaaa;
+}
+
+/* Efecto Parallax con fondo fijo */
+.parallax-fixed {
+  background-image: url('/img1.jpg'); /* Usa tu imagen */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.carousel-caption {
+  position: relative;
+  z-index: 1;
 }
