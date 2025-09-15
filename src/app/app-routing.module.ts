@@ -78,8 +78,8 @@ const routes: Routes = [
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
 
   // Redirecciones
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '', redirectTo: 'principal', pathMatch: 'full' },
+  { path: '**', redirectTo: 'principal' }
 ];
 
 @NgModule({
