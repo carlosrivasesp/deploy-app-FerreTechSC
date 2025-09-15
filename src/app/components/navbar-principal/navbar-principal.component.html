@@ -57,28 +57,6 @@
 
   <!-- Buscador y carrito -->
   <div class="d-flex align-items-center gap-2">
-    <!-- Botón de búsqueda para pantallas pequeñas -->
-    <button
-      class="btn d-lg-none"
-      data-bs-toggle="modal"
-      data-bs-target="#modalBusqueda"
-    >
-      <i class="bi bi-search"></i>
-    </button>
-
-    <!-- Buscador normal en pantallas grandes -->
-    <form class="d-none d-lg-flex" role="search">
-      <input
-        class="form-control"
-        type="search"
-        placeholder="Buscar productos..."
-        aria-label="Buscar"
-      />
-      <button class="btn btn-outline-success" type="submit">
-        <i class="bi bi-search"></i>
-      </button>
-    </form>
-
     <!-- Carrito -->
     <div class="car">
       <a routerLink="/carrito">
@@ -101,38 +79,9 @@
     ></button>
   </div>
   <div class="offcanvas-body">
-    <a href="#" class="d-block mb-2">Herramientas</a>
-    <a href="#" class="d-block mb-2">Electricidad</a>
-    <a href="#" class="d-block mb-2">Plomería</a>
-    <a href="#" class="d-block mb-2">Construcción</a>
-  </div>
-</div>
-
-<!-- Modal de búsqueda -->
-<div class="modal fade" id="modalBusqueda" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Buscar Productos</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Buscar productos..."
-            aria-label="Buscar"
-          />
-          <button class="btn btn-outline-success" type="submit">
-            <i class="bi bi-search"></i>
-          </button>
-        </form>
-      </div>
-    </div>
+    <a routerLink="/principal" class="d-block mb-2">Inicio</a>
+    <a routerLink="/catalogo" class="d-block mb-2">Catálogo</a>
+    <a routerLink="/nosotros" class="d-block mb-2">Nosotros</a>
+    <a routerLink="/historial-carrito" class="d-block mb-2">Historial</a>
   </div>
 </div>
