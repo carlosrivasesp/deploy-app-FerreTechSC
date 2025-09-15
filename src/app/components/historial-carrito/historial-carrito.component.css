@@ -1,11 +1,10 @@
-/* Variables locales para reservar espacio del header+navbar en desktop */
+/* Variables locales para reservar espacio del header+navbar */
 :host {
   --header-height: 70px;
-  --navbar-height: 60px; /* aprox. tu navbar con padding */
+  --navbar-height: 60px;
 }
 
-/* En móviles, tu navbar deja de ser fixed (según tu CSS),
-   así que solo reservamos el header (90px). */
+/* En móviles */
 @media (max-width: 768px) {
   :host {
     --header-height: 90px;
@@ -13,12 +12,12 @@
   }
 }
 
-/* Espaciador superior dinámico */
+/* Espaciador dinámico */
 .top-spacer {
   height: calc(var(--header-height) + var(--navbar-height));
 }
 
-/* Contenido */
+/* Contenedor principal */
 .historial-container {
   padding: 20px;
 }
@@ -28,15 +27,46 @@
   font-size: 22px;
   color: #10401b;
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Encabezado de tabla con tu color principal */
+/* Estilos de filtros */
+.filtros input,
+.filtros select {
+  font-size: 14px;
+  padding: 6px 10px;
+}
+
+/* Encabezado de tabla */
 .table thead tr {
   background-color: #10401b;
   color: #ffffff;
 }
 
-/* Botón más cómodo en móvil */
+/* Badge de estados */
+.badge {
+  font-size: 0.85rem;
+}
+
+/* Botón tabla */
+.table .btn {
+  padding: 4px 8px;
+}
+
+/* Modal detalle */
+.modal-header {
+  border-bottom: 2px solid #e0e0e0;
+}
+.modal-body {
+  font-size: 14px;
+}
+.modal-footer {
+  border-top: 2px solid #e0e0e0;
+}
+
+/* Responsive título */
 @media (max-width: 576px) {
   .historial-title {
     font-size: 18px;

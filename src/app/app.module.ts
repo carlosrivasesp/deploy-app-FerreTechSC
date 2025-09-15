@@ -53,6 +53,7 @@ import { DevolucionesComponent } from './components/devoluciones/devoluciones.co
 import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,7 +88,7 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
     ComprasSugeridasComponent,
     DevolucionesComponent,
     DetalleDevolucionProductosComponent,
-    HistorialCarritoComponent
+
   ],
   imports: [
     BrowserModule,
@@ -99,7 +100,8 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
     NgChartsModule,
     FormsModule,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    HistorialCarritoComponent
 
 
   ],
