@@ -45,7 +45,7 @@ const routes: Routes = [
 
   // Rutas protegidas (requieren autenticación)
   { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard] },
-  { path: 'catalogo', component: CatalogoComponent, canActivate: [AuthGuard] },
+  { path: 'catalogo', component: CatalogoComponent },
   { path: 'productos', component: ListaProductosComponent, canActivate: [AuthGuard] },
   { path: 'clientes', component: ListaClientesComponent, canActivate: [AuthGuard] },
   { path: 'ventas', component: VentaComponent, canActivate: [AuthGuard] },
@@ -61,7 +61,7 @@ const routes: Routes = [
   { path: 'salidas', component: SalidaProductosComponent, canActivate: [AuthGuard] },
   { path: 'new-cotizaciones', component: CotizacionesComponent, canActivate: [AuthGuard] },
   { path: 'pagos-pendientes', component: PagosPendientesComponent, canActivate: [AuthGuard] },
-  { path: 'principal', component: PrincipalComponent, canActivate: [AuthGuard] },
+  { path: 'principal', component: PrincipalComponent},
   { path: 'registrar-compra', component: RegistrarCompraComponent, canActivate: [AuthGuard] },
   { path: 'listado-compras', component: ListadoComprasComponent, canActivate: [AuthGuard] },
   { path: 'detalle-compra/:id', component: DetalleCompraComponent, canActivate: [AuthGuard] },
@@ -78,8 +78,8 @@ const routes: Routes = [
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
 
   // Redirecciones
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '', redirectTo: 'principal', pathMatch: 'full' },
+  { path: '**', redirectTo: 'principal' }
 ];
 
 @NgModule({

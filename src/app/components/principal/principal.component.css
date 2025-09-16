@@ -233,42 +233,6 @@
   background-color: transparent;
 }
 
-#comentarios {
-  background-color: #10401b;
-  border-top: 1px solid #e3e3e3;
-  color: #ffffff;
-  padding-top: 3rem;
-}
-
-/* ---------- FORMULARIO ---------- */
-.formulario-comentario {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.formulario-comentario .form-label {
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-}
-
-.formulario-comentario .form-control {
-  background-color: #183c2e;
-  color: #ffffff;
-  border: 1px solid #2c5440;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.formulario-comentario .form-control::placeholder {
-  color: #a4bfa8;
-}
-
-.formulario-comentario .form-control:focus {
-  border-color: #69d07f;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(105, 208, 127, 0.3);
-}
 
 /* ---------- BOTÓN (shadcn adaptado) ---------- */
 .btn-shadcn {
@@ -310,44 +274,6 @@
 }
 
 
-/* Comentarios */
-#comentarios {
-  background-color: #10401b;
-  color: #ffffff;
-}
-
-.comentarios-box {
-  background-color: #183c2e;
-  border-radius: 12px;
-  border: 1px solid #2c5440;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  max-width: 650px;
-  margin: 0 auto;
-}
-
-/* Formulario */
-.formulario-comentario .form-label {
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-}
-
-.formulario-comentario .form-control {
-  background-color: #1e4a37;
-  color: #ffffff;
-  border: 1px solid #2c5440;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-}
-
-.formulario-comentario .form-control::placeholder {
-  color: #a4bfa8;
-}
-
-.formulario-comentario .form-control:focus {
-  border-color: #69d07f;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(105, 208, 127, 0.3);
-}
 
 /* Botón */
 .btn-shadcn {
@@ -426,4 +352,237 @@
 .carousel-caption {
   position: relative;
   z-index: 1;
+}
+/* ===== Comentarios ===== */
+.comentarios-box {
+  background: #f8f9fa;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+}
+
+/* ========= Sección "Por qué comprar con nosotros" ========= */
+#porque-comprar {
+  background: linear-gradient(135deg, #ffffff, #f4fdf7); /* fondo blanco con un toque verde claro */
+  padding: 3rem 0;
+}
+
+#porque-comprar h4 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #10401b; /* Verde oscuro */
+}
+
+/* Tarjetas de beneficios */
+.benefit-card {
+  background: #ffffff;
+  border: 1px solid rgba(105, 208, 127, 0.4); /* borde verde suave */
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(16, 64, 27, 0.15); /* sombra verde oscuro */
+  border: 1px solid #69d07f; /* acento verde brillante */
+}
+
+.benefit-card h5 {
+  color: #10401b; /* Verde oscuro para títulos */
+  font-weight: 600;
+}
+
+.benefit-card p {
+  color: #333; /* Texto legible */
+}
+
+
+.hover-zoom {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-zoom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.modal-body img {
+  max-height: 80vh;
+  object-fit: contain;
+}
+/* Estilo para las tarjetas de galería */
+.gallery-item {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 10px;
+  aspect-ratio: 1 / 1; /* Mantiene cuadrado */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Recorta la imagen manteniendo proporción */
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.1);
+}
+
+/* Modal */
+.modal-body img {
+  max-height: 80vh;
+  width: auto;
+  object-fit: contain; /* Se ajusta al modal sin deformarse */
+  border-radius: 12px;
+}
+
+
+/* ===== Ampliar secciones generales ===== */
+section:not(#categorias) .container {
+  max-width: 100% !important;  /* forzar ancho completo */
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+/* Opcional: ancho aún más grande en pantallas grandes */
+@media (min-width: 1600px) {
+  section:not(#categorias) .container {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+}
+
+/* ===== Secciones generales ===== */
+section {
+  padding: 4rem 0;
+  border-radius: 12px;
+  margin-bottom: 3rem;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Clase genérica para parallax */
+.parallax {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff; /* texto blanco para contraste */
+}
+
+/* Capa oscura para mejorar contraste del texto */
+.parallax::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.45);
+  z-index: -1;
+}
+
+/* ===== Sección Testimonios ===== */
+#testimonios {
+  background: linear-gradient(135deg, #ffffff, #f4fdf7);
+  color: #333;
+}
+
+#testimonios h4 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #10401b;
+  margin-bottom: 3rem;
+}
+
+/* Tarjetas de testimonios */
+.testimonial-card {
+  background: #fff;
+  border: 1px solid rgba(105, 208, 127, 0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centra contenido horizontal */
+  text-align: center;
+  justify-content: space-between;
+  min-height: 300px;
+  padding-top: 3.5rem;   /* deja espacio extra para la foto */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(16, 64, 27, 0.2);
+}
+
+/* Imagen de perfil */
+.perfil-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;         /* círculo */
+  object-fit: cover;          /* recorte sin deformar */
+  object-position: center;    
+  border: 3px solid #fff;     /* borde blanco elegante */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: absolute;
+  top: -50px;                 /* la hace flotar sobre la tarjeta */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Comillas decorativas */
+.quote-icon {
+  font-size: 2.5rem;
+  color: #69d07f;
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  opacity: 0.15;
+}
+
+/* Texto */
+.testimonial-card p {
+  font-style: italic;
+  color: #555;
+  font-size: 1rem;
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+}
+
+/* Nombre */
+.testimonial-card h6 {
+  font-weight: 600;
+  color: #10401b;
+  margin-top: 0.5rem;
+}
+
+/* Fecha */
+.testimonial-card small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* Estilo para las estrellas en testimonios */
+.testimonial-card .rating {
+  font-size: 1.2rem;       /* tamaño de estrellas */
+  color: #ffc107;          /* amarillo tipo rating */
+  margin-top: 2rem;      /* espacio hacia abajo */
+  margin-bottom: 0.5rem;   /* espacio hacia arriba del texto */
+  display: block;
 }

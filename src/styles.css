@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estado inicial oculto */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+/* Estado visible */
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+}
