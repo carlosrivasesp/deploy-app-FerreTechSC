@@ -1,64 +1,130 @@
 <app-navbar-principal/>
 
-<div class="main-content">
-  
-  <h2 class="text-center mb-4">Sobre Nosotros</h2>
-  <div class="row align-items-center mb-5">
+<!-- Hero Principal -->
+<section class="hero-nosotros d-flex align-items-center justify-content-center text-center text-white">
+  <div class="overlay"></div>
+  <div class="content">
+    <h1 class="fw-bold">Sobre <span class="text-success">Nosotros</span></h1>
+    <p class="lead">Conoce nuestra historia, misión y visión</p>
+  </div>
+</section>
+
+<div class="main-content container py-5">
+  <!-- Título principal -->
+  <div class="text-center mb-5 fade-in">
+    <h2 class="fw-bold">Sobre <span class="text-success">Nosotros</span></h2>
+    <p class="text-muted">Conoce más sobre nuestra historia, misión y lo que ofrecemos.</p>
+  </div>
+
+  <!-- Quiénes somos -->
+  <div class="row align-items-center mb-5 fade-in">
     <div class="col-md-6">
-      <h3>¿Quiénes somos?</h3>
+      <h3 class="fw-bold mb-3">¿Quiénes somos?</h3>
       <p>
         La <strong>Ferretería Santo Cristo</strong> es una empresa mype fundada en 1993,
-        dedicada a la venta al por menor de materiales de construcción, tuberías y
-        conexiones, gasfitería, electricidad y herramientas.  
-        Nuestra misión es <em>“satisfacer las necesidades de nuestros clientes con productos de calidad, garantía y precios accesibles, acompañados de un excelente servicio.”</em>
+        dedicada a la venta al por menor de materiales de construcción, tuberías,
+        gasfitería, electricidad y herramientas.
       </p>
-      <p>
-        Actualmente, contamos con un equipo comprometido en brindar atención cercana,
-        eficiente y responsable, manteniéndonos como una empresa representativa en
-        el distrito de Santiago de Surco.
+      <p class="text-muted fst-italic">
+        “Satisfacer las necesidades de nuestros clientes con productos de calidad, garantía y precios accesibles,
+        acompañados de un excelente servicio.”
       </p>
     </div>
     <div class="col-md-6 text-center">
-      <img src="img/imagen1.png" class="img-fluid rounded" alt="Equipo Ferretería Santo Cristo">
+      <img src="/equi1.jpg" class="img-fluid rounded shadow parallax-img" alt="Equipo Ferretería Santo Cristo">
     </div>
   </div>
 
-  <div class="row align-items-center mb-5 flex-md-row-reverse">
+  <!-- A qué nos dedicamos -->
+  <div class="row align-items-center mb-5 flex-md-row-reverse fade-in">
     <div class="col-md-6">
-      <h3>¿A qué nos dedicamos?</h3>
+      <h3 class="fw-bold mb-3">¿A qué nos dedicamos?</h3>
       <p>
-        Nos especializamos en la <strong>venta de productos ferreteros</strong>, como herramientas manuales y eléctricas,
-        materiales de construcción, tuberías, conexiones, productos eléctricos y artículos de plomería.  
-        Además, ofrecemos un servicio integral que busca garantizar la satisfacción de nuestros clientes,
-        asegurando la calidad de cada producto y una atención confiable.
+        Nos especializamos en la <strong>venta de productos ferreteros</strong>: herramientas manuales y eléctricas,
+        materiales de construcción, tuberías, productos eléctricos y artículos de plomería.
       </p>
       <p>
-        Gracias al compromiso con la transformación digital, estamos desarrollando un sistema
-        denominado <strong>FerreTech SC</strong>, que permitirá a nuestros clientes realizar compras y cotizaciones de manera virtual,
-        y a nuestro personal gestionar mejor las ventas, pedidos, inventarios y relaciones comerciales.
+        Además, estamos desarrollando <strong>FerreTech SC</strong>, un sistema digital para compras y cotizaciones virtuales,
+        que permitirá a nuestros clientes una mejor experiencia y a nuestro personal una gestión más eficiente.
       </p>
     </div>
     <div class="col-md-6 text-center">
-      <img src="img/imagen2.png" class="img-fluid rounded" alt="Trabajador organizando productos">
+      <img src="/equi2.jpg" class="img-fluid rounded shadow parallax-img" alt="Trabajador organizando productos">
     </div>
   </div>
 
-  <div class="row align-items-center mb-5">
+  <!-- Qué ofrecemos -->
+  <div class="row align-items-center mb-5 fade-in">
     <div class="col-md-6">
-      <h3>¿Qué ofrecemos?</h3>
+      <h3 class="fw-bold mb-3">¿Qué ofrecemos?</h3>
       <p>
-        Ofrecemos <strong>productos de calidad</strong> en el rubro de la construcción, gasfitería, electricidad y herramientas,
-        siempre con marcas reconocidas y garantía asegurada.  
-        Nuestro objetivo es ser aliados de los clientes en sus proyectos, brindando asesoría personalizada y soluciones accesibles.
+        Ofrecemos <strong>productos de calidad</strong> en construcción, gasfitería, electricidad y herramientas,
+        siempre con marcas reconocidas y garantía asegurada.
       </p>
-      <p>
-        Entre nuestros beneficios se encuentran: entregas puntuales, gestión eficiente del almacén,
-        cotizaciones claras y rápidas, y un servicio al cliente cercano y confiable.
-      </p>
+      <ul class="list-unstyled">
+        <li><i class="fa-solid fa-truck-fast text-success"></i> Entregas puntuales</li>
+        <li><i class="fa-solid fa-warehouse text-success"></i> Gestión eficiente del almacén</li>
+        <li><i class="fa-solid fa-file-invoice-dollar text-success"></i> Cotizaciones rápidas y claras</li>
+        <li><i class="fa-solid fa-user-check text-success"></i> Atención personalizada</li>
+      </ul>
     </div>
     <div class="col-md-6 text-center">
-      <img src="img/imagen3.png" class="img-fluid rounded" alt="Cliente satisfecho con su compra">
+      <img src="/equi3.jpg" class="img-fluid rounded shadow parallax-img" alt="Cliente satisfecho con su compra">
     </div>
   </div>
+
+  <!-- Misión y Visión -->
+  <div class="row text-center mb-5 fade-in">
+    <div class="col-md-6">
+      <div class="p-4 rounded shadow-sm bg-light h-100">
+        <i class="fa-solid fa-bullseye fa-2x text-success mb-3"></i>
+        <h5 class="fw-bold">Misión</h5>
+        <p class="text-muted">Brindar soluciones ferreteras confiables y de calidad para nuestros clientes.</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="p-4 rounded shadow-sm bg-light h-100">
+        <i class="fa-solid fa-eye fa-2x text-success mb-3"></i>
+        <h5 class="fw-bold">Visión</h5>
+        <p class="text-muted">Ser la ferretería líder en innovación y confianza en Lima y todo el Perú.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Valores -->
+  <div class="text-center mb-5 fade-in">
+    <h3 class="fw-bold">Nuestros Valores</h3>
+  </div>
+  <div class="row text-center g-4 fade-in">
+    <div class="col-6 col-md-3">
+      <i class="fa-solid fa-handshake fa-2x text-success mb-2"></i>
+      <p class="fw-bold">Compromiso</p>
+    </div>
+    <div class="col-6 col-md-3">
+      <i class="fa-solid fa-lightbulb fa-2x text-success mb-2"></i>
+      <p class="fw-bold">Innovación</p>
+    </div>
+    <div class="col-6 col-md-3">
+      <i class="fa-solid fa-scale-balanced fa-2x text-success mb-2"></i>
+      <p class="fw-bold">Honestidad</p>
+    </div>
+    <div class="col-6 col-md-3">
+      <i class="fa-solid fa-users fa-2x text-success mb-2"></i>
+      <p class="fw-bold">Trabajo en equipo</p>
+    </div>
+  </div>
+
 </div>
-
+    <footer class="footer text-light py-5" >
+    <div class="container text-center">
+      <div class="footer-top mb-3">
+        <h5 class="mb-2"><i class="fa-solid fa-store"></i> Mi Tienda</h5>
+        <p class="mb-1"><i class="fa-solid fa-envelope"></i> infomitienda.com</p>
+        <p><i class="fa-solid fa-phone"></i> Teléfono: +51 123 456 789</p>
+      </div>
+      <hr class="footer-divider">
+      <div class="footer-bottom mt-3">
+        <p class="small mb-0">&copy; 2025 Mi Tienda - Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>

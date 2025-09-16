@@ -74,7 +74,7 @@ const routes: Routes = [
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
-  { path: 'nosotros', component: NosotrosComponent, canActivate: [AuthGuard]},
+  { path: 'nosotros', component: NosotrosComponent},
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
 
   // Redirecciones
