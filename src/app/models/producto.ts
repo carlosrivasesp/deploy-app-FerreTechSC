@@ -13,28 +13,6 @@ export class Producto {
   estado: string;
   imageUrl?: string;
 
-  // 🧠 Sobrecarga de constructor (firmas)
-  constructor(
-    codInt: string,
-    nombre: string,
-    precio: number,
-    stockActual: number,
-    stockMin: number,
-    categoria: Categoria,
-    marca: Marca,
-    estado: string
-  );
-  constructor(
-    codInt: string,
-    nombre: string,
-    precio: number,
-    stockActual: number,
-    stockMin: number,
-    categoria: Categoria,
-    marca: Marca,
-    estado: string,
-  );
-
   // 🛠 Implementación del constructor
   constructor(
     codInt: string,
