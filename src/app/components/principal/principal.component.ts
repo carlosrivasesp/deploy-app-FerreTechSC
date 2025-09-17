@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { VentaService } from '../../services/venta.service';
 
 @Component({
   selector: 'app-principal',
@@ -6,33 +7,81 @@ import { Component } from '@angular/core';
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.css'],
 })
-export class PrincipalComponent {
+export class PrincipalComponent implements OnInit {
+
   productos = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  productosExpandido = [...this.productos, ...this.productos];
 
-  productosExpandido = [...this.productos, ...this.productos]; // Para loop infinito visual
+  offsetPercent = 0;
+  slidesPerView = 6;
+  slideWidth = '16.66%';
 
-  offsetPercent = 0; // % de desplazamiento del track
-  slidesPerView = 6; // Número de slides visibles
-  slideWidth = '16.66%'; // Ancho de cada slide (100% / 6)
-
-  constructor() {
-    this.updateSlideWidth();
-  }
-
-
-productosMasVendidos = [
-  { nombre: 'Producto 1', precio: 50 },
-  { nombre: 'Producto 2', precio: 65 },
-  { nombre: 'Producto 3', precio: 80 },
-  { nombre: 'Producto 4', precio: 40 },
-  { nombre: 'Producto 5', precio: 90 },
-  { nombre: 'Producto 6', precio: 75 },
-  { nombre: 'Producto 7', precio: 55 },
-  { nombre: 'Producto 8', precio: 99 }
+  productosMasVendidos: any[] = [];
+galeria: string[] = [
+  'images1.jpg',
+  'images2.jpg',
+  'images3.jpg',
+  'images4.jpg',
+  'images5.jpg',
+  'images6.jpg',
+  'images7.jpg',
+  'images8.jpg',
 ];
 
+imagenSeleccionada: string | null = null;
 
-  // Ajusta slidesPerView y slideWidth según ancho de pantalla
+abrirModal(img: string) {
+  this.imagenSeleccionada = img;
+}
+
+cerrarModal() {
+  this.imagenSeleccionada = null;
+}
+
+  constructor(private ventaService: VentaService) {}
+
+  ngOnInit() {
+    this.updateSlideWidth();
+    window.addEventListener('resize', () => this.updateSlideWidth());
+
+    this.cargarProductosMasVendidos();
+  }
+
+cargarProductosMasVendidos() {
+  this.ventaService.getAllVentas().subscribe({
+    next: (ventas) => {
+      const productosMap = new Map<string, any>();
+
+      for (const venta of ventas) {
+        if (venta.estado !== 'Registrado') continue;
+
+        for (const detalle of venta.detalles || []) {
+          if (!productosMap.has(detalle.nombre)) {
+            productosMap.set(detalle.nombre, {
+              nombre: detalle.nombre,
+              cantidadVendida: detalle.cantidad,
+              precio: detalle.precio,
+            });
+          } else {
+            const prod = productosMap.get(detalle.nombre);
+            prod.cantidadVendida += detalle.cantidad;
+            productosMap.set(detalle.nombre, prod);
+          }
+        }
+      }
+
+      // Ordenar y limitar a 8 productos
+      this.productosMasVendidos = Array.from(productosMap.values())
+        .sort((a, b) => b.cantidadVendida - a.cantidadVendida)
+        .slice(0, 8);
+    },
+    error: (err) => {
+      console.error('Error al cargar productos más vendidos:', err);
+    }
+  });
+}
+
+
   updateSlideWidth() {
     const width = window.innerWidth;
 
@@ -62,19 +111,11 @@ productosMasVendidos = [
 
   next() {
     this.offsetPercent -= 100 / this.slidesPerView;
-    const maxOffset =
-      -((this.productosExpandido.length / this.slidesPerView) - 1) * (100 / this.slidesPerView);
+    const maxOffset = -((this.productosExpandido.length / this.slidesPerView) - 1) * (100 / this.slidesPerView);
 
     if (this.offsetPercent < maxOffset) {
       this.offsetPercent = 0;
     }
   }
 
-  // Escuchar resize para recalcular responsive
-  ngOnInit() {
-    this.updateSlideWidth();
-    window.addEventListener('resize', () => {
-      this.updateSlideWidth();
-    });
-  }
 }

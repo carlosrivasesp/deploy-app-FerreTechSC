@@ -14,7 +14,7 @@ registerLocaleData(localeEsPe, 'es-PE');
 
 //importacion para chartjs (graficas), las versiones se encuentran en el package.json
 import { NgChartsModule } from 'ng2-charts';
-
+import { FadeInDirective } from './directiva/fade-in.directive';
 //componentes
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -59,6 +59,7 @@ CarritoComponent
 @NgModule({
   declarations: [
     AppComponent,
+    FadeInDirective,
     SidebarComponent,
     SignupComponent,
     DashboardAdmComponent,
