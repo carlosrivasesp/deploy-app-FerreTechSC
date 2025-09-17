@@ -56,6 +56,7 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 CarritoComponent
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +93,6 @@ CarritoComponent
     DevolucionesComponent,
     DetalleDevolucionProductosComponent,
     CatalogoComponent,
-    HistorialCarritoComponent,
     NosotrosComponent,
     CarritoComponent
   ],
@@ -106,7 +106,8 @@ CarritoComponent
     NgChartsModule,
     FormsModule,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    HistorialCarritoComponent
 
 
   ],

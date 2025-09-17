@@ -42,13 +42,17 @@ iniciarSesion() {
     const { correo, password } = this.loginForm.value;
     
     this.authService.iniciarSesion(correo, password).subscribe({
-      next: () => {
+      next: (resp) => {
         // La redirección se maneja automáticamente en el servicio
         this.isLoading = false;
+          console.log('Usuario:',resp)
+          localStorage.setItem('token', resp.token);
+          localStorage.setItem('dniCliente', resp.usuario.nroDoc);
+          console.log('DNI USUARIO:',resp.usuario.nroDoc)
       },
       error: (err: HttpErrorResponse) => {
         this.isLoading = false;
-        
+          
         if (err.status === 0) {
           this.errorMessage = 'Error de conexión con el servidor';
         } else if (err.status === 401) {
