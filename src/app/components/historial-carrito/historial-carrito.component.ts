@@ -15,13 +15,19 @@ export class HistorialCarritoComponent implements OnInit {
 
   constructor(private historialService: HistorialService) {}
 
-  ngOnInit(): void {
-    this.cargarHistorial();
-  }
+ ngOnInit(): void {
+  this.cargarHistorial();
+}
 
-  cargarHistorial(): void {
-    this.historialService.obtenerHistorial().subscribe((data) => {
+cargarHistorial(): void {
+  const dni = localStorage.getItem('dniCliente'); 
+  if (dni) {
+    this.historialService.obtenerHistorialPorCliente(dni).subscribe((data) => {
       this.compras = data;
     });
+  } else {
+    console.error('No se encontró el DNI del cliente');
   }
+}
+
 }

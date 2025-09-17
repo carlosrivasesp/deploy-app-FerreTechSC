@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class HistorialService {
 
   // Cambia esta URL por la de tu backend real
-  private apiUrl = 'http://localhost:4000/api/getPedidoCliente/75330125';
+  private apiUrl = 'http://localhost:4000/api/getPedidoCliente';
 
   constructor(private http: HttpClient) { }
 
@@ -17,8 +17,8 @@ export class HistorialService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  // Si en el futuro quieres buscar por cliente
-  obtenerHistorialPorCliente(idCliente: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/cliente/${idCliente}`);
-  }
+  obtenerHistorialPorCliente(dni: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/${dni}`);
+}
+
 }
