@@ -94,8 +94,8 @@ CarritoComponent
     DetalleDevolucionProductosComponent,
     CatalogoComponent,
     NosotrosComponent,
-    CarritoComponent    HistorialCarritoComponent
-
+    CarritoComponent,
+    HistorialCarritoComponent
   ],
   imports: [
     BrowserModule,
