@@ -4,8 +4,7 @@ import { HistorialService } from '../../services/historial.service';
 
 @Component({
   selector: 'app-historial-carrito',
-  standalone: true,
-  imports: [CommonModule, DatePipe, DecimalPipe], 
+  standalone: false,
   templateUrl: './historial-carrito.component.html',
   styleUrls: ['./historial-carrito.component.css']
 })

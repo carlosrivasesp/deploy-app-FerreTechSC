@@ -94,7 +94,8 @@ CarritoComponent
     DetalleDevolucionProductosComponent,
     CatalogoComponent,
     NosotrosComponent,
-    CarritoComponent
+    CarritoComponent    HistorialCarritoComponent
+
   ],
   imports: [
     BrowserModule,
@@ -107,7 +108,6 @@ CarritoComponent
     FormsModule,
     LoginComponent,
     HeaderComponent,
-    HistorialCarritoComponent
 
 
   ],
