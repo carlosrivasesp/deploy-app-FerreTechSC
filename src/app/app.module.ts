@@ -88,6 +88,7 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
     ComprasSugeridasComponent,
     DevolucionesComponent,
     DetalleDevolucionProductosComponent,
+    HistorialCarritoComponent
 
   ],
   imports: [
@@ -101,7 +102,6 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
     FormsModule,
     LoginComponent,
     HeaderComponent,
-    HistorialCarritoComponent
 
 
   ],
