@@ -8,13 +8,29 @@
           <span class="icon"><i class="bi bi-grid"></i></span>
           <span class="description fw-bold">Dashboard</span>
         </a>
+
+        <!-- PEDIDOS -->
+        <a class="nav-link" (click)="toggleSubmenu('submenu1')">
+          <span class="icon"><i class="bi bi-backpack3"></i></span>
+          <span class="description fw-bold">Pedidos <i class="bi bi-caret-down-fill"></i></span>
+        </a>
+        <div class="sub-menu" id="submenu1" [ngClass]="{ 'collapse': openSubmenu !== 'submenu1' }">
+          <a class="nav-link" routerLink="/nuevo-pedido" (click)="setActiveLink('nuevo-pedido')"
+             [ngClass]="{ 'active': activeLink === 'nuevo-pedido' }">
+            <i class="bi bi-dash"></i> Nuevo Pedido
+          </a>
+          <a class="nav-link" routerLink="/lista-pedidos" (click)="setActiveLink('lista-pedidos')"
+             [ngClass]="{ 'active': activeLink === 'lista-pedidos' }">
+            <i class="bi bi-dash"></i> Listado de Pedidos
+          </a>
+        </div>
   
         <!-- VENTAS -->
-        <a class="nav-link" (click)="toggleSubmenu('submenu1')">
+        <a class="nav-link" (click)="toggleSubmenu('submenu2')">
           <span class="icon"><i class="bi bi-minecart"></i></span>
           <span class="description fw-bold">Ventas <i class="bi bi-caret-down-fill"></i></span>
         </a>
-        <div class="sub-menu" id="submenu1" [ngClass]="{ 'collapse': openSubmenu !== 'submenu1' }">
+        <div class="sub-menu" id="submenu2" [ngClass]="{ 'collapse': openSubmenu !== 'submenu2' }">
           <a class="nav-link" routerLink="/ventas" (click)="setActiveLink('nuevo-comprobante')"
              [ngClass]="{ 'active': activeLink === 'nuevo-comprobante' }">
             <i class="bi bi-dash"></i> Nuevo comprobante
@@ -23,18 +39,14 @@
              [ngClass]="{ 'active': activeLink === 'listado-comprobantes' }">
             <i class="bi bi-dash"></i> Listado de comprobantes
           </a>
-          <a class="nav-link" routerLink="/pagos-pendientes" (click)="setActiveLink('pagos-pendientes')"
-             [ngClass]="{ 'active': activeLink === 'pagos-pendientes' }">
-            <i class="bi bi-dash"></i> Pagos pendientes
-          </a>
         </div>
   
         <!-- COTIZACIONES -->
-        <a class="nav-link" (click)="toggleSubmenu('submenu2')">
+        <a class="nav-link" (click)="toggleSubmenu('submenu3')">
           <span class="icon"><i class="bi bi-file-earmark-plus"></i></span>
           <span class="description fw-bold">Cotizaciones <i class="bi bi-caret-down-fill"></i></span>
         </a>
-        <div class="sub-menu" id="submenu2" [ngClass]="{ 'collapse': openSubmenu !== 'submenu2' }">
+        <div class="sub-menu" id="submenu3" [ngClass]="{ 'collapse': openSubmenu !== 'submenu3' }">
           <a class="nav-link" routerLink="/new-cotizaciones" (click)="setActiveLink('nueva-cotizacion')"
              [ngClass]="{ 'active': activeLink === 'nueva-cotizacion' }">
             <i class="bi bi-dash"></i> Nueva cotización
@@ -46,11 +58,11 @@
         </div>
   
         <!-- PRODUCTOS -->
-        <a class="nav-link" (click)="toggleSubmenu('submenu3')">
+        <a class="nav-link" (click)="toggleSubmenu('submenu4')">
           <span class="icon"><i class="bi bi-backpack4"></i></span>
           <span class="description fw-bold">Productos / Servicios <i class="bi bi-caret-down-fill"></i></span>
         </a>
-        <div class="sub-menu" id="submenu3" [ngClass]="{ 'collapse': openSubmenu !== 'submenu3' }">
+        <div class="sub-menu" id="submenu4" [ngClass]="{ 'collapse': openSubmenu !== 'submenu4' }">
           <a class="nav-link" routerLink="/productos" (click)="setActiveLink('productos')"
              [ngClass]="{ 'active': activeLink === 'productos' }">
             <i class="bi bi-dash"></i> Productos
@@ -67,18 +79,14 @@
              [ngClass]="{ 'active': activeLink === 'entregas' }">
             <i class="bi bi-dash"></i> Entregas
           </a>
-          <a class="nav-link" routerLink="/detalle-entrega" (click)="setActiveLink('lugares-entrega')"
-             [ngClass]="{ 'active': activeLink === 'lugares-entrega' }">
-            <i class="bi bi-dash"></i> Lugares de Entrega
-          </a>
         </div>
   
         <!-- INVENTARIO -->
-        <a class="nav-link" (click)="toggleSubmenu('submenu4')">
+        <a class="nav-link" (click)="toggleSubmenu('submenu5')">
           <span class="icon"><i class="bi bi-box"></i></span>
           <span class="description fw-bold">Gestión de Inventario <i class="bi bi-caret-down-fill"></i></span>
         </a>
-        <div class="sub-menu" id="submenu4" [ngClass]="{ 'collapse': openSubmenu !== 'submenu4' }">
+        <div class="sub-menu" id="submenu5" [ngClass]="{ 'collapse': openSubmenu !== 'submenu5' }">
           <a class="nav-link" routerLink="/ingresos" (click)="setActiveLink('ingresos')"
              [ngClass]="{ 'active': activeLink === 'ingresos' }">
             <i class="bi bi-dash"></i> Ingresos
@@ -94,11 +102,11 @@
         </div>
 
         <!-- COMPRAS -->
-        <a class="nav-link" (click)="toggleSubmenu('submenu5')">
+        <a class="nav-link" (click)="toggleSubmenu('submenu6')">
           <span class="icon"><i class="bi bi-receipt-cutoff"></i></span>
           <span class="description fw-bold">Compras <i class="bi bi-caret-down-fill"></i></span>
         </a>
-        <div class="sub-menu" id="submenu5" [ngClass]="{ 'collapse': openSubmenu !== 'submenu5' }">
+        <div class="sub-menu" id="submenu6" [ngClass]="{ 'collapse': openSubmenu !== 'submenu6' }">
           <a class="nav-link" routerLink="/registrar-compra" (click)="setActiveLink('registrar-compra')"
              [ngClass]="{ 'active': activeLink === 'registrar-compra' }">
             <i class="bi bi-dash"></i> Nueva Compra

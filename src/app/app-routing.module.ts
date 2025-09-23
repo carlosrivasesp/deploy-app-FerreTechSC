@@ -18,7 +18,6 @@ import { EntregasComponent } from './components/entregas/entregas.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { IngresarProductosComponent } from './components/ingresar-productos/ingresar-productos.component';
 import { SalidaProductosComponent } from './components/salida-productos/salida-productos.component';
-import { PagosPendientesComponent } from './components/pagos-pendientes/pagos-pendientes.component';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { RegistrarCompraComponent } from './components/registrar-compra/registrar-compra.component';
 import { ListadoComprasComponent } from './components/listado-compras/listado-compras.component';
@@ -34,18 +33,19 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
-
+import { RegistrarPedidosComponent } from './components/registrar-pedidos/registrar-pedidos.component';
+import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 
 const routes: Routes = [
-  // Rutas públicas
+  // Rutas generales
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotpasswordComponent },
+  { path: 'principal', component: PrincipalComponent},
 
   // Rutas protegidas (requieren autenticación)
   { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard] },
-  { path: 'catalogo', component: CatalogoComponent },
   { path: 'productos', component: ListaProductosComponent, canActivate: [AuthGuard] },
   { path: 'clientes', component: ListaClientesComponent, canActivate: [AuthGuard] },
   { path: 'ventas', component: VentaComponent, canActivate: [AuthGuard] },
@@ -60,8 +60,6 @@ const routes: Routes = [
   { path: 'ingresos', component: IngresarProductosComponent, canActivate: [AuthGuard] },
   { path: 'salidas', component: SalidaProductosComponent, canActivate: [AuthGuard] },
   { path: 'new-cotizaciones', component: CotizacionesComponent, canActivate: [AuthGuard] },
-  { path: 'pagos-pendientes', component: PagosPendientesComponent, canActivate: [AuthGuard] },
-  { path: 'principal', component: PrincipalComponent},
   { path: 'registrar-compra', component: RegistrarCompraComponent, canActivate: [AuthGuard] },
   { path: 'listado-compras', component: ListadoComprasComponent, canActivate: [AuthGuard] },
   { path: 'detalle-compra/:id', component: DetalleCompraComponent, canActivate: [AuthGuard] },
@@ -73,7 +71,13 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
+  { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard]},
+  { path: 'nuevo-pedido', component: RegistrarPedidosComponent, canActivate: [AuthGuard]},
+
+
+  //cliente
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
+  { path: 'catalogo', component: CatalogoComponent },
   { path: 'nosotros', component: NosotrosComponent},
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
 

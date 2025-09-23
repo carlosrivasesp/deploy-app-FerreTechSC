@@ -29,26 +29,28 @@ setActiveLink(link: string): void {
   localStorage.setItem('activeLink', link);
 
   const submenuMap: { [key: string]: string } = {
-    'nuevo-comprobante': 'submenu1',
-    'listado-comprobantes': 'submenu1',
-    'pagos-pendientes': 'submenu1',
+    'nuevo-pedido': 'submenu1',
+    'lista-pedidos': 'submenu1',
 
-    'nueva-cotizacion': 'submenu2',
-    'listado-cotizaciones': 'submenu2',
+    'nuevo-comprobante': 'submenu2',
+    'listado-comprobantes': 'submenu2',
 
-    'productos': 'submenu3',
-    'categorias': 'submenu3',
-    'marcas': 'submenu3',
-    'entregas': 'submenu3',
-    'lugares-entrega': 'submenu3',
+    'nueva-cotizacion': 'submenu3',
+    'listado-cotizaciones': 'submenu3',
 
-    'ingresos': 'submenu4',
-    'salidas': 'submenu4',
-    'devoluciones': 'submenu4',
+    'productos': 'submenu4',
+    'categorias': 'submenu4',
+    'marcas': 'submenu4',
+    'entregas': 'submenu4',
+    'lugares-entrega': 'submenu4',
 
-    'registrar-compra': 'submenu5',
-    'listado-compras': 'submenu5',
-    'compras-sugeridas': 'submenu5',
+    'ingresos': 'submenu45',
+    'salidas': 'submenu5',
+    'devoluciones': 'submenu5',
+
+    'registrar-compra': 'submenu6',
+    'listado-compras': 'submenu6',
+    'compras-sugeridas': 'submenu6',
   };
 
   this.openSubmenu = submenuMap[link] || null;

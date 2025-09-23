@@ -37,7 +37,6 @@ import { ReportesComponent } from './components/reportes/reportes.component';
 import { IngresarProductosComponent } from './components/ingresar-productos/ingresar-productos.component';
 import { SalidaProductosComponent } from './components/salida-productos/salida-productos.component';
 import { CotizacionesComponent } from './components/cotizaciones/cotizaciones.component';
-import { PagosPendientesComponent } from './components/pagos-pendientes/pagos-pendientes.component';
 import { FormsModule } from '@angular/forms';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { NavbarPrincipalComponent } from './components/navbar-principal/navbar-principal.component';
@@ -55,6 +54,8 @@ import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
+import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
+import { RegistrarPedidosComponent } from './components/registrar-pedidos/registrar-pedidos.component';
 CarritoComponent
 
 @NgModule({
@@ -75,7 +76,6 @@ CarritoComponent
     DetalleComponent,
     DetalleEntregaComponent,
     EntregasComponent,
-    PagosPendientesComponent,
     ReportesComponent,
     IngresarProductosComponent,
     SalidaProductosComponent,
@@ -95,7 +95,9 @@ CarritoComponent
     CatalogoComponent,
     NosotrosComponent,
     CarritoComponent,
-    HistorialCarritoComponent
+    HistorialCarritoComponent,
+    ListaPedidosComponent,
+    RegistrarPedidosComponent
   ],
   imports: [
     BrowserModule,
