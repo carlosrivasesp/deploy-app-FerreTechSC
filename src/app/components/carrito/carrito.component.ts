@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CartItem } from '../../models/carrito'; // Importar la interfaz
+import { CarritoService, CartItem, CarritoResponse } from '../../services/carrito.service'; // Ajusta la ruta
 
 @Component({
     selector: 'app-carrito',
@@ -8,26 +8,62 @@ import { CartItem } from '../../models/carrito'; // Importar la interfaz
     styleUrls: ['./carrito.component.css']
 })
 export class CarritoComponent implements OnInit {
-    cartItems: CartItem[] = [
-        { nombre: 'Producto 1', precio: 20.00, cantidad: 1 },
-        { nombre: 'Producto 2', precio: 15.00, cantidad: 1 }
-    ];
-
+    cartItems: CartItem[] = [];
+    moneda = 'S/';
+    subtotal = 0;
+    igv = 0;
     totalPrice = 0;
 
+    constructor(private carritoService: CarritoService) {}
+
     ngOnInit(): void {
-        this.updateTotal();
+        this.loadCart();
     }
 
-    updateTotal(): void {
-        this.totalPrice = this.cartItems.reduce((total, item) => total + (item.precio * item.cantidad), 0);
-    }
-
-    removeItem(item: CartItem): void { // Definir el tipo del parámetro 'item'
-        const index = this.cartItems.indexOf(item);
-        if (index > -1) {
-            this.cartItems.splice(index, 1);
-            this.updateTotal();
+loadCart(): void {
+    this.carritoService.getCart().subscribe({
+        next: (res: CarritoResponse) => {
+            this.cartItems = res.items;
+            this.moneda = res.moneda;
+            this.subtotal = res.subtotal;
+            this.igv = res.igv;
+            this.totalPrice = res.total;
+        },
+        error: (err) => {
+            console.error('Error cargando carrito:', err);
         }
+    });
+}
+  cambiarCantidad(item: any, cambio: number) {
+    const nuevaCantidad = item.cantidad + cambio;
+    if (nuevaCantidad < 1) return;
+    item.cantidad = nuevaCantidad;
+    this.updateQuantity(item);
+  }
+
+    removeItem(item: CartItem): void {
+        this.carritoService.removeItem(item.producto._id).subscribe({
+            next: () => {
+                this.loadCart(); // recarga el carrito actualizado
+            },
+            error: (err) => {
+                console.error('Error eliminando item:', err);
+            }
+        });
+    }
+
+    updateQuantity(item: CartItem): void {
+        if (item.cantidad < 1) {
+            item.cantidad = 1; // evitar cantidades menores a 1
+        }
+        this.carritoService.setQty(item.producto._id, item.cantidad).subscribe({
+            next: () => this.loadCart(),
+            error: (err) => console.error('Error actualizando cantidad:', err)
+        });
+    }
+
+    checkout(): void {
+        // Aquí puedes implementar el checkout luego
+        console.log('Checkout pendiente...');
     }
 }

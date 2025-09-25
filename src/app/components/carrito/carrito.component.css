@@ -1,77 +1,192 @@
-/* Contenedor principal: ocupa todo el ancho */
-.main-content {
+.carrito-container {
   width: 100%;
-  /* Ocupar todo el ancho */
-  height: 100%;
-  /* Ocupar toda la altura */
-  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
   box-sizing: border-box;
-  margin-left: 0;
-  /* Quitar huecos a la izquierda */
 }
 
-/* Separador para no chocar con el navbar */
-.separador {
-  margin-top: 100px;
-}
-
-.title {
-  font-size: 20px;
-  margin-bottom: 20px;
+.carrito-titulo {
+  font-size: 2rem;
   font-weight: bold;
+  color: #333;
 }
 
-/* Tabla del carrito */
-.table {
-  margin-top: 20px;
-  border-color: #727374;
-  table-layout: fixed;
-  width: 100%;
-  /* Siempre ocupar todo el ancho */
-  text-align: start;
+/* Estilo para cada producto en carrito */
+.carrito-item {
+  border-radius: 10px;
+  background-color: #fff;
 }
 
-.table th,
-.table td {
+/* Stepper moderno */
+.cantidad-stepper {
+  border: 1px solid #ddd;
+  border-radius: 6px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  padding: 8px;
+  display: inline-flex;
+  align-items: center;
 }
 
-.body {
-  font-size: 11px;
+.stepper-btn {
+  background-color: #f2f2f2;
+  border: none;
+  padding: 6px 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-/* Input de cantidad */
-.cantidad-input {
-  width: 70px;
-  /* Más pequeño y fijo */
-  height: 28px;
-  font-size: 12px;
+.stepper-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.cantidad-display {
+  width: 40px;
   text-align: center;
-  padding: 4px;
+  font-size: 1rem;
+  padding: 6px;
+  background-color: #fff;
+  color: #333;
+  display: inline-block;
+}
+
+/* Botón eliminar con ícono */
+.icon-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  margin-left: 12px; /* separación del stepper */
+}
+
+.icon-btn:hover {
+  color: #a71d2a;
+  transform: scale(1.1);
 }
 
 /* Resumen del carrito */
-.cart-summary {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: right;
-  font-size: 12px;
+.carrito-resumen {
+  border-radius: 10px;
+  background-color: #fdfdfd;
 }
 
-.cart-summary .total-price {
-  font-size: 16px;
+.total-final {
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #28a745;
+  color: #198754;
 }
 
-/* Botones */
-.btn {
-  font-size: 12px;
+/* Carrito vacío */
+.carrito-vacio {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+/* Skeleton image */
+.skeleton-image {
+  width: 100%;
+  padding-top: 75%;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f8f8f8 37%, #e0e0e0 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Animación shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Side decoraciones laterales */
+.side-decor {
+  position: fixed;
+  top: 150px;
+  bottom: 0;
+  width: 150px;
+  background-color: #6d6d6d;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.side-decor.left {
+  left: 0;
+}
+
+.side-decor.right {
+  right: 0;
+}
+
+/* Responsive ajustes */
+@media (max-width: 992px) {
+  .side-decor {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .carrito-item .row {
+    flex-direction: row !important;
+    align-items: center;
+  }
+
+  .carrito-item .col-3,
+  .carrito-item .col-md-2 {
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
+
+  .carrito-item .col-6,
+  .carrito-item .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .carrito-item .col-3.text-end,
+  .carrito-item .col-md-4.text-end {
+    flex: 0 0 20%;
+    max-width: 20%;
+    text-align: right !important;
+  }
+
+  .carrito-titulo {
+    font-size: 1.5rem;
+  }
+
+  .carrito-item h5 {
+    font-size: 1rem;
+  }
+
+  .carrito-item p {
+    font-size: 0.85rem;
+  }
+
+  .cantidad-stepper {
+    margin-top: 0;
+  }
+
+  .stepper-btn {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+  }
+
+  .cantidad-display {
+    width: 30px;
+    font-size: 0.8rem;
+    padding: 4px;
+  }
+
+  .icon-btn {
+    font-size: 1.1rem;
+    margin-left: 8px;
+    margin-top: 0;
+  }
 }

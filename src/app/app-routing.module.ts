@@ -74,7 +74,6 @@ const routes: Routes = [
   { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard]},
   { path: 'nuevo-pedido', component: RegistrarPedidosComponent, canActivate: [AuthGuard]},
 
-
   //cliente
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
   { path: 'catalogo', component: CatalogoComponent },
