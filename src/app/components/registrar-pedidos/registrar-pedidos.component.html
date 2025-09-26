@@ -1,1 +1,246 @@
-<p>registrar-pedidos works!</p>
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<main class="main-content">
+  <div class="separador">
+    <div class="header-title">
+      <p class="title">Nuevo Pedido</p>
+    </div>
+
+    <div class="formulario">
+      <form class="row g-3">
+        
+        
+        <div class="col-md-3">
+          <label for="inputEmision" class="form-label">Fecha de Emisión</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-calendar-event"></i>
+            </span>
+            <input type="text" class="form-control" id="inputEmision" />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label for="inputVec" class="form-label">Fec. Vencimiento</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-calendar-event"></i>
+            </span>
+            <input type="text" class="form-control" id="inputVec" />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="inputCliente" class="form-label">Cliente
+            <a class="newClient" href="#" data-bs-toggle="modal" data-bs-target="#modalNuevoCliente">[+ Nuevo]</a></label>
+          <div class="dropdown input-group">
+            <input type="text" class="form-control dropdown-toggle" id="dropdownCliente" data-bs-toggle="dropdown"
+              aria-expanded="false" placeholder="Buscar Cliente" />
+
+            <button type="button" class="btn btn-outline-secondary">
+              <i class="bi bi-x-circle"></i>
+            </button>
+
+            <ul class="dropdown-menu" id="dropdownClientes" style="width: 100%">
+              <li>
+                <a class="dropdown-item">
+                  Número de Documento - Nombre
+                </a>
+              </li>
+            </ul>
+          </div>
+          <input type="hidden">
+        </div>
+        
+
+        <div class="col-md-2">
+          <label for="inputTipoDoc" class="form-label">Metodo de pago</label>
+          <select id="inputTipoDoc" class="form-select">
+            <option selected value="Efectivo">Efectivo</option>
+            <option value="Tarjeta de debito">Tarjeta de debito</option>
+            <option value="Tarjeta de credito">Tarjeta de credito</option>
+            <option value="Yape">Yape</option>
+            <option value="Plin">Plin</option>
+            <option value="Transferencia">Transferencia</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="checkDefault" />
+            <label class="form-label" for="checkDefault">
+              Servicio de entrega
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="button-agregar">
+      <button type="submit" class="btn" data-bs-toggle="modal" data-bs-target="#modalAdd">
+        <i class="bi bi-plus" style="color: aliceblue;"></i> Agregar Producto
+      </button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr class="header">
+          <th scope="col">Codigo</th>
+          <th scope="col">Producto</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Precio Unitario</th>
+          <th scope="col">Subtotal</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="body">
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <input type="number" class="form-control form-control-sm text-center mx-auto" min="1" style="width: 55px;" />
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <button class="actions" title="Aumentar"><i class="bi bi-plus-lg"></i></button>
+            <button class="actions" title="Disminuir"><i class="bi bi-dash-lg"></i></button>
+            <button class="actions"><i class="bi bi-trash-fill"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="position-absolute text-end" style="right: 1.5rem; bottom: 1.5rem">
+      <div style="font-size: 0.85rem">
+        <div><strong>IGV:</strong> S/ <span id="igv"></span></div>
+        <div class="mb-2">
+          <strong>Total:</strong> S/ <span id="total"></span>
+        </div>
+      </div>
+      <button class="btn" style="background-color: #10401b;">Generar Pedido</button>
+    </div>
+
+    <nav class="mt-3" aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link">Anterior</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link"></a>
+        </li>
+        <li class="page-item">
+          <a class="page-link">Siguiente</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="modal fade modal-lg" id="modalAdd" tabindex="-1" aria-labelledby="modalAdd" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalAdd">Agregar producto</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Producto</label>
+                <div class="dropdown input-group">
+                  <input type="text" class="form-control dropdown-toggle" id="dropdownInput" data-bs-toggle="dropdown"
+                    aria-expanded="false" placeholder="Buscar Producto" />
+
+                  <button type="button" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle"></i>
+                  </button>
+
+                  <ul class="dropdown-menu" id="dropdownOptions" style="width: 100%">
+                    <li>
+                      <a class="dropdown-item">
+                        Código - Nombre
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <label for="inputCantidad" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" id="inputCantidad" value="1" min="1" />
+              </div>
+
+              <div class="col-md-4">
+                <label for="inputPrecio" class="form-label">Precio Unitario</label>
+                <input type="number" class="form-control" id="inputPrecio" min="0" readonly />
+              </div>
+
+              <div class="col-md-4">
+                <label for="inputTotal" class="form-label">Total</label>
+                <input type="number" class="form-control" id="inputTotal" readonly />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+            <button type="button" class="btn" style="background-color: #10401b;">
+              Registrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="modalNuevoCliente" tabindex="-1" aria-labelledby="modalNuevoClienteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalNuevoClienteLabel">Nuevo Cliente</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+
+          <div class="modal-body">
+            <form class="row g-3">
+              <div class="col-md-12">
+                <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                <select id="tipoDocumento" class="form-select">
+                  <option value="DNI" selected>DNI</option>
+                  <option value="RUC">RUC</option>
+                </select>
+              </div>
+
+              <div class="col-md-12">
+                <label for="numeroDocumento" class="form-label">Número de Documento</label>
+                <input type="text" class="form-control" id="numeroDocumento" />
+              </div>
+
+              <div class="col-md-12">
+                <label for="nombreCliente" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombreCliente" />
+              </div>
+
+              <div class="col-md-6">
+                <label for="inputTelefono" class="form-label">Telefono</label>
+                <input type="text" class="form-control" id="inputTelefono">
+              </div>
+
+              <div class="col-md-6">
+                <label for="inputCorreo" class="form-label">Correo</label>
+                <input type="text" class="form-control" id="inputCorreo"
+                  placeholder="@gmail.com / @hotmail.com / @outlook.es">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Cancelar
+                </button>
+                <button type="submit" class="btn" style="background-color: #10401b;" data-bs-dismiss="modal">
+                  Registrar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
