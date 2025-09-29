@@ -2,8 +2,8 @@
 <div class="spacer d-none d-md-block" style="height: 150px;"></div> <!-- escritorio -->
 <main class="main-content">
   <!-- Antes o después del carrito -->
-<div class="side-decor left"></div>
-<div class="side-decor right"></div>
+  <div class="side-decor left"></div>
+  <div class="side-decor right"></div>
 
   <div class="carrito-container container py-3">
 
@@ -13,55 +13,58 @@
 
     <!-- Si hay productos -->
     <div *ngIf="cartItems.length > 0; else carritoVacio">
-      
+
       <!-- Lista de productos -->
-<div class="carrito-item card shadow-sm p-3 mb-3" *ngFor="let item of cartItems">
-  <div class="row align-items-center">
-    
-    <!-- Imagen con skeleton -->
-    <div class="col-3 col-md-2 text-center">
-      <div class="skeleton-image rounded"></div>
-    </div>
+      <div class="carrito-item card shadow-sm p-3 mb-3" *ngFor="let item of cartItems">
+        <div class="row align-items-center">
 
-    <!-- Info -->
-    <div class="col-6 col-md-6">
-      <h5 class="mb-1">{{ item.nombre }}</h5>
-      <p class="mb-1 text-muted">
-        <i class="fas fa-tag me-1"></i> Precio: <strong>S/ {{ item.precio }}</strong>
-      </p>
-      <p class="mb-0 text-muted">
-        <i class="fas fa-calculator me-1"></i> Total: <strong>S/ {{ item.precio * item.cantidad | number: '1.2-2' }}</strong>
-      </p>
-    </div>
+          <!-- Imagen con skeleton -->
+          <div class="col-3 col-md-2 text-center">
+            <div class="skeleton-image rounded"></div>
+          </div>
 
-    <!-- Contenedor botones: stepper + eliminar -->
-    <div class="col-12 col-md-4 text-center text-md-end botones-control">
-      <div class="cantidad-stepper d-inline-flex align-items-center">
-        <button class="stepper-btn" (click)="cambiarCantidad(item, -1)">
-          <i class="fas fa-minus"></i>
-        </button>
-        <span class="cantidad-display">{{ item.cantidad }}</span>
-        <button class="stepper-btn" (click)="cambiarCantidad(item, 1)">
-          <i class="fas fa-plus"></i>
-        </button>
+          <!-- Info -->
+          <div class="col-6 col-md-6">
+            <h5 class="mb-1">{{ item.nombre }}</h5>
+            <p class="mb-1 text-muted">
+              <i class="fas fa-tag me-1"></i> Precio: <strong>S/ {{ item.precio }}</strong>
+            </p>
+            <p class="mb-0 text-muted">
+              <i class="fas fa-calculator me-1"></i> Total: <strong>S/ {{ item.precio * item.cantidad | number: '1.2-2'
+                }}</strong>
+            </p>
+          </div>
+
+          <!-- Contenedor botones: stepper + eliminar -->
+          <div class="col-12 col-md-4 text-center text-md-end botones-control">
+            <div class="cantidad-stepper d-inline-flex align-items-center">
+              <button class="stepper-btn" (click)="cambiarCantidad(item, -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="cantidad-display">{{ item.cantidad }}</span>
+              <button class="stepper-btn" (click)="cambiarCantidad(item, 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <button class="icon-btn eliminar-btn ms-3" (click)="removeItem(item)" title="Eliminar">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+
+        </div>
       </div>
-
-      <button class="icon-btn eliminar-btn ms-3" (click)="removeItem(item)" title="Eliminar">
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </div>
-
-  </div>
-</div>
 
       <!-- Resumen -->
       <div class="carrito-resumen card shadow-lg p-4 mt-4">
         <h4 class="mb-3">
           <i class="fas fa-file-invoice-dollar me-2"></i> Resumen de Compra
         </h4>
-        <p><i class="fas fa-money-bill-wave me-1"></i> Subtotal: <strong>S/ {{ subtotal | number: '1.2-2' }}</strong></p>
+        <p><i class="fas fa-money-bill-wave me-1"></i> Subtotal: <strong>S/ {{ subtotal | number: '1.2-2' }}</strong>
+        </p>
         <p><i class="fas fa-percentage me-1"></i> IGV (18%): <strong>S/ {{ igv | number: '1.2-2' }}</strong></p>
-        <p class="total-final fs-5"><i class="fas fa-receipt me-1"></i> Total: <strong>S/ {{ totalPrice | number: '1.2-2' }}</strong></p>
+        <p class="total-final fs-5"><i class="fas fa-receipt me-1"></i> Total: <strong>S/ {{ totalPrice | number:
+            '1.2-2' }}</strong></p>
 
         <button class="btn btn-success w-100 mt-3" (click)="checkout()">
           <i class="fas fa-credit-card me-2"></i> Proceder a Checkout

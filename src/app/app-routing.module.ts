@@ -36,13 +36,16 @@ import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { RegistrarPedidosComponent } from './components/registrar-pedidos/registrar-pedidos.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
+import { ResumenCompraComponent } from './components/resumen-compra/resumen-compra.component';
+
 
 const routes: Routes = [
   // Rutas generales
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'resumen-compra', component: ResumenCompraComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotpasswordComponent },
-  { path: 'principal', component: PrincipalComponent},
+  { path: 'principal', component: PrincipalComponent },
 
   // Rutas protegidas (requieren autenticación)
   { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard] },
@@ -71,14 +74,14 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
-  { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard]},
-  { path: 'nuevo-pedido', component: RegistrarPedidosComponent, canActivate: [AuthGuard]},
+  { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard] },
+  { path: 'nuevo-pedido', component: RegistrarPedidosComponent, canActivate: [AuthGuard] },
 
   //cliente
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
   { path: 'catalogo', component: CatalogoComponent },
-  { path: 'nosotros', component: NosotrosComponent},
-  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, 
+  { path: 'nosotros', component: NosotrosComponent },
+  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
 
   // Redirecciones
   { path: '', redirectTo: 'principal', pathMatch: 'full' },

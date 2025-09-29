@@ -61,6 +61,7 @@ import { RegistrarPedidosComponent } from './components/registrar-pedidos/regist
 //servicios para hacer la comprobacion de jwt en la parte del carrito :)
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/authInterceptor';
+import { ResumenCompraComponent } from './components/resumen-compra/resumen-compra.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,9 @@ import { AuthInterceptor } from './services/authInterceptor';
     CarritoComponent,
     HistorialCarritoComponent,
     ListaPedidosComponent,
-    RegistrarPedidosComponent
+    RegistrarPedidosComponent,
+    ResumenCompraComponent
+
   ],
   imports: [
     BrowserModule,

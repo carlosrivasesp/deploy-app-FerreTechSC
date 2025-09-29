@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';  // Importa Router
 import { CarritoService, CartItem, CarritoResponse } from '../../services/carrito.service'; // Ajusta la ruta
 
 @Component({
@@ -14,32 +15,36 @@ export class CarritoComponent implements OnInit {
     igv = 0;
     totalPrice = 0;
 
-    constructor(private carritoService: CarritoService) {}
+    constructor(
+        private carritoService: CarritoService,
+        private router: Router  // Inyecta Router
+    ) { }
 
     ngOnInit(): void {
         this.loadCart();
     }
 
-loadCart(): void {
-    this.carritoService.getCart().subscribe({
-        next: (res: CarritoResponse) => {
-            this.cartItems = res.items;
-            this.moneda = res.moneda;
-            this.subtotal = res.subtotal;
-            this.igv = res.igv;
-            this.totalPrice = res.total;
-        },
-        error: (err) => {
-            console.error('Error cargando carrito:', err);
-        }
-    });
-}
-  cambiarCantidad(item: any, cambio: number) {
-    const nuevaCantidad = item.cantidad + cambio;
-    if (nuevaCantidad < 1) return;
-    item.cantidad = nuevaCantidad;
-    this.updateQuantity(item);
-  }
+    loadCart(): void {
+        this.carritoService.getCart().subscribe({
+            next: (res: CarritoResponse) => {
+                this.cartItems = res.items;
+                this.moneda = res.moneda;
+                this.subtotal = res.subtotal;
+                this.igv = res.igv;
+                this.totalPrice = res.total;
+            },
+            error: (err) => {
+                console.error('Error cargando carrito:', err);
+            }
+        });
+    }
+
+    cambiarCantidad(item: any, cambio: number) {
+        const nuevaCantidad = item.cantidad + cambio;
+        if (nuevaCantidad < 1) return;
+        item.cantidad = nuevaCantidad;
+        this.updateQuantity(item);
+    }
 
     removeItem(item: CartItem): void {
         this.carritoService.removeItem(item.producto._id).subscribe({
@@ -63,7 +68,7 @@ loadCart(): void {
     }
 
     checkout(): void {
-        // Aquí puedes implementar el checkout luego
-        console.log('Checkout pendiente...');
+        // Redirigir al resumen de compra al hacer checkout
+        this.router.navigate(['/resumen-compra']);
     }
 }

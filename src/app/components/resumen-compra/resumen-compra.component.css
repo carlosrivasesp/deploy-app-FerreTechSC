@@ -1,0 +1,588 @@
+
+
+/* Sección del carrusel */
+.categorias-carousel-wrapper {
+  position: relative;
+  width: 100vw;
+  max-width: 1600px;
+  margin: 3rem auto;
+  user-select: none;
+  overflow: visible;
+  padding: 0 2rem;
+  padding-bottom: 50px;
+  padding-top: 50px;
+}
+
+
+.btn-prev,
+.btn-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 40px;
+  height: 80px;
+  cursor: pointer;
+  z-index: 5;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-prev:hover,
+.btn-next:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.btn-prev {
+  left: -10px;
+}
+
+.btn-next {
+  right: -10px;
+}
+
+/* Track visible */
+.carousel-track-wrapper {
+  overflow: hidden;
+  width: 100%;
+  margin-top: -30px;
+}
+
+/* Track deslizante */
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+.title-cards{
+    margin-top: 30px;
+}
+
+/* Cada slide ocupa 1/6 del contenedor (ajustable) */
+.card-slide {
+  flex: 0 0 calc(100% / 6);
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+.card {
+  height: 100%;
+  width: 100%;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  opacity: 1 !important;
+  cursor: pointer;
+}
+
+.card-img-top {
+  height: 150px;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+/* Responsivo: 3 por fila en tablet, 2 en móviles */
+@media (max-width: 1200px) {
+  .card-slide {
+    flex: 0 0 calc(100% / 4);
+  }
+}
+
+@media (max-width: 992px) {
+  .card-slide {
+    flex: 0 0 calc(100% / 3);
+  }
+}
+
+@media (max-width: 768px) {
+  .card-slide {
+    flex: 0 0 calc(100% / 2);
+  }
+}
+
+@media (max-width: 576px) {
+  .card-slide {
+    flex: 0 0 100%;
+  }
+
+  .btn-prev,
+  .btn-next {
+    width: 30px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .categorias-carousel-wrapper {
+    padding: 0 1rem;
+  }
+}
+
+/* Grid fijo 4x2 */
+.productos-grid-4x2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 1.5rem;
+}
+
+#productos-mas-vendidos .card {
+  height: 100%;
+  border-radius: 10px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+#productos-mas-vendidos .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+#productos-mas-vendidos .card-img-top {
+  height: 150px;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+#productos-mas-vendidos .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 992px) {
+  .productos-grid-4x2 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, auto);
+  }
+}
+
+@media (max-width: 576px) {
+  .productos-grid-4x2 {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, auto);
+  }
+}
+
+.btn2 {
+  position: relative;
+  display: inline-block;
+  padding: 15px 30px;
+  border: 2px solid #10401b;
+  text-transform: uppercase;
+  color: #000000;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 20px;
+  transition: 0.3s;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn2::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 6px);
+  height: calc(100% + 2px);
+  background-color: #ffffff;
+  transition: 0.3s ease-out;
+  transform: scaleY(1);
+}
+
+.btn2::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% - 50px);
+  background-color: #ffffff;
+  transition: 0.3s ease-out;
+  transform: scaleY(1);
+}
+
+.btn2:hover::before {
+  transform: translateY(-25px);
+  height: 0;
+}
+
+.btn2:hover::after {
+  transform: scaleX(0);
+  transition-delay: 0.15s;
+}
+
+.btn2:hover {
+  border: 2px solid #10401b;
+}
+
+.btn2 .spn2 {
+  position: relative;
+  z-index: 3;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+}
+
+
+/* ---------- BOTÓN (shadcn adaptado) ---------- */
+.btn-shadcn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.25rem;
+  background-color: #69d07f;  /* Verde brillante que combina */
+  color: #000000;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-shadcn:hover {
+  background-color: #5ac872;
+  box-shadow: 0 4px 12px rgba(105, 208, 127, 0.3);
+}
+
+.btn-shadcn:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(105, 208, 127, 0.4);
+}
+
+.btn-shadcn:disabled {
+  background-color: #5e6f60;
+  color: #dcdcdc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  background-color: #000000;
+}
+
+
+
+/* Botón */
+.btn-shadcn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.25rem;
+  background-color: #69d07f;
+  color: #000000;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-shadcn:hover {
+  background-color: #5ac872;
+  box-shadow: 0 4px 12px rgba(105, 208, 127, 0.3);
+}
+
+.btn-shadcn:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(105, 208, 127, 0.4);
+}
+
+.btn-shadcn:disabled {
+  background-color: #5e6f60;
+  color: #dcdcdc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Footer */
+.footer {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.footer h5 {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #dddddd;
+}
+
+.footer-divider {
+  border: 0;
+  border-top: 1px solid #444444;
+  margin: 1.5rem 0;
+}
+
+.footer-bottom {
+  font-size: 0.875rem;
+  color: #aaaaaa;
+}
+
+/* Efecto Parallax con fondo fijo */
+.parallax-fixed {
+  background-image: url('/img1.jpg'); /* Usa tu imagen */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.carousel-caption {
+  position: relative;
+  z-index: 1;
+}
+/* ===== Comentarios ===== */
+.comentarios-box {
+  background: #f8f9fa;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+}
+
+/* ========= Sección "Por qué comprar con nosotros" ========= */
+#porque-comprar {
+  background: linear-gradient(135deg, #ffffff, #f4fdf7); /* fondo blanco con un toque verde claro */
+  padding: 3rem 0;
+}
+
+#porque-comprar h4 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #10401b; /* Verde oscuro */
+}
+
+/* Tarjetas de beneficios */
+.benefit-card {
+  background: #ffffff;
+  border: 1px solid rgba(105, 208, 127, 0.4); /* borde verde suave */
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(16, 64, 27, 0.15); /* sombra verde oscuro */
+  border: 1px solid #69d07f; /* acento verde brillante */
+}
+
+.benefit-card h5 {
+  color: #10401b; /* Verde oscuro para títulos */
+  font-weight: 600;
+}
+
+.benefit-card p {
+  color: #333; /* Texto legible */
+}
+
+
+.hover-zoom {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-zoom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.modal-body img {
+  max-height: 80vh;
+  object-fit: contain;
+}
+/* Estilo para las tarjetas de galería */
+.gallery-item {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 10px;
+  aspect-ratio: 1 / 1; /* Mantiene cuadrado */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Recorta la imagen manteniendo proporción */
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.1);
+}
+
+/* Modal */
+.modal-body img {
+  max-height: 80vh;
+  width: auto;
+  object-fit: contain; /* Se ajusta al modal sin deformarse */
+  border-radius: 12px;
+}
+
+
+/* ===== Ampliar secciones generales ===== */
+section:not(#categorias) .container {
+  max-width: 100% !important;  /* forzar ancho completo */
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+/* Opcional: ancho aún más grande en pantallas grandes */
+@media (min-width: 1600px) {
+  section:not(#categorias) .container {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+}
+
+/* ===== Secciones generales ===== */
+section {
+  padding: 4rem 0;
+  border-radius: 12px;
+  margin-bottom: 3rem;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Clase genérica para parallax */
+.parallax {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff; /* texto blanco para contraste */
+}
+
+/* Capa oscura para mejorar contraste del texto */
+.parallax::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.45);
+  z-index: -1;
+}
+
+/* ===== Sección Testimonios ===== */
+#testimonios {
+  background: linear-gradient(135deg, #ffffff, #f4fdf7);
+  color: #333;
+}
+
+#testimonios h4 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #10401b;
+  margin-bottom: 3rem;
+}
+
+/* Tarjetas de testimonios */
+.testimonial-card {
+  background: #fff;
+  border: 1px solid rgba(105, 208, 127, 0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centra contenido horizontal */
+  text-align: center;
+  justify-content: space-between;
+  min-height: 300px;
+  padding-top: 3.5rem;   /* deja espacio extra para la foto */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(16, 64, 27, 0.2);
+}
+
+/* Imagen de perfil */
+.perfil-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;         /* círculo */
+  object-fit: cover;          /* recorte sin deformar */
+  object-position: center;    
+  border: 3px solid #fff;     /* borde blanco elegante */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: absolute;
+  top: -50px;                 /* la hace flotar sobre la tarjeta */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Comillas decorativas */
+.quote-icon {
+  font-size: 2.5rem;
+  color: #69d07f;
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  opacity: 0.15;
+}
+
+/* Texto */
+.testimonial-card p {
+  font-style: italic;
+  color: #555;
+  font-size: 1rem;
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+}
+
+/* Nombre */
+.testimonial-card h6 {
+  font-weight: 600;
+  color: #10401b;
+  margin-top: 0.5rem;
+}
+
+/* Fecha */
+.testimonial-card small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* Estilo para las estrellas en testimonios */
+.testimonial-card .rating {
+  font-size: 1.2rem;       /* tamaño de estrellas */
+  color: #ffc107;          /* amarillo tipo rating */
+  margin-top: 2rem;      /* espacio hacia abajo */
+  margin-bottom: 0.5rem;   /* espacio hacia arriba del texto */
+  display: block;
+}
