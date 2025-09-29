@@ -15,7 +15,7 @@
       <!-- Lista de productos -->
       <div class="carrito-item card shadow-sm p-3 mb-3" *ngFor="let item of cartItems">
         <div class="row align-items-center">
-          
+
           <!-- Imagen con skeleton -->
           <div class="col-3 col-md-2 text-center">
             <div class="skeleton-image rounded"></div>
@@ -28,7 +28,8 @@
               <i class="fas fa-tag me-1"></i> Precio: <strong>S/ {{ item.precio }}</strong>
             </p>
             <p class="mb-0 text-muted">
-              <i class="fas fa-calculator me-1"></i> Total: <strong>S/ {{ item.precio * item.cantidad | number: '1.2-2' }}</strong>
+              <i class="fas fa-calculator me-1"></i> Total: <strong>S/ {{ item.precio * item.cantidad | number: '1.2-2'
+                }}</strong>
             </p>
           </div>
 
@@ -47,9 +48,11 @@
         <h4 class="mb-3">
           <i class="fas fa-file-invoice-dollar me-2"></i> Detalles de la Compra
         </h4>
-        <p><i class="fas fa-money-bill-wave me-1"></i> Subtotal: <strong>S/ {{ subtotal | number: '1.2-2' }}</strong></p>
+        <p><i class="fas fa-money-bill-wave me-1"></i> Subtotal: <strong>S/ {{ subtotal | number: '1.2-2' }}</strong>
+        </p>
         <p><i class="fas fa-percentage me-1"></i> IGV (18%): <strong>S/ {{ igv | number: '1.2-2' }}</strong></p>
-        <p class="total-final fs-5"><i class="fas fa-receipt me-1"></i> Total: <strong>S/ {{ totalPrice | number: '1.2-2' }}</strong></p>
+        <p class="total-final fs-5"><i class="fas fa-receipt me-1"></i> Total: <strong>S/ {{ totalPrice | number:
+            '1.2-2' }}</strong></p>
 
         <!-- Formulario de confirmación -->
         <div class="form-group">
@@ -72,13 +75,6 @@
         <div class="form-group mt-3">
           <label for="cliente">Cliente</label>
           <input type="text" class="form-control" id="cliente" [(ngModel)]="cliente" placeholder="Nombre del Cliente">
-        </div>
-
-        <div class="form-check mt-3">
-          <input class="form-check-input" type="checkbox" id="servicioDelivery" [(ngModel)]="servicioDelivery">
-          <label class="form-check-label" for="servicioDelivery">
-            Servicio de Delivery
-          </label>
         </div>
 
         <button class="btn btn-primary w-100 mt-3" (click)="confirmarCompra()">
