@@ -1,17 +1,15 @@
 <app-navbar-principal></app-navbar-principal>
 <div class="spacer d-none d-md-block" style="height: 150px;"></div> <!-- escritorio -->
 <main class="main-content">
-  <!-- Antes o después del carrito -->
   <div class="side-decor left"></div>
   <div class="side-decor right"></div>
 
-  <div class="carrito-container container py-3">
+  <div class="resumen-compra-container container py-3">
 
-    <h2 class="carrito-titulo mb-4">
-      <i class="fas fa-shopping-cart me-2"></i> Carrito de Compras
+    <h2 class="resumen-titulo mb-4">
+      <i class="fas fa-file-invoice me-2"></i> Resumen de Compra
     </h2>
 
-    <!-- Si hay productos -->
     <div *ngIf="cartItems.length > 0; else carritoVacio">
 
       <!-- Lista de productos -->
@@ -35,30 +33,20 @@
             </p>
           </div>
 
-          <!-- Contenedor botones: stepper + eliminar -->
+          <!-- Cantidad y eliminación -->
           <div class="col-12 col-md-4 text-center text-md-end botones-control">
             <div class="cantidad-stepper d-inline-flex align-items-center">
-              <button class="stepper-btn" (click)="cambiarCantidad(item, -1)">
-                <i class="fas fa-minus"></i>
-              </button>
               <span class="cantidad-display">{{ item.cantidad }}</span>
-              <button class="stepper-btn" (click)="cambiarCantidad(item, 1)">
-                <i class="fas fa-plus"></i>
-              </button>
             </div>
-
-            <button class="icon-btn eliminar-btn ms-3" (click)="removeItem(item)" title="Eliminar">
-              <i class="fas fa-trash-alt"></i>
-            </button>
           </div>
 
         </div>
       </div>
 
-      <!-- Resumen -->
+      <!-- Resumen de la compra -->
       <div class="carrito-resumen card shadow-lg p-4 mt-4">
         <h4 class="mb-3">
-          <i class="fas fa-file-invoice-dollar me-2"></i> Resumen de Compra
+          <i class="fas fa-file-invoice-dollar me-2"></i> Detalles de la Compra
         </h4>
         <p><i class="fas fa-money-bill-wave me-1"></i> Subtotal: <strong>S/ {{ subtotal | number: '1.2-2' }}</strong>
         </p>
@@ -66,8 +54,31 @@
         <p class="total-final fs-5"><i class="fas fa-receipt me-1"></i> Total: <strong>S/ {{ totalPrice | number:
             '1.2-2' }}</strong></p>
 
-        <button class="btn btn-success w-100 mt-3" (click)="checkout()">
-          <i class="fas fa-credit-card me-2"></i> Proceder a Checkout
+        <!-- Formulario de confirmación -->
+        <div class="form-group">
+          <label for="tipoComprobante">Tipo de Comprobante</label>
+          <select id="tipoComprobante" class="form-control" [(ngModel)]="tipoComprobante">
+            <option value="Factura">Factura</option>
+            <option value="Boleta">Boleta</option>
+          </select>
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="metodoPago">Método de Pago</label>
+          <select id="metodoPago" class="form-control" [(ngModel)]="metodoPago">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Yape">Yape</option>
+          </select>
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="cliente">Cliente</label>
+          <input type="text" class="form-control" id="cliente" [(ngModel)]="cliente" placeholder="Nombre del Cliente">
+        </div>
+
+        <button class="btn btn-primary w-100 mt-3" (click)="confirmarCompra()">
+          <i class="fas fa-check me-2"></i> Confirmar Compra
         </button>
       </div>
 

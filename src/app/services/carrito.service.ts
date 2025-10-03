@@ -37,22 +37,27 @@ export class CarritoService {
 
   constructor(private http: HttpClient) { }
 
+  // Obtener los productos del carrito
   getCart(): Observable<CarritoResponse> {
     return this.http.get<CarritoResponse>(`${this.apiUrl}/`);
   }
 
+  // Agregar un producto al carrito
   addItem(productId: string, cantidad: number = 1): Observable<CarritoResponse> {
     return this.http.post<CarritoResponse>(`${this.apiUrl}/items`, { productId, cantidad });
   }
 
+  // Actualizar la cantidad de un producto en el carrito
   setQty(productId: string, cantidad: number): Observable<CarritoResponse> {
     return this.http.patch<CarritoResponse>(`${this.apiUrl}/items/${productId}`, { cantidad });
   }
 
+  // Eliminar un producto del carrito
   removeItem(productId: string): Observable<CarritoResponse> {
     return this.http.delete<CarritoResponse>(`${this.apiUrl}/items/${productId}`);
   }
 
+  // Procesar el checkout del carrito
   checkout(data: {
     tipoComprobante: string,
     metodoPago: string,
