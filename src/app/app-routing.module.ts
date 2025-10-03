@@ -35,6 +35,7 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
+import { DetallePedidosComponent } from './components/detalle-pedidos/detalle-pedidos.component';
 import { ResumenCompraComponent } from './components/resumen-compra/resumen-compra.component';
 
 
@@ -73,7 +74,8 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
-  { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard] },
+  { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard]},
+  { path: 'detalle-pedido/:id', component: DetallePedidosComponent, canActivate: [AuthGuard]},
 
   //cliente
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },

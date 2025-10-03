@@ -60,6 +60,8 @@ import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/authInterceptor';
 import { ResumenCompraComponent } from './components/resumen-compra/resumen-compra.component';
+import { DetallePedidosComponent } from './components/detalle-pedidos/detalle-pedidos.component';
+CarritoComponent
 
 @NgModule({
   declarations: [
@@ -102,6 +104,7 @@ import { ResumenCompraComponent } from './components/resumen-compra/resumen-comp
     ListaPedidosComponent,
     ResumenCompraComponent
 
+    DetallePedidosComponent,
   ],
   imports: [
     BrowserModule,
