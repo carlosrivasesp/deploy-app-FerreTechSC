@@ -33,7 +33,6 @@ import { DetalleDevolucionProductosComponent } from './components/detalle-devolu
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
-import { RegistrarPedidosComponent } from './components/registrar-pedidos/registrar-pedidos.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { ResumenCompraComponent } from './components/resumen-compra/resumen-compra.component';
@@ -75,7 +74,6 @@ const routes: Routes = [
   { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
   { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard] },
-  { path: 'nuevo-pedido', component: RegistrarPedidosComponent, canActivate: [AuthGuard] },
 
   //cliente
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },

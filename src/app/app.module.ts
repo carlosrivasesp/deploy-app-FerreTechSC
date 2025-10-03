@@ -55,8 +55,6 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
-import { RegistrarPedidosComponent } from './components/registrar-pedidos/registrar-pedidos.component';
-
 
 //servicios para hacer la comprobacion de jwt en la parte del carrito :)
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -102,7 +100,6 @@ import { ResumenCompraComponent } from './components/resumen-compra/resumen-comp
     CarritoComponent,
     HistorialCarritoComponent,
     ListaPedidosComponent,
-    RegistrarPedidosComponent,
     ResumenCompraComponent
 
   ],
