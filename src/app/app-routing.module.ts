@@ -48,7 +48,7 @@ const routes: Routes = [
   { path: 'principal', component: PrincipalComponent },
 
   // Rutas protegidas (requieren autenticación)
-  { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardAdmComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: 'productos', component: ListaProductosComponent, canActivate: [AuthGuard] },
   { path: 'clientes', component: ListaClientesComponent, canActivate: [AuthGuard] },
   { path: 'ventas', component: VentaComponent, canActivate: [AuthGuard] },

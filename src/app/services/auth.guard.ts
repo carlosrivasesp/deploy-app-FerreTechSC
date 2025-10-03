@@ -11,25 +11,26 @@ export class AuthGuard implements CanActivate {
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
-    
+    state: RouterStateSnapshot
+  ): boolean {
     const token = this.authService.getToken();
-    
-    // 1. Si no hay token, redirigir al login
-    if (!token) {
-      this.redirectToLogin();
-      return false;
-    }
-    
-    // 2. Verificar si el token está expirado
-    if (this.isTokenExpired(token)) {
+
+    if (!token || this.isTokenExpired(token)) {
       this.authService.logout();
       this.redirectToLogin();
       return false;
     }
-    
+
+    // Si la ruta requiere admin
+    if (next.data['role'] === 'admin' && !this.authService.isAdmin()) {
+      this.authService.logout();
+      this.redirectToLogin();
+      return false;
+    }
+
     return true;
   }
+
 
   private isTokenExpired(token: string): boolean {
     try {

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-principal',
@@ -7,16 +9,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar-principal.component.css']
 })
 export class NavbarPrincipalComponent {
-  // Aquí guardaremos los productos en el carrito
   cartItems: any[] = [
     { nombre: 'Producto 1', precio: 20.00, cantidad: 1 },
     { nombre: 'Producto 2', precio: 15.00, cantidad: 2 }
   ];
 
-  // Variable para mostrar/ocultar el carrito
   showCarrito: boolean = false;
 
-  // Función para alternar la visibilidad del carrito
+  constructor(private authService: AuthService, private router: Router) {}
+
+  get user(): any {
+    return this.authService.getCurrentUser();
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
+
   toggleCarrito(): void {
     this.showCarrito = !this.showCarrito;
   }

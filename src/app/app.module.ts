@@ -104,6 +104,8 @@ CarritoComponent
     ListaPedidosComponent,
     ResumenCompraComponent,
     DetallePedidosComponent,
+    LoginComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -113,9 +115,7 @@ CarritoComponent
     ToastrModule.forRoot(),
     HttpClientModule,
     NgChartsModule,
-    FormsModule,
-    LoginComponent,
-    HeaderComponent,
+    FormsModule
 
 
   ],

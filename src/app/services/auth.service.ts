@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private baseUrl = 'http://localhost:4000/api/auth';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   registrarUsuario(usuario: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, usuario);
@@ -17,7 +17,7 @@ export class AuthService {
 
   iniciarSesion(correo: string, password: string): Observable<any> {
     const correoNormalizado = correo.toLowerCase().trim();
-    
+
     return this.http.post(`${this.baseUrl}/login`, { 
       correo: correoNormalizado, 
       password 
@@ -35,38 +35,36 @@ export class AuthService {
     } else if (rol === 'cliente') {
       this.router.navigate(['/principal']);
     } else {
-      console.warn('Rol desconocido:', rol);
       this.router.navigate(['/login']);
     }
   }
 
   private guardarDatosSesion(res: any): void {
-    localStorage.setItem('token', res.token);
-    localStorage.setItem('user', JSON.stringify(res.usuario));
+    // ✅ Siempre usar sessionStorage para todos
+    sessionStorage.setItem('token', res.token);
+    sessionStorage.setItem('user', JSON.stringify(res.usuario));
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    return !!sessionStorage.getItem('token');
   }
 
-getToken(): string | null {
-  return localStorage.getItem('token');
-}
+  getToken(): string | null {
+    return sessionStorage.getItem('token');
+  }
 
   isAdmin(): boolean {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user.rol === 'admin';
+    const user = this.getCurrentUser();
+    return user?.rol === 'admin';
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    sessionStorage.clear(); // ✅ borrar todo
+    this.router.navigate(['/principal']);
   }
 
-  getCurrentUser(): any {
-    return JSON.parse(localStorage.getItem('user') || '{}');
+  getCurrentUser(): any | null {
+    const user = sessionStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
-
-  
 }

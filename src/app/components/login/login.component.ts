@@ -7,12 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
-  standalone: true, // <-- Este componente es standalone
-  imports: [
-    CommonModule,     // Necesario para ngClass
-    ReactiveFormsModule, // Necesario para formGroup
-    RouterModule       // Necesario para routerLink
-  ],
+  standalone: false,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
