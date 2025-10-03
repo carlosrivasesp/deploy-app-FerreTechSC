@@ -1,10 +1,11 @@
-<app-header />
-<app-sidebar />
+<app-header></app-header>
+<app-sidebar></app-sidebar>
 
 <main class="main-content">
   <div class="separador">
     <p class="title">Listado de pedidos</p>
 
+    <!-- FILTROS -->
     <div class="filter">
       <div class="group1">
         <p class="description">Filtrar por:</p>
@@ -15,21 +16,12 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <!--{{ selectedFilter | uppercase }}-->
+            {{ selectedFilter | uppercase }}
           </button>
           <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" >Cliente</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" >Fecha</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" >Estado</a
-              >
-            </li>
+            <li><a class="dropdown-item" (click)="selectedFilter = 'cliente'">Cliente</a></li>
+            <li><a class="dropdown-item" (click)="selectedFilter = 'fecha'">Fecha</a></li>
+            <li><a class="dropdown-item" (click)="selectedFilter = 'estado'">Estado</a></li>
           </ul>
         </div>
       </div>
@@ -40,12 +32,14 @@
             type="text"
             class="form-control"
             placeholder="Buscar"
+            [(ngModel)]="searchTerm"
           />
           <span class="input-group-text"><i class="bi bi-search"></i></span>
         </div>
       </div>
     </div>
 
+    <!-- TABLA DE PEDIDOS -->
     <table class="table">
       <thead>
         <tr class="header">
@@ -59,47 +53,24 @@
         </tr>
       </thead>
       <tbody class="body">
-        <tr>
-          <td>12345</td>
-          <td>ruben</td>
-          <td>
-            25/09/2025
-          </td>
-          <td>30/09/2025</td>
-          <td>S/ 150.00</td>
-          <td>Pendiente</td>
+        <tr *ngFor="let pedido of paginatedPedidos">
+          <td>{{ pedido.nroOperacion }}</td>
+          <td>{{ pedido.cliente.nombre }}</td>
+          <td>{{ formatDate(pedido.fechaEmision) }}</td>
+          <td>{{ formatDate(pedido.fechaVenc) }}</td>
+          <td>S/ {{ pedido.total | number:'1.2-2' }}</td>
+          <td>{{ pedido.estado }}</td>
           <td>
             <div class="links">
-              
-              <a
-                data-bs-toggle="modal"
-                data-bs-target="#modalEdit"
-                >
-                <!--<i class="bi bi-pencil"></i>-->
-              </a>
-              <a role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-gear"></i>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalAgregar"
-                    >Agregar</a
-                  >
-                </li>
-              </ul>
+              <a [routerLink]="['/detalle-pedido', pedido._id]"><i class="bi bi-eye"></i></a>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
 
-
-    <!--PAGINACIÓN-->
-
-    <!--<nav *ngIf="totalPages > 1">
+    <!-- PAGINACIÓN -->
+    <nav *ngIf="totalPages > 1">
       <ul class="pagination justify-content-center">
         <li class="page-item" [class.disabled]="currentPage === 1">
           <button class="page-link" (click)="changePage(currentPage - 1)">
@@ -121,89 +92,6 @@
           </button>
         </li>
       </ul>
-    </nav>-->
-  
-    <!-- MODAL EDITAR -->
-
-    <div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">Editar pedido</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form class="row g-3">
-              <div class="col-md-6">
-                <label for="inputEstado" class="form-label">Estado</label>
-                <select
-                  id="inputEstado"
-                  class="form-select"
-                  >
-                  <option value="Pendiente">Pendiente</option>
-                  <option value="Registrado">Registrado</option>
-                  <option value="Entregado">Entregado</option>
-                  <option value="Enviado">Enviado</option>
-                </select>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">
-                  Cancelar
-                </button>
-                <button
-                  class="btn"
-                  style="background-color: #10401b"
-                  data-bs-dismiss="modal"
-                >
-                  Modificar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
-    <!--MODAL AGREGAR PRODUCTO-->
-    <div
-      class="modal fade"
-      id="modalAgregar"
-      tabindex="-1"
-      aria-labelledby="modalAgregar"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <p>¿Estás seguro que deseas modificar el pedido?</p>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              No
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-              >
-              Sí, modificar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </nav>
   </div>
 </main>

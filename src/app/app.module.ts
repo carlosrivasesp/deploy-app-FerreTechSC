@@ -55,7 +55,7 @@ import { HistorialCarritoComponent } from './components/historial-carrito/histor
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
-import { RegistrarPedidosComponent } from './components/registrar-pedidos/registrar-pedidos.component';
+import { DetallePedidosComponent } from './components/detalle-pedidos/detalle-pedidos.component';
 CarritoComponent
 
 @NgModule({
@@ -97,7 +97,7 @@ CarritoComponent
     CarritoComponent,
     HistorialCarritoComponent,
     ListaPedidosComponent,
-    RegistrarPedidosComponent
+    DetallePedidosComponent,
   ],
   imports: [
     BrowserModule,

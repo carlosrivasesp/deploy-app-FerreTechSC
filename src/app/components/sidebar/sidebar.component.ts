@@ -29,7 +29,6 @@ setActiveLink(link: string): void {
   localStorage.setItem('activeLink', link);
 
   const submenuMap: { [key: string]: string } = {
-    'nuevo-pedido': 'submenu1',
     'lista-pedidos': 'submenu1',
 
     'nuevo-comprobante': 'submenu2',

@@ -15,10 +15,6 @@
           <span class="description fw-bold">Pedidos <i class="bi bi-caret-down-fill"></i></span>
         </a>
         <div class="sub-menu" id="submenu1" [ngClass]="{ 'collapse': openSubmenu !== 'submenu1' }">
-          <a class="nav-link" routerLink="/nuevo-pedido" (click)="setActiveLink('nuevo-pedido')"
-             [ngClass]="{ 'active': activeLink === 'nuevo-pedido' }">
-            <i class="bi bi-dash"></i> Nuevo Pedido
-          </a>
           <a class="nav-link" routerLink="/lista-pedidos" (click)="setActiveLink('lista-pedidos')"
              [ngClass]="{ 'active': activeLink === 'lista-pedidos' }">
             <i class="bi bi-dash"></i> Listado de Pedidos
