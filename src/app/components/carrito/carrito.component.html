@@ -1,46 +1,85 @@
-<app-header />
-
+<app-navbar-principal></app-navbar-principal>
+<div class="spacer d-none d-md-block" style="height: 150px;"></div> <!-- escritorio -->
 <main class="main-content">
-  <div class="separador">
-    <!-- Título principal -->
-    <p class="title">Carrito de Compras</p>
+  <!-- Antes o después del carrito -->
+<div class="side-decor left"></div>
+<div class="side-decor right"></div>
 
-    <!-- Tabla de los productos en el carrito -->
-    <table class="table">
-      <thead>
-        <tr class="header">
-          <th scope="col">Producto</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Cantidad</th>
-          <th scope="col">Total</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="body">
-        <!-- Mostrar los productos del carrito con un *ngFor -->
-        <tr *ngFor="let item of cartItems">
-          <td>{{ item.nombre }}</td>
-          <td>S/ {{ item.precio }}</td>
-          <td>
-            <input type="number" class="form-control form-control-sm cantidad-input" [(ngModel)]="item.cantidad" min="1"
-              (change)="updateTotal()" />
-          </td>
-          <td>S/ {{ item.precio * item.cantidad }}</td>
-          <td>
-            <button class="btn btn-danger" (click)="removeItem(item)">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="carrito-container container py-3">
 
-    <!-- Resumen del carrito con el total -->
-    <div class="cart-summary">
-      <p>
-        Total: <span class="total-price">S/ {{ totalPrice }}</span>
-      </p>
-      <button class="btn btn-success">Proceder a Checkout</button>
+    <h2 class="carrito-titulo mb-4">
+      <i class="fas fa-shopping-cart me-2"></i> Carrito de Compras
+    </h2>
+
+    <!-- Si hay productos -->
+    <div *ngIf="cartItems.length > 0; else carritoVacio">
+      
+      <!-- Lista de productos -->
+<div class="carrito-item card shadow-sm p-3 mb-3" *ngFor="let item of cartItems">
+  <div class="row align-items-center">
+    
+    <!-- Imagen con skeleton -->
+    <div class="col-3 col-md-2 text-center">
+      <div class="skeleton-image rounded"></div>
     </div>
+
+    <!-- Info -->
+    <div class="col-6 col-md-6">
+      <h5 class="mb-1">{{ item.nombre }}</h5>
+      <p class="mb-1 text-muted">
+        <i class="fas fa-tag me-1"></i> Precio: <strong>S/ {{ item.precio }}</strong>
+      </p>
+      <p class="mb-0 text-muted">
+        <i class="fas fa-calculator me-1"></i> Total: <strong>S/ {{ item.precio * item.cantidad | number: '1.2-2' }}</strong>
+      </p>
+    </div>
+
+    <!-- Contenedor botones: stepper + eliminar -->
+    <div class="col-12 col-md-4 text-center text-md-end botones-control">
+      <div class="cantidad-stepper d-inline-flex align-items-center">
+        <button class="stepper-btn" (click)="cambiarCantidad(item, -1)">
+          <i class="fas fa-minus"></i>
+        </button>
+        <span class="cantidad-display">{{ item.cantidad }}</span>
+        <button class="stepper-btn" (click)="cambiarCantidad(item, 1)">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+
+      <button class="icon-btn eliminar-btn ms-3" (click)="removeItem(item)" title="Eliminar">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+      <!-- Resumen -->
+      <div class="carrito-resumen card shadow-lg p-4 mt-4">
+        <h4 class="mb-3">
+          <i class="fas fa-file-invoice-dollar me-2"></i> Resumen de Compra
+        </h4>
+        <p><i class="fas fa-money-bill-wave me-1"></i> Subtotal: <strong>S/ {{ subtotal | number: '1.2-2' }}</strong></p>
+        <p><i class="fas fa-percentage me-1"></i> IGV (18%): <strong>S/ {{ igv | number: '1.2-2' }}</strong></p>
+        <p class="total-final fs-5"><i class="fas fa-receipt me-1"></i> Total: <strong>S/ {{ totalPrice | number: '1.2-2' }}</strong></p>
+
+        <button class="btn btn-success w-100 mt-3" (click)="checkout()">
+          <i class="fas fa-credit-card me-2"></i> Proceder a Checkout
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Si el carrito está vacío -->
+    <ng-template #carritoVacio>
+      <div class="carrito-vacio card shadow-sm p-5 text-center">
+        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+        <p class="fs-5 mb-2">Tu carrito está vacío.</p>
+        <a routerLink="/catalogo" class="btn btn-outline-primary">
+          <i class="fas fa-store me-2"></i> Ir al catálogo
+        </a>
+      </div>
+    </ng-template>
+
   </div>
 </main>

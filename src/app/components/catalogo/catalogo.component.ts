@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto';
-
+import { CarritoService } from '../../services/carrito.service';
 @Component({
   selector: 'app-catalogo',
   templateUrl: './catalogo.component.html',
@@ -26,11 +26,15 @@ export class CatalogoComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 30;
 
-  constructor(private productoService: ProductoService) {}
+  constructor(
+    private productoService: ProductoService,
+    private carritoService: CarritoService // inyecta servicio carrito
+  ) {}
 
   ngOnInit(): void {
     this.productoService.getAllProductos().subscribe((data: Producto[]) => {
       this.productos = data;
+      
     });
   }
 
@@ -106,4 +110,21 @@ export class CatalogoComponent implements OnInit {
       this.currentPage = page;
     }
   }
+agregarAlCarrito(producto: Producto) {
+  if (!producto._id) {
+    alert('El producto no tiene ID y no se puede agregar al carrito.');
+    return;
+  }
+
+  this.carritoService.addItem(producto._id, 1).subscribe({
+    next: () => {
+      alert(`Se agregó ${producto.nombre} al carrito`);
+    },
+    error: (err) => {
+      console.error('Error agregando producto al carrito:', err);
+      alert('Error al agregar producto al carrito');
+    }
+  });
+}
+
 }

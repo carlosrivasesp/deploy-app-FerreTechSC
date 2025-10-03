@@ -56,7 +56,11 @@ import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
 import { RegistrarPedidosComponent } from './components/registrar-pedidos/registrar-pedidos.component';
-CarritoComponent
+
+
+//servicios para hacer la comprobacion de jwt en la parte del carrito :)
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './services/authInterceptor';
 
 @NgModule({
   declarations: [
@@ -114,7 +118,8 @@ CarritoComponent
 
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es-PE' }
+    { provide: LOCALE_ID, useValue: 'es-PE' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
