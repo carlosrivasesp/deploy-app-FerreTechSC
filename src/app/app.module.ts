@@ -102,8 +102,7 @@ CarritoComponent
     CarritoComponent,
     HistorialCarritoComponent,
     ListaPedidosComponent,
-    ResumenCompraComponent
-
+    ResumenCompraComponent,
     DetallePedidosComponent,
   ],
   imports: [
