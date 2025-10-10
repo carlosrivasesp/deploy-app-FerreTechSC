@@ -77,6 +77,18 @@
           <input type="text" class="form-control" id="cliente" [(ngModel)]="cliente" placeholder="Nombre del Cliente">
         </div>
 
+        <div class="form-check mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="servicioDelivery"
+            [(ngModel)]="servicioDelivery"
+          />
+          <label class="form-check-label" for="servicioDelivery">
+            Solicitar servicio de delivery
+          </label>
+        </div>
+
         <button class="btn btn-primary w-100 mt-3" (click)="confirmarCompra()">
           <i class="fas fa-check me-2"></i> Confirmar Compra
         </button>

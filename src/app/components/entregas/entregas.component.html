@@ -54,8 +54,7 @@
   <table class="table">
     <thead>
       <tr class="header">
-        <th scope="col" style="width: 250px">Tipo comprobante</th>
-        <th scope="col" style="width: 180px">Nro. Comprobante</th>
+        <th scope="col" style="width: 250px">Nro Operacion</th>
         <th scope="col" style="width: 200px">Dirección</th>
         <th scope="col" style="width: 150px">Distrito</th>
         <th scope="col" style="width: 120px">Costo</th>
@@ -65,8 +64,7 @@
     </thead>
     <tbody class="body">
       <tr *ngFor="let e of filteredEntregas">
-        <td>{{ e.ventaId.tipoComprobante }}</td>
-        <td>{{ e.ventaId.serie }} - {{ e.ventaId.nroComprobante }}</td>
+        <td>{{ e.operacionId?.nroOperacion }}</td>
         <td>{{ e.direccion }}</td>
         <td>{{ e.distrito }}</td>
         <td>{{ e.costo }}</td>

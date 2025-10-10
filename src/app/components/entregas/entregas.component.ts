@@ -3,6 +3,8 @@ import { Entregas } from '../../models/entregas';
 import { EntregaService } from '../../services/entregas.service';
 import { VentaService } from '../../services/venta.service';
 import { Venta } from '../../models/venta';
+import { Operacion } from '../../models/operacion';
+import { OperacionService } from '../../services/operacion.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -16,7 +18,7 @@ export class EntregasComponent {
   listaEntregas: Entregas[] = [];
   entregaSeleccionada: any = null;
 
-  selectedFilter: string = 'Tipo Comprobante';
+  selectedFilter: string = 'Nro Operacion';
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 10;
@@ -93,9 +95,9 @@ export class EntregasComponent {
         return this.listaEntregas.filter((v) =>
           v.estado.toLowerCase().startsWith(term)
         );
-      case 'Tipo Comprobante':
+      case 'Numero Pedido':
         return this.listaEntregas.filter((v) =>
-          v.ventaId.tipoComprobante.toLowerCase().startsWith(term)
+          v.operacionId.nroOperacion.toString().startsWith(term)
         );
       default:
         return this.listaEntregas;

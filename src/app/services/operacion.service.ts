@@ -38,6 +38,10 @@ export class OperacionService {
     let direccionUrl = this.url + id;
     return this.http.get<Operacion>(direccionUrl);
   }
+
+  obtenerHistorialPorCliente(dni: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/pedido/${dni}`);
+  }
 /*
   // Actualizar estado de la operación
   actualizarEstado(id: string, nuevoEstado: string, datosVenta?: any): Observable<any> {

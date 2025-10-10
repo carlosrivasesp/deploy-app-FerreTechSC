@@ -1,8 +1,8 @@
-import { Venta } from './venta';
+import { Operacion } from './operacion';
 
 export class Entregas {
   _id?: string;
-  ventaId: Venta;
+  operacionId: Operacion;
   direccion: string;
   distrito: string;
   estado: string;
@@ -10,14 +10,14 @@ export class Entregas {
   costo: number;
 
   constructor(
-    ventaId: Venta,
+    operacionId: Operacion,
     direccion: string,
     distrito: string,
     estado: string,
     fechaEntrega: Date,
     costo: number
   ) {
-    this.ventaId = ventaId;
+    this.operacionId = operacionId;
     this.direccion = direccion;
     this.distrito = distrito;
     this.estado = estado;

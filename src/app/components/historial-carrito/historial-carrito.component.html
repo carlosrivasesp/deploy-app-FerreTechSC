@@ -29,7 +29,7 @@
       <tbody>
         <tr *ngFor="let pedido of compras" class="text-center">
           <td><span class="fw-bold text-primary">{{ pedido._id }}</span></td>
-          <td>{{ pedido.Cliente?.nombre }}</td>
+          <td>{{ pedido.cliente?.nombre }}</td>
           <td>
             <span class="badge bg-success px-3 py-2" *ngIf="pedido.estado === 'Pagado'">
               {{ pedido.estado }}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CarritoService, CartItem } from '../../services/carrito.service'; // Ajusta la ruta
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resumen-compra',
@@ -20,7 +21,7 @@ export class ResumenCompraComponent implements OnInit {
   cliente = '';
   servicioDelivery = false;
 
-  constructor(private carritoService: CarritoService) { }
+  constructor(private carritoService: CarritoService, private router: Router) { }
 
   ngOnInit(): void {
     // Cargar datos del carrito
@@ -43,22 +44,34 @@ export class ResumenCompraComponent implements OnInit {
   }
 
   confirmarCompra(): void {
+    if (!this.cliente || this.cliente.trim() === '') {
+      alert('Debe seleccionar o ingresar un cliente antes de confirmar la compra.');
+      return;
+    }
+
+    // Mapear correctamente los nombres esperados por el backend
     const data = {
-      tipoComprobante: this.tipoComprobante,
+      tipoComprobante:
+        this.tipoComprobante === 'Factura'
+          ? 'FACTURA DE VENTA ELECTRONICA'
+          : 'BOLETA DE VENTA ELECTRONICA',
       metodoPago: this.metodoPago,
       cliente: this.cliente,
       servicioDelivery: this.servicioDelivery
     };
 
-    // Llamar al servicio de carrito para procesar el checkout
     this.carritoService.checkout(data).subscribe({
       next: (response) => {
-        console.log('Compra confirmada', response);
-        // Redirigir a la página de confirmación o a otra vista
+        console.log('✅ Pedido, venta y entrega creados correctamente:', response);
+
+        alert('Compra registrada correctamente.');
+        this.router.navigate(['/historial-carrito']);
       },
       error: (err) => {
-        console.error('Error confirmando la compra:', err);
+        console.error('❌ Error confirmando la compra:', err);
+        alert(err.error?.mensaje || 'Error al registrar la compra. Intente nuevamente.');
       }
     });
   }
+
 }

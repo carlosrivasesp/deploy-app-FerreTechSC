@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { HistorialService } from '../../services/historial.service';
-
+import { OperacionService } from '../../services/operacion.service';
 @Component({
   selector: 'app-historial-carrito',
   standalone: false,
@@ -12,7 +12,7 @@ export class HistorialCarritoComponent implements OnInit {
 
   compras: any[] = [];
 
-  constructor(private historialService: HistorialService) {}
+  constructor(private operacionService: OperacionService) {}
 
  ngOnInit(): void {
   this.cargarHistorial();
@@ -21,7 +21,7 @@ export class HistorialCarritoComponent implements OnInit {
 cargarHistorial(): void {
   const dni = localStorage.getItem('dniCliente'); 
   if (dni) {
-    this.historialService.obtenerHistorialPorCliente(dni).subscribe((data) => {
+    this.operacionService.obtenerHistorialPorCliente(dni).subscribe((data) => {
       this.compras = data;
     });
   } else {
