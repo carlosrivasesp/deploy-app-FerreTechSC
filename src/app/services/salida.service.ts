@@ -8,17 +8,21 @@ import { Salida } from '../models/salida';
 })
 export class SalidaService {
 
-  private url = 'http://localhost:4000/api/';
+  private url = 'http://localhost:4000/api/salidas';
 
   constructor(private http: HttpClient) {}
 
   getAllSalidas(): Observable<any> {
-          let direccionUrl = this.url + 'getSalidas';
+          let direccionUrl = this.url;
           return this.http.get<Salida>(direccionUrl);
   }
 
   obtenerSalida(id: string): Observable<any> {
-          let direccionUrl = this.url + 'getSalida';
+          let direccionUrl = this.url;
           return this.http.get<Salida>(direccionUrl + '/' + id);
  }
+
+  registrarSalida(salida: Salida): Observable<any> {
+    return this.http.post(`${this.url}`, salida);
+  }
 }

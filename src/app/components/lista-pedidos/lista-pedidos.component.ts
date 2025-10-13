@@ -19,6 +19,9 @@ export class ListaPedidosComponent implements OnInit {
   selectedFilter: string = 'cliente';
   searchTerm: string = '';
 
+  estadosDisponibles: string[] = ['Pagado', 'En preparación', 'Enviado', 'Entregado', 'Cancelado'];
+
+
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
@@ -54,6 +57,41 @@ export class ListaPedidosComponent implements OnInit {
       },
     });
   }
+
+  getEstadosDisponibles(estadoActual: string): string[] {
+    switch (estadoActual) {
+      case 'Pagado':
+        return ['En preparación'];
+      case 'En preparación':
+        return ['Enviado'];
+      case 'Enviado':
+        return ['Entregado'];
+      case 'Entregado':
+      case 'Cancelado':
+        return [];
+      default:
+        return [];
+    }
+  }
+
+  puedeCancelar(estadoActual: string): boolean {
+    return estadoActual === 'Pagado';
+  }
+
+  cambiarEstado(pedido: any, nuevoEstado: string): void {
+    if (pedido.estado === nuevoEstado) return;
+
+    this._operacionService.actualizarEstado(pedido._id!, nuevoEstado).subscribe({
+      next: () => {
+        this.toastr.success('Estado actualizado correctamente', 'Éxito');
+        this.obtenerPedidos();
+      },
+      error: () => {
+        this.toastr.error('No se pudo actualizar el estado', 'Error');
+      }
+    });
+  }
+
 
   get filteredPedidos(): Operacion[] {
     if (!this.searchTerm.trim()) return this.listPedidos;

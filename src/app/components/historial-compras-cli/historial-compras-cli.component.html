@@ -18,7 +18,7 @@
     <table *ngIf="compras.length > 0" class="table table-hover align-middle">
       <thead class="table-dark text-center">
         <tr>
-          <th>ID Pedido</th>
+          <th>Nro. Pedido</th>
           <th>Cliente</th>
           <th>Estado</th>
           <th>Total</th>
@@ -28,7 +28,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let pedido of compras" class="text-center">
-          <td><span class="fw-bold text-primary">{{ pedido._id }}</span></td>
+          <td><span class="fw-bold text-primary">{{ pedido.nroOperacion }}</span></td>
           <td>{{ pedido.cliente?.nombre }}</td>
           <td>
             <span class="badge bg-success px-3 py-2" *ngIf="pedido.estado === 'Pagado'">
@@ -61,12 +61,12 @@
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
           <h5 class="modal-title">
-            <i class="bi bi-receipt-cutoff me-2"></i> Detalles del Pedido #{{ pedido._id }}
+            <i class="bi bi-receipt-cutoff me-2"></i> Detalles del Pedido #{{ pedido.nroOperacion }}
           </h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p><strong>Cliente:</strong> {{ pedido.Cliente?.nombre }}</p>
+          <p><strong>Cliente:</strong> {{ pedido.cliente.nombre }}</p>
           <p><strong>Estado:</strong> {{ pedido.estado }}</p>
           <p><strong>Fecha de Emisión:</strong> {{ pedido.fechaEmision | date:'medium' }}</p>
 

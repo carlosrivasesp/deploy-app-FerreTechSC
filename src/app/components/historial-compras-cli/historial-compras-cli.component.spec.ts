@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HistorialCarritoComponent } from './historial-carrito.component';
+import { HistorialComprasCliComponent } from './historial-compras-cli.component';
 
-describe('HistorialCarritoComponent', () => {
-  let component: HistorialCarritoComponent;
-  let fixture: ComponentFixture<HistorialCarritoComponent>;
+describe('HistorialComprasCliComponent', () => {
+  let component: HistorialComprasCliComponent;
+  let fixture: ComponentFixture<HistorialComprasCliComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [HistorialCarritoComponent]
+      declarations: [HistorialComprasCliComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HistorialCarritoComponent);
+    fixture = TestBed.createComponent(HistorialComprasCliComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

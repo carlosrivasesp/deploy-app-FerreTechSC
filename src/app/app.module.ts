@@ -48,7 +48,7 @@ import { ListadoCotizacionesComponent } from './components/lista-cotizaciones/li
 import { DetalleCotizacionComponent } from './components/detalle-cotizacion/detalle-cotizacion.component';
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
-import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
+import { HistorialComprasCliComponent } from './components/historial-compras-cli/historial-compras-cli.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
@@ -94,7 +94,7 @@ CarritoComponent
     CatalogoComponent,
     NosotrosComponent,
     CarritoComponent,
-    HistorialCarritoComponent,
+    HistorialComprasCliComponent,
     ListaPedidosComponent,
     ResumenCompraComponent,
     DetallePedidosComponent,

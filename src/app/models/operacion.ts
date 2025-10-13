@@ -1,6 +1,7 @@
 import { Cliente } from "./cliente";
 import { DetalleOperacion } from "./detalleOperacion";
 import { Proveedor } from "./proveedor";
+import { Salida } from "./salida";
 
 export class Operacion {
   _id?: string;
@@ -14,6 +15,7 @@ export class Operacion {
   estado: string;
   fechaEmision: Date;
   fechaVenc: Date;
+  salidas: Salida[];
 
   constructor(
     tipoOperacion: number,
@@ -26,6 +28,7 @@ export class Operacion {
     estado: string,
     fechaEmision: Date,
     fechaVenc: Date,
+    salidas: Salida[]
   ) {
     this.tipoOperacion = tipoOperacion;
     this.nroOperacion = nroOperacion;
@@ -37,5 +40,6 @@ export class Operacion {
     this.estado = estado;
     this.fechaEmision = fechaEmision;
     this.fechaVenc = fechaVenc;
+    this.salidas = salidas;
   }
 }

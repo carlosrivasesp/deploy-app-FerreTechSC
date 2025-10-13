@@ -63,8 +63,28 @@
           <td>
             <div class="links">
               <a [routerLink]="['/detalle-pedido', pedido._id]"><i class="bi bi-eye"></i></a>
+
+              <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+              [class.disabled]="pedido.estado === 'Entregado' || pedido.estado === 'Cancelado'">
+                <i class="bi bi-gear"></i>
+              </a>
+
+              <ul class="dropdown-menu">
+                <li *ngFor="let estado of getEstadosDisponibles(pedido.estado)">
+                  <a class="dropdown-item" (click)="cambiarEstado(pedido, estado)">
+                    {{ estado }}
+                  </a>
+                </li>
+
+                <li *ngIf="puedeCancelar(pedido.estado)">
+                  <a class="dropdown-item text-danger" (click)="cambiarEstado(pedido, 'Cancelado')">
+                    Cancelar pedido
+                  </a>
+                </li>
+              </ul>
             </div>
           </td>
+
         </tr>
       </tbody>
     </table>

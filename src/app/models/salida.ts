@@ -1,22 +1,21 @@
-import { DetalleVenta } from './detalleV';
-import { Venta } from './venta';  // Asegúrate de tener el modelo de Venta importado
+import { Operacion } from './operacion';
 
 export class Salida {
   _id? : String;
       tipoOperacion : String;
-      ventaId : Venta;
+      pedidoId : Operacion;
       cantidadTotal : number;
       fechaSalida : Date;
-      detalles: DetalleVenta[] = []
+      detalles: { detalleId: string; cantidadSalida: number }[] = [];
   
       constructor(tipoOperacion : String,
-        ventaId : Venta,
+        pedidoId : Operacion,
         cantidadTotal : number,
         fechaSalida : Date,
-        detalles: DetalleVenta[]) {
+        detalles: { detalleId: string; cantidadSalida: number }[]) {
   
         this.tipoOperacion = tipoOperacion;
-        this.ventaId = ventaId;
+        this.pedidoId = pedidoId;
         this.cantidadTotal = cantidadTotal;
         this.fechaSalida = fechaSalida;
         this.detalles = detalles;

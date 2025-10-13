@@ -65,7 +65,7 @@ export class ResumenCompraComponent implements OnInit {
         console.log('✅ Pedido, venta y entrega creados correctamente:', response);
 
         alert('Compra registrada correctamente.');
-        this.router.navigate(['/historial-carrito']);
+        this.router.navigate(['/historial-compras-cli']);
       },
       error: (err) => {
         console.error('❌ Error confirmando la compra:', err);

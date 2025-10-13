@@ -10,6 +10,7 @@ export class DetalleOperacion {
   cantidad: number;
   precio: number;
   subtotal: number;
+  cantidadPendiente?: number;
 
   constructor(
     operacionId: Operacion,
@@ -18,7 +19,8 @@ export class DetalleOperacion {
     nombre: string,
     cantidad: number,
     precio: number,
-    subtotal: number
+    subtotal: number,
+    cantidadPendiente?: number
   ) {
     this.operacionId = operacionId;
     this.producto = producto;
@@ -27,5 +29,6 @@ export class DetalleOperacion {
     this.cantidad = cantidad;
     this.precio = precio;
     this.subtotal = subtotal;
+    this.cantidadPendiente = cantidadPendiente;
   }
 }

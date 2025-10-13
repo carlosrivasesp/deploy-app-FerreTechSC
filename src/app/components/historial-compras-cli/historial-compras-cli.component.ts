@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
-import { HistorialService } from '../../services/historial.service';
 import { OperacionService } from '../../services/operacion.service';
 @Component({
-  selector: 'app-historial-carrito',
+  selector: 'app-historial-compras-cli',
   standalone: false,
-  templateUrl: './historial-carrito.component.html',
-  styleUrls: ['./historial-carrito.component.css']
+  templateUrl: './historial-compras-cli.component.html',
+  styleUrls: ['./historial-compras-cli.component.css']
 })
-export class HistorialCarritoComponent implements OnInit {
+export class HistorialComprasCliComponent implements OnInit {
 
   compras: any[] = [];
 
@@ -22,7 +20,7 @@ cargarHistorial(): void {
   const dni = localStorage.getItem('dniCliente'); 
   if (dni) {
     this.operacionService.obtenerHistorialPorCliente(dni).subscribe((data) => {
-      this.compras = data;
+      this.compras = data.reverse();
     });
   } else {
     console.error('No se encontró el DNI del cliente');
