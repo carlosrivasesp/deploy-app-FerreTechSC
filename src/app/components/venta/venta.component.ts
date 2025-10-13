@@ -3,8 +3,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto';
 import { Lugar } from '../../models/lugar';
-import { LugarService } from '../../services/lugar.service';
-import { forkJoin } from 'rxjs';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,8 +10,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ClienteService } from '../../services/cliente.service';
 import { Venta } from '../../models/venta';
 import { VentaService } from '../../services/venta.service';
-import { Categoria } from '../../models/categoria';
-import { Marca } from '../../models/marca';
 import { DetalleVenta } from '../../models/detalleV';
 
 

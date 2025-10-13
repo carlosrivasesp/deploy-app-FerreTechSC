@@ -41,11 +41,9 @@ setActiveLink(link: string): void {
     'categorias': 'submenu4',
     'marcas': 'submenu4',
     'entregas': 'submenu4',
-    'lugares-entrega': 'submenu4',
 
     'ingresos': 'submenu45',
     'salidas': 'submenu5',
-    'devoluciones': 'submenu5',
 
     'registrar-compra': 'submenu6',
     'listado-compras': 'submenu6',

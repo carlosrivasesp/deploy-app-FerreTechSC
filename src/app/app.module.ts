@@ -30,7 +30,6 @@ import { VentaComponent } from './components/venta/venta.component';
 import { ListaMarcasComponent } from './components/lista-marcas/lista-marcas.component';
 import { ListaCategoriasComponent } from './components/lista-categorias/lista-categorias.component';
 import { DetalleComponent } from './components/detalle/detalle.component';
-import { DetalleEntregaComponent } from './components/detalle-entrega/detalle-entrega.component';
 import { EntregasComponent } from './components/entregas/entregas.component';
 import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
@@ -48,8 +47,6 @@ import { DetalleSalidaProductosComponent } from './components/detalle-salida-pro
 import { ListadoCotizacionesComponent } from './components/lista-cotizaciones/lista-cotizaciones.component';
 import { DetalleCotizacionComponent } from './components/detalle-cotizacion/detalle-cotizacion.component';
 import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
-import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
-import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
@@ -79,7 +76,6 @@ CarritoComponent
     ListaMarcasComponent,
     ListaCategoriasComponent,
     DetalleComponent,
-    DetalleEntregaComponent,
     EntregasComponent,
     ReportesComponent,
     IngresarProductosComponent,
@@ -95,8 +91,6 @@ CarritoComponent
     ListadoCotizacionesComponent,
     DetalleCotizacionComponent,
     ComprasSugeridasComponent,
-    DevolucionesComponent,
-    DetalleDevolucionProductosComponent,
     CatalogoComponent,
     NosotrosComponent,
     CarritoComponent,

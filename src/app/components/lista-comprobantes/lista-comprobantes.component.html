@@ -97,19 +97,9 @@
                   data-bs-target="#modalDelete"
                   (click)="setVentaAAnular(venta)"
                   *ngIf="
-                    venta.estado !== 'Anulado' && venta.estado !== 'Devolución'
+                    venta.estado !== 'Anulado'
                   "
                   >Anular</a
-                >
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalDevolver"
-                  (click)="setVentaADevolver(venta)"
-                  *ngIf="venta.estado == 'Registrado'"
-                  >Devolución</a
                 >
               </li>
             </ul>
@@ -240,48 +230,6 @@
               (click)="anularVenta(ventaAAnular)"
             >
               Sí, anular
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODAL DEVOLVER -->
-
-    <div
-      class="modal fade"
-      id="modalDevolver"
-      tabindex="-1"
-      aria-labelledby="modalDevolver"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <p>
-                  ¿Estás seguro que deseas modificar el comprobante a
-                  devolución?
-                </p>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              No
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-              (click)="devolverVenta(VentaADevolver)"
-            >
-              Sí, modificar
             </button>
           </div>
         </div>

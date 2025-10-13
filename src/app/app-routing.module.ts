@@ -13,7 +13,6 @@ import { ListaMarcasComponent } from './components/lista-marcas/lista-marcas.com
 import { ListaCategoriasComponent } from './components/lista-categorias/lista-categorias.component';
 import { ListaComprobantesComponent } from './components/lista-comprobantes/lista-comprobantes.component';
 import { DetalleComponent } from './components/detalle/detalle.component';
-import { DetalleEntregaComponent } from './components/detalle-entrega/detalle-entrega.component';
 import { EntregasComponent } from './components/entregas/entregas.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { IngresarProductosComponent } from './components/ingresar-productos/ingresar-productos.component';
@@ -27,10 +26,7 @@ import { DetalleIngresoProductosComponent } from './components/detalle-ingreso-p
 import { ListadoCotizacionesComponent } from './components/lista-cotizaciones/lista-cotizaciones.component';
 import { DetalleCotizacionComponent } from './components/detalle-cotizacion/detalle-cotizacion.component';
 import { AuthGuard } from './services/auth.guard';
-import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';
-import { DevolucionesComponent } from './components/devoluciones/devoluciones.component';
-import { DetalleDevolucionProductosComponent } from './components/detalle-devolucion-productos/detalle-devolucion-productos.component';
-import { CatalogoComponent } from './components/catalogo/catalogo.component';
+import { ComprasSugeridasComponent } from './components/compras-sugeridas/compras-sugeridas.component';import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { HistorialCarritoComponent } from './components/historial-carrito/historial-carrito.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.component';
@@ -57,7 +53,6 @@ const routes: Routes = [
   { path: 'categorias', component: ListaCategoriasComponent, canActivate: [AuthGuard] },
   { path: 'comprobantes', component: ListaComprobantesComponent, canActivate: [AuthGuard] },
   { path: 'detalle-comprobante/:id', component: DetalleComponent, canActivate: [AuthGuard] },
-  { path: 'detalle-entrega', component: DetalleEntregaComponent, canActivate: [AuthGuard] },
   { path: 'entregas', component: EntregasComponent, canActivate: [AuthGuard] },
   { path: 'reportes', component: ReportesComponent, canActivate: [AuthGuard] },
   { path: 'ingresos', component: IngresarProductosComponent, canActivate: [AuthGuard] },
@@ -72,8 +67,6 @@ const routes: Routes = [
   { path: 'detalle-cotizacion/:id', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
   { path: 'compras-sugeridas', component: ComprasSugeridasComponent, canActivate: [AuthGuard] },
   { path: 'detalle-cotizacion/:id/editar', component: DetalleCotizacionComponent, canActivate: [AuthGuard] },
-  { path: 'devoluciones', component: DevolucionesComponent, canActivate: [AuthGuard] },
-  { path: 'detalle-devolucion-prod/:id', component: DetalleDevolucionProductosComponent, canActivate: [AuthGuard] },
   { path: 'lista-pedidos', component: ListaPedidosComponent, canActivate: [AuthGuard]},
   { path: 'detalle-pedido/:id', component: DetallePedidosComponent, canActivate: [AuthGuard]},
 
