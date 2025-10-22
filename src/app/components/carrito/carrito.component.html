@@ -83,6 +83,70 @@
         </a>
       </div>
     </ng-template>
+    <!-- Formulario de datos del cliente -->
+    <div class="card shadow-lg p-4 mt-4">
+      <h4 class="mb-3">
+        <i class="fas fa-user me-2"></i> Datos del Cliente
+      </h4>
 
+      <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="nombre" class="form-label">Nombre Completo</label>
+            <input id="nombre" type="text" class="form-control" formControlName="nombre"
+              placeholder="Ingrese su nombre completo">
+          </div>
+
+          <div class="col-md-6">
+            <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+            <select id="tipoDocumento" class="form-select" formControlName="tipoDocumento">
+              <option value="">Seleccione</option>
+              <option value="DNI">DNI</option>
+              <option value="RUC">RUC</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input id="telefono" type="text" class="form-control" formControlName="telefono"
+              placeholder="Ingrese su teléfono">
+          </div>
+
+          <div class="col-md-6">
+            <label for="correo" class="form-label">Correo Electrónico</label>
+            <input id="correo" type="email" class="form-control" formControlName="correo"
+              placeholder="Ingrese su correo">
+          </div>
+
+          <div class="col-12 mt-3">
+            <div class="form-check">
+              <input type="checkbox" id="delivery" class="form-check-input" formControlName="delivery">
+              <label for="delivery" class="form-check-label">¿Desea delivery?</label>
+            </div>
+          </div>
+
+          <!-- Campos adicionales cuando marca delivery -->
+          <div *ngIf="clienteForm.get('delivery')?.value" class="col-12 mt-3">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input id="direccion" type="text" class="form-control" formControlName="direccion"
+                  placeholder="Ingrese su dirección">
+              </div>
+
+              <div class="col-md-4">
+                <label for="distrito" class="form-label">Distrito</label>
+                <input id="distrito" type="text" class="form-control" formControlName="distrito"
+                  placeholder="Ingrese su distrito">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-4">
+          <i class="fas fa-save me-2"></i> Confirmar Pedido
+        </button>
+      </form>
+    </div>
   </div>
 </main>

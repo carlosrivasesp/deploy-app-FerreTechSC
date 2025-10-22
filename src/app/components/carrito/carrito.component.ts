@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';  // Importa Router
-import { CarritoService, CartItem, CarritoResponse } from '../../services/carrito.service'; // Ajusta la ruta
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CarritoService, CartItem, CarritoResponse } from '../../services/carrito.service';
 
 @Component({
     selector: 'app-carrito',
@@ -14,14 +15,36 @@ export class CarritoComponent implements OnInit {
     subtotal = 0;
     igv = 0;
     totalPrice = 0;
+    clienteForm!: FormGroup;
 
     constructor(
         private carritoService: CarritoService,
-        private router: Router  // Inyecta Router
+        private fb: FormBuilder,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
         this.loadCart();
+        this.initForm();
+    }
+
+    initForm(): void {
+        this.clienteForm = this.fb.group({
+            nombre: ['', Validators.required],
+            tipoDocumento: ['', Validators.required],
+            telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
+            correo: ['', [Validators.required, Validators.email]],
+            delivery: [false],
+            direccion: [''],
+            distrito: ['']
+        });
+
+        // Limpia campos de delivery si no está marcado
+        this.clienteForm.get('delivery')?.valueChanges.subscribe((checked) => {
+            if (!checked) {
+                this.clienteForm.patchValue({ direccion: '', distrito: '' });
+            }
+        });
     }
 
     loadCart(): void {
@@ -33,9 +56,7 @@ export class CarritoComponent implements OnInit {
                 this.igv = res.igv;
                 this.totalPrice = res.total;
             },
-            error: (err) => {
-                console.error('Error cargando carrito:', err);
-            }
+            error: (err) => console.error('Error cargando carrito:', err)
         });
     }
 
@@ -48,19 +69,13 @@ export class CarritoComponent implements OnInit {
 
     removeItem(item: CartItem): void {
         this.carritoService.removeItem(item.producto._id).subscribe({
-            next: () => {
-                this.loadCart(); // recarga el carrito actualizado
-            },
-            error: (err) => {
-                console.error('Error eliminando item:', err);
-            }
+            next: () => this.loadCart(),
+            error: (err) => console.error('Error eliminando item:', err)
         });
     }
 
     updateQuantity(item: CartItem): void {
-        if (item.cantidad < 1) {
-            item.cantidad = 1; // evitar cantidades menores a 1
-        }
+        if (item.cantidad < 1) item.cantidad = 1;
         this.carritoService.setQty(item.producto._id, item.cantidad).subscribe({
             next: () => this.loadCart(),
             error: (err) => console.error('Error actualizando cantidad:', err)
@@ -68,7 +83,15 @@ export class CarritoComponent implements OnInit {
     }
 
     checkout(): void {
-        // Redirigir al resumen de compra al hacer checkout
         this.router.navigate(['/resumen-compra']);
+    }
+
+    onSubmit(): void {
+        if (this.clienteForm.invalid) {
+            this.clienteForm.markAllAsTouched();
+            return;
+        }
+        console.log('Datos del cliente:', this.clienteForm.value);
+        alert('Pedido confirmado ✅');
     }
 }
