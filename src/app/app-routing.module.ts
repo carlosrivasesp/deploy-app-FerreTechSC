@@ -81,7 +81,7 @@ const routes: Routes = [
   { path: 'historial-carrito', component: HistorialCarritoComponent, canActivate: [AuthGuard] },
   { path: 'catalogo', component: CatalogoComponent },
   { path: 'nosotros', component: NosotrosComponent },
-  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
+  { path: 'carrito', component: CarritoComponent},
 
   // Redirecciones
   { path: '', redirectTo: 'principal', pathMatch: 'full' },

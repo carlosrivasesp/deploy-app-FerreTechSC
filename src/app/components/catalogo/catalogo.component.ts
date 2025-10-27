@@ -116,7 +116,7 @@ agregarAlCarrito(producto: Producto) {
     return;
   }
 
-  this.carritoService.addItem(producto._id, 1).subscribe({
+  this.carritoService.addItem(producto, 1).subscribe({
     next: () => {
       alert(`Se agregó ${producto.nombre} al carrito`);
     },
