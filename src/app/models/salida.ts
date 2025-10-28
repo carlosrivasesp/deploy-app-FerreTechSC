@@ -1,14 +1,14 @@
 import { Operacion } from './operacion';
 
 export class Salida {
-  _id? : String;
-      tipoOperacion : String;
+  _id? : string;
+      tipoOperacion : string;
       pedidoId : Operacion;
       cantidadTotal : number;
       fechaSalida : Date;
       detalles: { detalleId: string; cantidadSalida: number }[] = [];
   
-      constructor(tipoOperacion : String,
+      constructor(tipoOperacion : string,
         pedidoId : Operacion,
         cantidadTotal : number,
         fechaSalida : Date,

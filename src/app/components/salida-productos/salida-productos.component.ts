@@ -22,6 +22,8 @@ export class SalidaProductosComponent {
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
+  salidaSeleccionada: any = null;
+
   constructor(
     private _salidaService: SalidaService,
     private _pedidoService: OperacionService,
@@ -49,16 +51,15 @@ export class SalidaProductosComponent {
   }
 
   obtenerPedidosEnviados() {
-  this._pedidoService.getAllOperaciones(1).subscribe(
-    (data: Operacion[]) => {
-      this.pedidosEnviados = data.filter(p => {
-        return p.estado === 'Enviado' && (!p.salidas || p.salidas.length === 0);
-      });
-    },
-    error => console.error('Error al obtener pedidos enviados:', error)
-  );
-}
-
+    this._pedidoService.getAllOperaciones(1).subscribe(
+      (data: Operacion[]) => {
+        this.pedidosEnviados = data.filter(p => {
+          return p.estado === 'Enviado' && (!p.salidas || p.salidas.length === 0);
+        });
+      },
+      error => console.error('Error al obtener pedidos enviados:', error)
+    );
+  }
 
   obtenerSalidas() {
     this._salidaService.getAllSalidas().subscribe(
@@ -90,14 +91,11 @@ export class SalidaProductosComponent {
         );
       });
 
-      // Actualiza total
       const total = pedido.detalles.reduce((sum, d) => sum + d.cantidad, 0);
       this.salidaForm.get('cantidadTotal')?.setValue(total);
     }
   }
 
-
-  // 🔹 Calcular cantidad total de salida
   calcularCantidadTotal() {
     const total = this.detalles.controls.reduce((sum, control) => {
       return sum + (control.get('cantidadSalida')?.value || 0);
@@ -138,6 +136,13 @@ export class SalidaProductosComponent {
   resetFormulario() {
     this.salidaForm.reset();
     this.detalles.clear();
+  }
+
+  verDetalles(salida: Salida) {
+    this._salidaService.obtenerSalida(salida._id!).subscribe(data => {
+    this.salidaSeleccionada = data;
+    console.log("DETALLES:", this.salidaSeleccionada);
+  });
   }
 
   validarFechaNoFutura(control: FormControl) {

@@ -53,24 +53,19 @@
                 <td>{{ salida.cantidadTotal }}</td>
                 <td>{{ salida.fechaSalida ? (salida.fechaSalida | date: 'dd/MM/yyyy') : 'Sin fecha' }}</td>
                 <td>
+                  <div class="links">
                     <a
                       class="actions"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalDetalles"
+                      (click)="verDetalles(salida)"
                     >
-                      <button><i class="bi bi-three-dots-vertical"></i></button>
+                      <i class="bi bi-eye"></i>
                     </a>
-        
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a
-                          class="dropdown-item"
-                          [routerLink]="['/detalle-salida-prod', salida._id]"
-                          >Ver Detalles</a
-                        >
-                      </li>
-                    </ul>
+                  </div>
                   </td>
             </tr>
         </tbody>
@@ -211,6 +206,52 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade modal-lg"
+  id="modalDetalles"
+  tabindex="-1"
+  aria-labelledby="modalDetalles"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalles de la Salida</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" *ngIf="salidaSeleccionada">
+        <p><strong>Tipo de Operación:</strong> {{ salidaSeleccionada.tipoOperacion }}</p>
+        <p><strong>N° Pedido:</strong> {{ salidaSeleccionada.pedidoId.nroOperacion }}</p>
+        <p><strong>Cliente:</strong> {{ salidaSeleccionada.pedidoId.cliente.nombre }}</p>
+        <p><strong>Fecha de Salida:</strong> {{ salidaSeleccionada.fechaSalida | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Cantidad Total:</strong> {{ salidaSeleccionada.cantidadTotal }}</p>
+
+        <hr />
+
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad Salida</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of salidaSeleccionada.detalles">
+              <td>{{ d.detalleId.producto.nombre }}</td>
+              <td>{{ d.cantidadSalida }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
