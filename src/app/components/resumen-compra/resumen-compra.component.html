@@ -55,19 +55,32 @@
 
       <!-- Datos del cliente invitado -->
       <div class="card p-4 mt-4">
-        <h5 class="mb-3">
-          <i class="fas fa-user me-2"></i> Datos del Cliente
-        </h5>
+        <!-- ✅ Novedad: Título y botón Limpiar alineados -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">
+            <i class="fas fa-user me-2"></i> Datos del Cliente
+          </h5>
+          <!-- ✅ Novedad: Botón para limpiar campos de cliente -->
+          <button
+            class="btn btn-outline-danger btn-sm"
+            (click)="limpiarCamposCliente()"
+            title="Limpiar todos los campos del cliente"
+          >
+            <i class="fas fa-eraser me-1"></i> Limpiar Campos
+          </button>
+        </div>
 
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="tipoDoc" class="form-label">Tipo de Documento</label>
             <!-- ACTUALIZADO: (change) y valor 'factura' -->
+            <!-- ✅ Novedad: [disabled] para bloquear si el cliente existe -->
             <select
               id="tipoDoc"
               class="form-select"
               [(ngModel)]="tipoDoc"
               (change)="onTipoDocChange()"
+              [disabled]="clienteBloqueado"
             >
               <option value="DNI">DNI</option>
               <option value="factura">Factura (RUC)</option>
@@ -77,6 +90,7 @@
           <div class="col-md-6 mb-3">
             <label for="nroDoc" class="form-label">Nro. de Documento</label>
             <!-- ACTUALIZADO: type="tel", pattern y [attr.maxlength] dinámico -->
+            <!-- ✅ Novedad: [disabled] para bloquear si el cliente existe -->
             <input
               id="nroDoc"
               type="tel"
@@ -89,6 +103,7 @@
               [attr.maxlength]="
                 tipoDoc === 'DNI' ? 8 : tipoDoc === 'factura' ? 11 : null
               "
+              [disabled]="clienteBloqueado"
             />
             <!-- ACTUALIZADO: Muestra el mensaje de error -->
             <div *ngIf="nroDocError" class="invalid-feedback d-block">
@@ -98,32 +113,38 @@
 
           <div class="col-md-6 mb-3">
             <label for="nombre" class="form-label">Nombre / Razón Social</label>
+            <!-- ✅ Novedad: [readonly] para bloquear si el cliente existe -->
             <input
               id="nombre"
               type="text"
               class="form-control"
               [(ngModel)]="nombre"
+              [readonly]="clienteBloqueado"
             />
           </div>
 
           <div class="col-md-6 mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
+            <!-- ✅ Novedad: [readonly] para bloquear si el cliente existe -->
             <input
               id="telefono"
               type="tel"
               class="form-control"
               [(ngModel)]="telefono"
+              [readonly]="clienteBloqueado"
             />
           </div>
 
           <div class="col-md-6 mb-3">
             <label for="correo" class="form-label">Correo</label>
+            <!-- ✅ Novedad: [readonly] para bloquear si el cliente existe -->
             <input
               id="correo"
               type="email"
               class="form-control"
               [(ngModel)]="correo"
               placeholder="ejemplo@correo.com"
+              [readonly]="clienteBloqueado"
             />
           </div>
 
