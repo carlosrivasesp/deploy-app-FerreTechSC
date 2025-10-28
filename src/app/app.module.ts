@@ -10,6 +10,10 @@ import { LOCALE_ID } from '@angular/core';
 import localeEsPe from '@angular/common/locales/es-PE';
 import { registerLocaleData } from '@angular/common';
 
+import { CommonModule } from '@angular/common'; // <-- Necesario para *ngIf y ngStyle
+import { TrackingPedidoComponent } from './components/tracking-pedido/tracking-pedido.component';
+
+
 registerLocaleData(localeEsPe, 'es-PE');
 
 //importacion para chartjs (graficas), las versiones se encuentran en el package.json
@@ -99,7 +103,9 @@ CarritoComponent
     ResumenCompraComponent,
     DetallePedidosComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    TrackingPedidoComponent
+
   ],
   imports: [
     BrowserModule,
@@ -109,7 +115,8 @@ CarritoComponent
     ToastrModule.forRoot(),
     HttpClientModule,
     NgChartsModule,
-    FormsModule
+    FormsModule,
+    CommonModule
 
 
   ],

@@ -33,6 +33,7 @@ import { ListaPedidosComponent } from './components/lista-pedidos/lista-pedidos.
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { DetallePedidosComponent } from './components/detalle-pedidos/detalle-pedidos.component';
 import { ResumenCompraComponent } from './components/resumen-compra/resumen-compra.component';
+import { TrackingPedidoComponent } from './components/tracking-pedido/tracking-pedido.component';
 
 
 const routes: Routes = [
@@ -75,6 +76,7 @@ const routes: Routes = [
   { path: 'catalogo', component: CatalogoComponent },
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
+  { path: 'tracking-pedido', component: TrackingPedidoComponent },
 
   // Redirecciones
   { path: '', redirectTo: 'principal', pathMatch: 'full' },
