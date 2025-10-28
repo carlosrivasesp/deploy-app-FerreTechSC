@@ -78,7 +78,7 @@
             }}
           </td>
           <td>{{ compra.metodoPago }}</td>
-          <td>{{ compra.moneda }} {{ compra.total }}</td>
+          <td>S/ {{ compra.total }}</td>
           <td>{{ compra.estado }}</td>
           
           <td>
@@ -184,7 +184,7 @@
                   formControlName="estado"
                 >
                   <option value="Pendiente">Pendiente</option>
-                  <option value="Registrado">Registrado</option>
+                  <option value="Aprobado">Aprobado</option>
                 </select>
               </div>
 

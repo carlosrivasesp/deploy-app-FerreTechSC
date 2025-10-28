@@ -4,12 +4,12 @@
     padding: 20px;
 }
 
-.title {
-    font-size: 20px;
-}
-
 .separador{
     margin-top: 70px;
+}
+
+.title {
+    font-size: 20px;
 }
 
 .filter {
@@ -163,3 +163,16 @@ thead tr.header th {
     font-style: italic;
   }
   
+  .links {
+    display: flex;
+    gap: 8px; /* espacio automático entre todos los <a> */
+    align-items: center;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    .bi {
+        color: #10401b;
+    }

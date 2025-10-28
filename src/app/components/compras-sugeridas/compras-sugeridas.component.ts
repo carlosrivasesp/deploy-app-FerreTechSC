@@ -139,11 +139,9 @@ export class ComprasSugeridasComponent {
         igv,
         total: totalConIgv,
         estado: 'Pendiente',
-        moneda: 'S/',
-        tipoCambio: 3.66,
         proveedor: proveedor._id,
         metodoPago: 'Transferencia',
-        detalleC: detalle
+        detalles: detalle
       };
 
       try {

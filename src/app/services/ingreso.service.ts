@@ -8,17 +8,21 @@ import { Ingreso } from '../models/ingreso';
 })
 export class IngresoService {
 
-  private url = 'http://localhost:4000/api/';
+  private url = 'http://localhost:4000/api/ingresos';
 
   constructor(private http: HttpClient) {}
 
   getAllIngresos(): Observable<any> {
-          let direccionUrl = this.url + 'getIngresos';
+          let direccionUrl = this.url;
           return this.http.get<Ingreso>(direccionUrl);
   }
 
   obtenerIngreso(id: string): Observable<any> {
-          let direccionUrl = this.url + 'getIngreso';
+          let direccionUrl = this.url;
           return this.http.get<Ingreso>(direccionUrl + '/' + id);
  }
+
+ registrarIngreso(ingreso: Ingreso): Observable<any> {
+     return this.http.post(`${this.url}`, ingreso);
+   }
 }

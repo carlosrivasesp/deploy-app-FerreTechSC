@@ -1,34 +1,25 @@
 import { Compra } from "./compra";
-import { DetalleCompra } from "./detalleC";
-import { Venta } from "./venta";
-import { DetalleVenta } from "./detalleV";
 
 export class Ingreso {
-    _id? : String;
-    tipoOperacion : String;
-    compraId?: Compra;
-    ventaId?: Venta;
-    cantidadTotal : number;
-    fechaIngreso : Date;
-    detalles: DetalleVenta[] = [];
-    detalleC: DetalleCompra[] = []
+_id?: string;
+  tipoOperacion: string; // 'Orden de compra aprobado'
+  compraId: Compra;
+  cantidadTotal: number;
+  fechaIngreso: Date;
+  detalles: { detalleId: string; cantidadIngreso: number }[] = [];
 
-    constructor(tipoOperacion : String,
-      compraId : Compra,
-      ventaId : Venta,
-      cantidadTotal : number,
-      fechaIngreso : Date,
-      detalles: DetalleVenta[],
-      detalleC: DetalleCompra[]) {
-
-      this.tipoOperacion = tipoOperacion;
-      this.compraId = compraId;
-      this.ventaId = ventaId;
-      this.cantidadTotal = cantidadTotal;
-      this.fechaIngreso = fechaIngreso;
-      this.detalles = detalles;
-      this.detalleC = detalleC;
-    
-    }
+  constructor(
+    tipoOperacion: string,
+    compraId: Compra,
+    cantidadTotal: number,
+    fechaIngreso: Date,
+    detalles: { detalleId: string; cantidadIngreso: number }[]
+  ) {
+    this.tipoOperacion = tipoOperacion;
+    this.compraId = compraId;
+    this.cantidadTotal = cantidadTotal;
+    this.fechaIngreso = fechaIngreso;
+    this.detalles = detalles;
   }
+}
   

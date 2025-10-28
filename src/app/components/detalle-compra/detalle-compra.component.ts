@@ -38,8 +38,6 @@ export class DetalleCompraComponent implements OnInit {
       proveedor: ['', Validators.required],
       fechaEmision: [{ value: '', disabled: true }],
       fechaVenc: [{ value: '', disabled: true }],
-      moneda: [{ value: '', disabled: true }],
-      tipoCambio: [{ value: '', disabled: true }],
       detalles: this.fb.array([]),
     });
 
@@ -86,15 +84,13 @@ export class DetalleCompraComponent implements OnInit {
             total: data.total,
             fechaEmision: this.formatDate(data.fechaEmision),
             fechaVenc: this.formatDate(data.fechaVenc),
-            moneda: data.moneda,
-            tipoCambio: data.tipoCambio,
             proveedor: data.proveedor?._id || '',
             fechaRegistro: this.formatDate(data.createdAt),
           });
 
           this.detalles.clear();
 
-          data.detalleC.forEach((detalle: any) => {
+          data.detalles.forEach((detalle: any) => {
             this.detalles.push(
               this.fb.group({
                 codigo: [detalle.codInt],

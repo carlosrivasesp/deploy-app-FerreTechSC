@@ -1,5 +1,6 @@
 import { Proveedor } from "./proveedor";
 import { DetalleCompra } from "./detalleC";
+import { Ingreso } from "./ingreso";
 
 export class Compra {
   _id?: string;
@@ -11,11 +12,10 @@ export class Compra {
   igv: number;
   total: number;
   estado: string;
-  moneda: string;
-  tipoCambio: number;
   proveedor: Proveedor; // ID del proveedor
   metodoPago: string;
-  detalleC: DetalleCompra[];
+  detalles: DetalleCompra[];
+  ingresos?: Ingreso[];
 
   constructor(
     serie: string,
@@ -26,11 +26,10 @@ export class Compra {
     igv: number,
     total: number,
     estado: string,
-    moneda: string,
-    tipoCambio: number,
     proveedor: Proveedor,
     metodoPago: string,
-    detalleC: DetalleCompra[] = []
+    detalles: DetalleCompra[] = [],
+    ingresos: Ingreso[]
   ) {
     this.serie = serie;
     this.nroComprobante = nroComprobante;
@@ -40,10 +39,9 @@ export class Compra {
     this.igv = igv;
     this.total = total;
     this.estado = estado;
-    this.moneda = moneda;
-    this.tipoCambio = tipoCambio;
     this.proveedor = proveedor;
     this.metodoPago = metodoPago;
-    this.detalleC = detalleC;
+    this.detalles = detalles;
+    this.ingresos = ingresos
   }
 }

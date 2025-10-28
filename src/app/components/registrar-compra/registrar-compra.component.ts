@@ -77,12 +77,10 @@ export class RegistrarCompraComponent {
       fechaVenc: [ this.getTodayString(), Validators.required ],
       total: ['', Validators.required],
       estado: ['Pendiente', Validators.required],
-      moneda: ['S/', Validators.required],
-      tipoCambio: ['3.66', Validators.required],
       proveedor: ['', Validators.required],
       igv: ['', Validators.required],
       metodoPago: ['', Validators.required],
-      detalleC: this.fb.array([]),
+      detalles: this.fb.array([]),
     })
   }
 
@@ -148,11 +146,9 @@ export class RegistrarCompraComponent {
       igv: this.igv,
       total: this.total,
       estado: form.estado,
-      moneda: form.moneda,
-      tipoCambio: form.tipoCambio,
       proveedor: form.proveedor,
       metodoPago: form.metodoPago,
-      detalleC: productos 
+      detalles: productos 
     };
     console.log(nuevaCompra);  // Esto te permitirá ver el objeto completo que estás enviando
 
