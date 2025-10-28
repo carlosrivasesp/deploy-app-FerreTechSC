@@ -9,6 +9,21 @@
     <h2 class="resumen-titulo mb-4">
       <i class="fas fa-file-invoice me-2"></i> Resumen de Compra
     </h2>
+    <!-- ✅ NOTIFICACIÓN DE ÉXITO -->
+    <div
+      *ngIf="pedidoExitoso"
+      class="alert alert-success d-flex align-items-center shadow-sm"
+      role="alert"
+    >
+      <i class="fas fa-check-circle me-3" style="font-size: 2rem"></i>
+      <div>
+        <h5 class="alert-heading mb-1">¡Pedido Registrado!</h5>
+        <p class="mb-0">
+          Tu pedido ha sido registrado correctamente. Gracias por tu compra.
+        </p>
+      </div>
+    </div>
+    <!-- ✅ FIN DE NOTIFICACIÓN -->
 
     <div *ngIf="cartItems.length > 0; else carritoVacio">
       <!-- Lista de productos -->
