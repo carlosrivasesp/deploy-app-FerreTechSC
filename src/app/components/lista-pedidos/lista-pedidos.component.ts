@@ -39,6 +39,7 @@ export class ListaPedidosComponent implements OnInit {
       estado: ['', Validators.required],
       cliente: [''],
       detalles: this.fb.array([]),
+      codigo: ['']
     });
 
     this.idPedido = this.aRoute.snapshot.paramMap.get('id');

@@ -44,6 +44,7 @@
       <thead>
         <tr class="header">
           <th scope="col" style="width: 150px">Nro. Pedido</th>
+          <th scope="col" style="width: 150px">Codigo</th>
           <th scope="col" style="width: 150px">Cliente</th>
           <th scope="col" style="width: 150px">Fecha de emisión</th>
           <th scope="col" style="width: 150px">Fecha de vencimiento</th>
@@ -55,6 +56,7 @@
       <tbody class="body">
         <tr *ngFor="let pedido of paginatedPedidos">
           <td>{{ pedido.nroOperacion }}</td>
+          <td>{{ pedido.codigo }}</td>
           <td>{{ pedido.cliente.nombre }}</td>
           <td>{{ formatDate(pedido.fechaEmision) }}</td>
           <td>{{ formatDate(pedido.fechaVenc) }}</td>

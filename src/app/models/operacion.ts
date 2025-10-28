@@ -16,6 +16,7 @@ export class Operacion {
   fechaEmision: Date;
   fechaVenc: Date;
   salidas: Salida[];
+  codigo: string;
 
   constructor(
     tipoOperacion: number,
@@ -28,7 +29,8 @@ export class Operacion {
     estado: string,
     fechaEmision: Date,
     fechaVenc: Date,
-    salidas: Salida[]
+    salidas: Salida[],
+    codigo: string
   ) {
     this.tipoOperacion = tipoOperacion;
     this.nroOperacion = nroOperacion;
@@ -41,5 +43,6 @@ export class Operacion {
     this.fechaEmision = fechaEmision;
     this.fechaVenc = fechaVenc;
     this.salidas = salidas;
+    this.codigo = codigo;
   }
 }
