@@ -173,69 +173,88 @@ export class ResumenCompraComponent implements OnInit {
       });
   }
 
-  // 🧾 Registrar pedido modo invitado (ACTUALIZADO con validación de Factura)
-  confirmarPedidoInvitado(): void {
-    if (this.cartItems.length === 0) {
-      // Nota: Reemplazar alert() por un modal custom, alert() no funciona bien en producción.
-      console.error('El carrito está vacío.');
-      return;
-    }
+  // 🧾 Registrar pedido modo invitado (ACTUALIZADO con validación de Factura)
+  confirmarPedidoInvitado(): void {
+    if (this.cartItems.length === 0) {
+      // Nota: Reemplazar alert() por un modal custom, alert() no funciona bien en producción.
+      console.error('El carrito está vacío.');
+      return;
+    }
 
-    // ACTUALIZADO: Validación de Factura (Req 2)
-    if (this.tipoDoc === 'factura') {
-      if (!this.nroDoc || this.nroDoc.length !== 11) {
-        console.error('Para emitir factura, el RUC de 11 dígitos es obligatorio.');
-        this.nroDocError = 'El RUC de 11 dígitos es obligatorio.';
-        return;
-      }
-    }
+    // ACTUALIZADO: Validación de Factura (Req 2)
+    if (this.tipoDoc === 'factura') {
+      if (!this.nroDoc || this.nroDoc.length !== 11) {
+        console.error('Para emitir factura, el RUC de 11 dígitos es obligatorio.');
+        this.nroDocError = 'El RUC de 11 dígitos es obligatorio.';
+        return;
+      }
+    }
 
-    // Validación simple para DNI (aunque onNroDocInput ya valida)
-    if (this.tipoDoc === 'DNI' && this.nroDoc.length !== 8) {
-       console.error('El DNI debe tener 8 dígitos.');
-       this.nroDocError = 'El DNI debe tener 8 dígitos.';
-       return;
-    }
+    // Validación simple para DNI (aunque onNroDocInput ya valida)
+    if (this.tipoDoc === 'DNI' && this.nroDoc.length !== 8) {
+       console.error('El DNI debe tener 8 dígitos.');
+       this.nroDocError = 'El DNI debe tener 8 dígitos.';
+       return;
+    }
 
-    // Generar lista de IDs de productos del carrito
-    const detalles = this.cartItems.map(item => item.producto._id);
+    // Validación extra de frontend
+    if (!this.nroDoc || !this.nombre) {
+      console.error('Error Frontend: El nombre y el Nro. de Documento no pueden estar vacíos.');
+      this.nroDocError = 'Nombre y Nro. Documento son obligatorios.';
+      return;
+    }
 
-    // Construir el objeto del pedido (según tu backend)
-    const pedido = {
-      tipoDoc: this.tipoDoc,
-      nroDoc: this.nroDoc,
-      nombre: this.nombre,
-      telefono: this.telefono,
-      correo: this.correo,
-      servicioDelivery: this.servicioDelivery,
-      direccion: this.servicioDelivery ? this.direccion : '',
-      distrito: this.servicioDelivery ? this.distrito : '',
-      detalles: detalles, // IDs de los productos
-    };
+    // Generar lista de IDs de productos del carrito
+       const detalles = this.cartItems.map(item => ({
+      _id: item.producto._id, // Opcional, si lo necesitas en el backend
+      nombre: item.nombre, // Necesario para la búsqueda en el backend
+      cantidad: item.cantidad // Necesario para la lógica de stock y precios
+    }));
 
-    console.log('📦 Enviando pedido invitado:', pedido);
+    // Creamos el objeto 'cliente' anidado que el backend espera
+    const datosCliente = {
+      tipoDoc: this.tipoDoc,
+      nroDoc: this.nroDoc,
+      nombre: this.nombre,
+      telefono: this.telefono,
+      correo: this.correo,
+      direccion: this.servicioDelivery ? this.direccion : '',
+      distrito: this.servicioDelivery ? this.distrito : '',
+    };
 
-    this.http.post('http://localhost:4000/api/operacion/pedido-invitado', pedido)
-      .subscribe({
-        next: (res) => {
-          console.log('✅ Pedido registrado correctamente:', res);
-          // Nota: Reemplazar alert() por un modal custom
-          console.log('¡Pedido registrado correctamente!'); 
+    // Construir el objeto del pedido (según tu backend)
+    const pedido = {
+      cliente: datosCliente, 
+      detalles: detalles, // <--- AHORA CONTIENE NOMBRE Y CANTIDAD
+      servicioDelivery: this.servicioDelivery,
+    };
 
-          // limpiar el carrito de invitado
-          localStorage.removeItem(this.carritoService['invitadoKey']);
-          // Limpiar visualmente el carrito
-          this.cartItems = [];
-          this.subtotal = 0;
-          this.igv = 0;
-          this.totalPrice = 0;
-          this.limpiarCamposCliente(); // ✅ Limpiar campos del formulario después del pedido
-        },
-        error: (err) => {
-          console.error('❌ Error al registrar pedido:', err);
-          // Nota: Reemplazar alert() por un modal custom
-          console.error('Error al registrar el pedido. Revisa la consola.');
-        }
-      });
-  }
+
+
+    console.log('📦 Enviando pedido invitado:', pedido);
+
+    this.http.post('http://localhost:4000/api/operacion/pedido-invitado', pedido)
+      .subscribe({
+        next: (res) => {
+          console.log('✅ Pedido registrado correctamente:', res);
+          // Nota: Reemplazar alert() por un modal custom
+          console.log('¡Pedido registrado correctamente!'); 
+
+          // limpiar el carrito de invitado
+          localStorage.removeItem(this.carritoService['invitadoKey']);
+          // Limpiar visualmente el carrito
+          this.cartItems = [];
+          this.subtotal = 0;
+          this.igv = 0;
+          this.totalPrice = 0;
+          this.limpiarCamposCliente(); // ✅ Limpiar campos del formulario después del pedido
+        },
+        error: (err) => {
+          console.error('❌ Error al registrar pedido:', err);
+          // Nota: Reemplazar alert() por un modal custom
+          console.error('Error al registrar el pedido. Revisa la consola.');
+        }
+      });
+  }
 }
+
