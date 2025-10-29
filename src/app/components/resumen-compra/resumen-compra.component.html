@@ -69,25 +69,43 @@
       </div>
 
       <!-- Datos del comprobante -->
-       <div class="card p-4 mt-4">
-        <!-- ✅ Novedad: Título y botón Limpiar alineados -->
+      <div class="card p-4 mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="mb-0">
-            <i class="fas fa-user me-2"></i> Datos del Comprobante
+            <i class="fas fa-file-invoice me-2"></i> Datos del Comprobante
           </h5>
         </div>
+
         <div class="row">
+          <!-- Selección de tipo de comprobante -->
           <div class="col-md-6 mb-3">
-            <label for="tipoDoc" class="form-label">Tipo de Comprobante</label>
+            <label for="tipoComprobante" class="form-label"
+              >Tipo de Comprobante</label
+            >
             <select
-              id="tipoDoc"
+              id="tipoComprobante"
               class="form-select"
-              [(ngModel)]="tipoDoc"
-              (change)="onTipoDocChange()"
-              [disabled]="clienteBloqueado"
+              [(ngModel)]="tipoComprobante"
             >
               <option value="BOLETA DE VENTA ELECTRONICA">Boleta</option>
               <option value="FACTURA DE VENTA ELECTRONICA">Factura</option>
+            </select>
+          </div>
+
+          <!-- Selección de método de pago -->
+          <div class="col-md-6 mb-3">
+            <label for="metodoPago" class="form-label">Método de Pago</label>
+            <select
+              id="metodoPago"
+              class="form-select"
+              [(ngModel)]="metodoPago"
+            >
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
+              <option value="Tarjeta de credito">Tarjeta de Crédito</option>
+              <option value="Tarjeta de debito">Tarjeta de Débito</option>
+              <option value="Yape">Yape</option>
+              <option value="Plin">Plin</option>
             </select>
           </div>
         </div>
@@ -159,7 +177,6 @@
 
           <div class="col-md-6 mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <!-- ✅ Novedad: [readonly] para bloquear si el cliente existe -->
             <input
               id="telefono"
               type="tel"

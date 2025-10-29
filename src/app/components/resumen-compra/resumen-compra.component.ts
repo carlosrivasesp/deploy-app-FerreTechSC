@@ -29,6 +29,8 @@ export class ResumenCompraComponent implements OnInit {
   clienteBloqueado: boolean = false;
 
   pedidoExitoso: boolean = false;
+  tipoComprobante: string = 'BOLETA DE VENTA ELECTRONICA';
+  metodoPago: string = 'Efectivo';
 
   constructor(
     private carritoService: CarritoService,
@@ -81,6 +83,7 @@ export class ResumenCompraComponent implements OnInit {
     } else if (this.tipoDoc === 'RUC') {
       if (this.nroDoc.length === 11) {
         this.nroDocError = '';
+        this.buscarClientePorDocumento();
       } else if (this.nroDoc.length > 0) {
         this.nroDocError = 'El RUC debe tener 11 dígitos.';
         this.limpiarDatosCliente();
@@ -208,6 +211,8 @@ export class ResumenCompraComponent implements OnInit {
     };
 
     const pedido = {
+      tipoComprobante: this.tipoComprobante,
+      metodoPago: this.metodoPago,
       cliente: datosCliente,
       detalles: detalles,
       servicioDelivery: this.servicioDelivery,

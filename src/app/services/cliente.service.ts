@@ -9,36 +9,36 @@ import { Cliente } from "../models/cliente";
 
 export class ClienteService {
 
-    url= 'http://localhost:4000/api/';
+    url= 'http://localhost:4000/api/clientes/';
 
     constructor(private http: HttpClient) { }
 
     getAllClientes(): Observable<any>{
-        let direccionUrl = this.url + 'getClientes';
+        let direccionUrl = this.url;
 
         return this.http.get<Cliente>(direccionUrl);
     }
 
     deleteCliente(id: string): Observable<any>{
-        let direccionUrl = this.url + 'deleteCliente';
+        let direccionUrl = this.url;
 
         return this.http.delete<Cliente>(direccionUrl +'/'+ id);
     }
 
     guardarCliente(cliente: Cliente): Observable<any> {
-        let direccionUrl = this.url + 'registrarCliente';
+        let direccionUrl = this.url;
 
         return this.http.post<Cliente>(direccionUrl, cliente);
     }
 
     obtenerCliente(id: string): Observable<any> {
-        let direccionUrl = this.url + 'getCliente';
+        let direccionUrl = this.url;
 
         return this.http.get<Cliente>(direccionUrl + '/' + id)
     }
 
     editarCliente(id: string, cliente: Cliente): Observable<any> {
-        let direccionUrl = this.url + 'updateCliente';
+        let direccionUrl = this.url;
 
         return this.http.put<Cliente>(direccionUrl + '/' + id, cliente);
     }
