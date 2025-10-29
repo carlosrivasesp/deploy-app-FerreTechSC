@@ -40,7 +40,7 @@ const routes: Routes = [
   // Rutas generales
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'resumen-compra', component: ResumenCompraComponent, canActivate: [AuthGuard] },
+  { path: 'resumen-compra', component: ResumenCompraComponent },
   { path: 'forgot-password', component: ForgotpasswordComponent },
   { path: 'principal', component: PrincipalComponent },
 
@@ -75,7 +75,7 @@ const routes: Routes = [
   { path: 'historial-compras-cli', component: HistorialComprasCliComponent, canActivate: [AuthGuard] },
   { path: 'catalogo', component: CatalogoComponent },
   { path: 'nosotros', component: NosotrosComponent },
-  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
+  { path: 'carrito', component: CarritoComponent},
   { path: 'tracking-pedido', component: TrackingPedidoComponent },
 
   // Redirecciones
