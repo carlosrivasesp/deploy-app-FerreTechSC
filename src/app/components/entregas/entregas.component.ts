@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Entregas } from '../../models/entregas';
 import { EntregaService } from '../../services/entregas.service';
 import { VentaService } from '../../services/venta.service';
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
 export class EntregasComponent {
   listaEntregas: Entregas[] = [];
   entregaSeleccionada: any = null;
+  entregaForm: FormGroup;
 
   selectedFilter: string = 'Nro Operacion';
   searchTerm: string = '';
@@ -31,8 +33,33 @@ export class EntregasComponent {
   constructor(
     private _entregasService: EntregaService,
     private toastr: ToastrService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.entregaForm = this.fb.group({
+      // Información General del Pedido
+      codigoPedido: [''],
+      id: [''],
+      fechaActual: [''],
+      fechaPedido: [''],
+      fechaEstado: [''],
+      estadoActual: [''],
+      
+      // Detalle de Pedido
+      numeroPedido: [''],
+      fechaRegistro: [''],
+      estado: [''],
+      descripcionProducto: [''],
+      
+      // Detalle de Cliente
+      nombre: [''],
+      correo: [''],
+      direccion: [''],
+      telefono: [''],
+      tipoDocumento: [''],
+      numeroDocumento: ['']
+    });
+  }
 
   ngOnInit() {
     this.obtenerEntregas();
@@ -42,7 +69,18 @@ export class EntregasComponent {
   obtenerEntregas() {
     this._entregasService.getAllEntregas().subscribe({
       next: (data) => {
-        this.listaEntregas = data.reverse();
+        console.log('Datos recibidos del servidor:', data);
+        console.log('Cantidad de registros:', data.length);
+        
+        // Eliminar duplicados por número de operación (si los hay)
+        const uniqueEntregas = data.filter((entrega: any, index: number, self: any[]) => 
+          index === self.findIndex((e: any) => e.operacionId?.nroOperacion === entrega.operacionId?.nroOperacion)
+        );
+        
+        console.log('Entregas únicas después de filtrar duplicados:', uniqueEntregas.length);
+        this.listaEntregas = uniqueEntregas.reverse();
+        console.log('Lista de entregas después del reverse:', this.listaEntregas);
+        console.log('Cantidad final de entregas:', this.listaEntregas.length);
       },
       error: (err) => {
         console.error('Error al obtener entregas', err);
@@ -87,21 +125,32 @@ export class EntregasComponent {
   }
 
   get filteredEntregas(): Entregas[] {
-    if (!this.searchTerm.trim()) return this.listaEntregas;
+    if (!this.searchTerm.trim()) {
+      console.log('Sin filtro - mostrando todas las entregas:', this.listaEntregas.length);
+      return this.listaEntregas;
+    }
 
     const term = this.searchTerm.toLowerCase();
+    console.log('Filtrando con término:', term, 'Filtro:', this.selectedFilter);
+    
+    let filtered: Entregas[] = [];
     switch (this.selectedFilter) {
       case 'Estado':
-        return this.listaEntregas.filter((v) =>
+        filtered = this.listaEntregas.filter((v) =>
           v.estado.toLowerCase().startsWith(term)
         );
+        break;
       case 'Numero Pedido':
-        return this.listaEntregas.filter((v) =>
+        filtered = this.listaEntregas.filter((v) =>
           v.operacionId.nroOperacion.toString().startsWith(term)
         );
+        break;
       default:
-        return this.listaEntregas;
+        filtered = this.listaEntregas;
     }
+    
+    console.log('Resultado del filtro:', filtered.length, 'entregas');
+    return filtered;
   }
 
   get paginatedEntregas(): Entregas[] {
@@ -117,5 +166,61 @@ export class EntregasComponent {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
+  }
+
+  // Método para cargar datos cuando se selecciona una entrega
+  cargarDatosEntrega(): void {
+    // Los datos se muestran directamente en el modal usando entregaSeleccionada
+    console.log('Entrega seleccionada:', this.entregaSeleccionada);
+    console.log('Operación ID:', this.entregaSeleccionada?.operacionId);
+    console.log('Cliente:', this.entregaSeleccionada?.operacionId?.cliente);
+  }
+
+  // Método para obtener el estado actual del pedido
+  getEstadoActual(): string {
+    if (!this.entregaSeleccionada) return '';
+    
+    const estado = this.entregaSeleccionada.estado?.toLowerCase();
+    
+    // Mapeo de estados de la base de datos a estados del seguimiento
+    switch (estado) {
+      case 'pendiente':
+        return 'Recibido';
+      case 'en proceso':
+        return 'En Preparación';
+      case 'enviado':
+        return 'Enviado';
+      case 'entregado':
+      case 'finalizado':
+        return 'Entregado';
+      default:
+        return 'Recibido'; // Estado por defecto
+    }
+  }
+
+  // Método para verificar si un estado está completado
+  isEstadoCompletado(estado: string): boolean {
+    if (!this.entregaSeleccionada) return false;
+    
+    const estadoActual = this.getEstadoActual();
+    const estados = ['Recibido', 'En Preparación', 'Enviado', 'Entregado'];
+    const indiceActual = estados.indexOf(estadoActual);
+    const indiceVerificar = estados.indexOf(estado);
+    
+    return indiceVerificar < indiceActual;
+  }
+
+  // Método para calcular el porcentaje de progreso
+  getProgresoPorcentaje(): number {
+    if (!this.entregaSeleccionada) return 0;
+    
+    const estadoActual = this.getEstadoActual();
+    const estados = ['Recibido', 'En Preparación', 'Enviado', 'Entregado'];
+    const indice = estados.indexOf(estadoActual);
+    
+    if (indice === -1) return 0;
+    
+    // Calcular porcentaje basado en el estado actual
+    return ((indice + 1) / estados.length) * 100;
   }
 }

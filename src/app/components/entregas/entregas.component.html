@@ -59,45 +59,60 @@
         <th scope="col" style="width: 150px">Distrito</th>
         <th scope="col" style="width: 120px">Costo</th>
         <th scope="col" style="width: 120px">Estado</th>
-        <th scope="col" style="width: 80px">Acciones</th>
+        <th scope="col" style="width: 120px">Acciones</th>
       </tr>
     </thead>
     <tbody class="body">
       <tr *ngFor="let e of filteredEntregas">
-        <td>{{ e.operacionId?.nroOperacion }}</td>
+        <td>{{ e.operacionId.nroOperacion }}</td>
         <td>{{ e.direccion }}</td>
         <td>{{ e.distrito }}</td>
         <td>{{ e.costo }}</td>
         <td>{{ e.estado }}</td>
         
         <td>
-          <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-gear"></i>
-              </a>
-          
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                *ngIf="e.estado === 'Pendiente'"
-                data-bs-toggle="modal"
-                data-bs-target="#modalEdit"
-                (click)="entregaSeleccionada = e"
-              >
-                Programar
-              </a>
-            </li>
+          <div class="d-flex gap-2">
+            <!-- Ícono para ver detalle de entrega (abre modal) -->
+            <a 
+              class="actions" 
+              role="button" 
+              data-bs-toggle="modal" 
+              data-bs-target="#detalleEntregaModal"
+              (click)="entregaSeleccionada = e; cargarDatosEntrega()"
+              title="Ver detalle de entrega"
+            >
+              <i class="bi bi-eye text-primary"></i>
+            </a>
+            
+            <!-- Ícono para acciones de entrega -->
+            <a class="actions" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Acciones de entrega">
+              <i class="bi bi-gear"></i>
+            </a>
+            
+            <ul class="dropdown-menu">
+              <li>
+                <a
+                  class="dropdown-item"
+                  *ngIf="e.estado === 'Pendiente'"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalEdit"
+                  (click)="entregaSeleccionada = e"
+                >
+                  Programar
+                </a>
+              </li>
 
-            <li *ngIf="e.estado === 'En proceso'">
-              <a
-                class="dropdown-item"
-                data-bs-toggle="modal"
-                data-bs-target="#"
-                (click)="cambiarEstado(e._id!, 'Finalizado')"
-                >Finalizar</a
-              >
-            </li>
-          </ul>
+              <li *ngIf="e.estado === 'En proceso'">
+                <a
+                  class="dropdown-item"
+                  data-bs-toggle="modal"
+                  data-bs-target="#"
+                  (click)="cambiarEstado(e._id!, 'Finalizado')"
+                  >Finalizar</a
+                >
+              </li>
+            </ul>
+          </div>
         </td>
       </tr>
     </tbody>
@@ -312,6 +327,241 @@
             No
           </button>
           <button type="button" class="btn btn-danger">Sí, eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALLE DE ENTREGA -->
+  <div class="modal fade modal-xl" id="detalleEntregaModal" tabindex="-1" aria-labelledby="detalleEntregaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="detalleEntregaModalLabel">Detalle de Entrega</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- DETALLE DE LA OPERACIÓN -->
+          <div *ngIf="entregaSeleccionada">
+            
+            <!-- INFORMACIÓN DE LA ENTREGA -->
+            <div class="card mb-4">
+              <div class="card-header text-white" style="background-color: #0B3D1C;">
+                <h5 class="mb-0">Información de la Entrega</h5>
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>ID de Entrega:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada._id }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Estado:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.estado }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Dirección:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.direccion }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Distrito:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.distrito }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Costo:</strong></label>
+                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.costo | number:'1.2-2' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Fecha de Entrega:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.fechaEntrega | date:'dd/MM/yyyy' }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- INFORMACIÓN DE LA OPERACIÓN -->
+            <div class="card mb-4" *ngIf="entregaSeleccionada.operacionId">
+              <div class="card-header text-white" style="background-color: #0B3D1C;">
+                <h5 class="mb-0">Información de la Operación</h5>
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Número de Operación:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.nroOperacion }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Tipo de Operación:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.tipoOperacion === 1 ? 'Pedido' : 'Cotización' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Fecha de Emisión:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.fechaEmision | date:'dd/MM/yyyy' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Fecha de Vencimiento:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.fechaVenc | date:'dd/MM/yyyy' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>Total:</strong></label>
+                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.operacionId.total | number:'1.2-2' }}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label"><strong>IGV:</strong></label>
+                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.operacionId.igv | number:'1.2-2' }}</p>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label"><strong>Servicio de Delivery:</strong></label>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.servicioDelivery ? 'Sí' : 'No' }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- INFORMACIÓN DEL CLIENTE -->
+            <div class="card mb-4">
+              <div class="card-header text-white" style="background-color: #0B3D1C;">
+                <h5 class="mb-0">Información del Cliente</h5>
+              </div>
+              <div class="card-body">
+                <div *ngIf="entregaSeleccionada.operacionId?.cliente; else noClienteInfo">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label"><strong>Nombre:</strong></label>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.nombre }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label"><strong>Correo:</strong></label>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.correo || 'No especificado' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label"><strong>Teléfono:</strong></label>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.telefono || 'No especificado' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label"><strong>Tipo de Documento:</strong></label>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.tipoDoc || 'No especificado' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label"><strong>Número de Documento:</strong></label>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.nroDoc || 'No especificado' }}</p>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #noClienteInfo>
+                  <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    La información del cliente no está disponible en este momento. 
+                    <br>
+                    <small>Esto puede deberse a que los datos no se cargaron completamente desde el servidor.</small>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+
+            <!-- DETALLES DE PRODUCTOS -->
+            <div class="card mb-4" *ngIf="entregaSeleccionada.operacionId?.detalles?.length > 0">
+              <div class="card-header text-white" style="background-color: #0B3D1C;">
+                <h5 class="mb-0">Detalles de Productos</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Código</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unit.</th>
+                        <th>Subtotal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let detalle of entregaSeleccionada.operacionId.detalles">
+                        <td>{{ detalle.codInt }}</td>
+                        <td>{{ detalle.nombre }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>S/ {{ detalle.precio | number:'1.2-2' }}</td>
+                        <td>S/ {{ detalle.subtotal | number:'1.2-2' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- SEGUIMIENTO DE ESTADO DEL PEDIDO -->
+            <div class="card mb-4">
+              <div class="card-header text-white" style="background-color: #0B3D1C;">
+                <h5 class="mb-0">Seguimiento del Pedido</h5>
+              </div>
+              <div class="card-body">
+                <div class="progress-tracker">
+                  <div class="progress-steps">
+                    <!-- Paso 1: Recibido -->
+                    <div class="step" 
+                         [class.active]="getEstadoActual() === 'Recibido'" 
+                         [class.completed]="isEstadoCompletado('Recibido')"
+                         [class.pending]="getEstadoActual() !== 'Recibido' && !isEstadoCompletado('Recibido')">
+                      <div class="step-icon">
+                        <i class="bi bi-box"></i>
+                      </div>
+                      <div class="step-label">Recibido</div>
+                    </div>
+
+                    <!-- Paso 2: En Preparación -->
+                    <div class="step" 
+                         [class.active]="getEstadoActual() === 'En Preparación'" 
+                         [class.completed]="isEstadoCompletado('En Preparación')"
+                         [class.pending]="getEstadoActual() !== 'En Preparación' && !isEstadoCompletado('En Preparación')">
+                      <div class="step-icon">
+                        <i class="bi bi-gear"></i>
+                      </div>
+                      <div class="step-label">En Preparación</div>
+                    </div>
+
+                    <!-- Paso 3: Enviado -->
+                    <div class="step" 
+                         [class.active]="getEstadoActual() === 'Enviado'" 
+                         [class.completed]="isEstadoCompletado('Enviado')"
+                         [class.pending]="getEstadoActual() !== 'Enviado' && !isEstadoCompletado('Enviado')">
+                      <div class="step-icon">
+                        <i class="bi bi-truck"></i>
+                      </div>
+                      <div class="step-label">Enviado</div>
+                    </div>
+
+                    <!-- Paso 4: Entregado -->
+                    <div class="step" 
+                         [class.active]="getEstadoActual() === 'Entregado'" 
+                         [class.completed]="isEstadoCompletado('Entregado')"
+                         [class.pending]="getEstadoActual() !== 'Entregado' && !isEstadoCompletado('Entregado')">
+                      <div class="step-icon">
+                        <i class="bi bi-check-circle"></i>
+                      </div>
+                      <div class="step-label">Entregado</div>
+                    </div>
+                  </div>
+                  
+                  <!-- Barra de progreso -->
+                  <div class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="getProgresoPorcentaje()"></div>
+                  </div>
+                  
+                  <!-- Porcentaje de completado -->
+                  <div class="progress-percentage">
+                    <span class="percentage-text">{{ getProgresoPorcentaje() | number:'1.0-0' }}% completado</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-2"></i>Cerrar
+          </button>
         </div>
       </div>
     </div>

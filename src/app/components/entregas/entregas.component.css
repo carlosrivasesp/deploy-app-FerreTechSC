@@ -170,3 +170,152 @@ thead tr.header th {
     border-color: #dee2e6;
     font-style: italic;
   }
+
+/* Estilos para el componente de seguimiento de estado */
+.progress-tracker {
+  position: relative;
+  padding: 20px 0;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.step-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+  background-color: #28a745;
+  border: 3px solid #28a745;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.step.active .step-icon {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.step.completed .step-icon {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.step.pending .step-icon {
+  background-color: #e9ecef;
+  border-color: #e9ecef;
+  color: #6c757d;
+}
+
+.step-label {
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  color: #6c757d;
+  transition: color 0.3s ease;
+}
+
+.step.active .step-label {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.step.completed .step-label {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.step.pending .step-label {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Líneas conectoras entre pasos */
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: #e9ecef;
+  z-index: -1;
+}
+
+.step.completed:not(:last-child)::after {
+  background-color: #28a745;
+}
+
+.step.active:not(:last-child)::after {
+  background: linear-gradient(to right, #28a745 50%, #e9ecef 50%);
+}
+
+/* Barra de progreso inferior */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 20px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #28a745;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Porcentaje de completado */
+.progress-percentage {
+  margin-top: 10px;
+  padding: 0 20px;
+}
+
+.percentage-text {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .progress-steps {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .step:not(:last-child)::after {
+    display: none;
+  }
+  
+  .step-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
