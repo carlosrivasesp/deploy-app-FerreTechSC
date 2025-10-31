@@ -28,6 +28,7 @@ export class NavbarPrincipalComponent {
 
   logout(): void {
     this.authService.logout();
+    localStorage.removeItem('dniCliente');
     this.router.navigate(['/']);
   }
 

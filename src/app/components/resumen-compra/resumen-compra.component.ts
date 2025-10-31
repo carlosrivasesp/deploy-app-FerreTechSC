@@ -39,6 +39,7 @@ export class ResumenCompraComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCart();
+    this.autocompletarClienteAutomatico();
   } // Carga el carrito (usa el CarritoService)
 
   loadCart(): void {
@@ -65,6 +66,23 @@ export class ResumenCompraComponent implements OnInit {
     this.clienteBloqueado = false; // ✅ Desbloquear campos al cambiar el tipo
     this.pedidoExitoso = false; // ✅ Ocultar notificación si se edita
   }
+autocompletarClienteAutomatico(): void {
+  const dniGuardado = localStorage.getItem('dniCliente'); // 🔹 recupera el DNI guardado al hacer login
+
+  if (dniGuardado) {
+    this.tipoDoc = 'DNI';
+    this.nroDoc = dniGuardado;
+    console.log('🔎 DNI cargado automáticamente:', dniGuardado);
+
+    // ✅ Llama automáticamente al backend para llenar los demás datos
+    this.buscarClientePorDocumento();
+  } else {
+    console.warn('⚠️ No se encontró ningún DNI guardado en el localStorage.');
+  }
+}
+
+
+
 
   onNroDocInput(): void {
     this.nroDocError = ''; // Limpiar error en cada input
