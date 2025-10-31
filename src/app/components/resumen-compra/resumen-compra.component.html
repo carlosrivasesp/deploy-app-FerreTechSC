@@ -242,7 +242,10 @@
         class="btn btn-success w-100 mt-3"
         (click)="confirmarPedidoInvitado()"
       >
-        <i class="fas fa-check me-2"></i> Registrar Pedido
+        <i class="fas fa-credit-card me-2" *ngIf="requiereCulqi()"></i>
+        <i class="fas fa-check me-2" *ngIf="!requiereCulqi()"></i>
+        <span *ngIf="requiereCulqi()">Pagar con Culqi</span>
+        <span *ngIf="!requiereCulqi()">Registrar Pedido</span>
       </button>
     </div>
 
