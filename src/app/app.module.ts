@@ -11,7 +11,7 @@ import localeEsPe from '@angular/common/locales/es-PE';
 import { registerLocaleData } from '@angular/common';
 
 import { CommonModule } from '@angular/common'; // <-- Necesario para *ngIf y ngStyle
-import { TrackingPedidoComponent } from './components/tracking-pedido/tracking-pedido.component';
+import { TrackingComponent } from './components/tracking/tracking.component';
 
 
 registerLocaleData(localeEsPe, 'es-PE');
@@ -104,7 +104,7 @@ CarritoComponent
     DetallePedidosComponent,
     LoginComponent,
     HeaderComponent,
-    TrackingPedidoComponent
+    TrackingComponent
 
   ],
   imports: [
