@@ -1,7 +1,7 @@
 <app-navbar-principal></app-navbar-principal>
 
 <div class="tracking-container">
-  <div class="tracking-card">
+  <div class="tracking-card animate-fade-in">
     <h2><i class="bi bi-truck"></i> Seguimiento de Pedido</h2>
 
     <!-- Caja de búsqueda -->
@@ -22,38 +22,42 @@
     </div>
 
     <!-- Mensaje de error -->
-    <div *ngIf="errorMessage && !loading" class="pedido-error">
+    <div *ngIf="errorMessage && !loading" class="pedido-error animate-shake">
       <i class="bi bi-exclamation-triangle-fill"></i>
       {{ errorMessage }}
     </div>
 
     <!-- Información del pedido -->
-    <div *ngIf="trackingData && !loading" class="pedido-info">
+    <div *ngIf="trackingData && !loading" class="pedido-info animate-slide-up">
       <h4><i class="bi bi-box-seam"></i> Estado del Pedido</h4>
       <p><strong>Código:</strong> {{ trackingData.codigo }}</p>
       <p><strong>Cliente:</strong> {{ trackingData.cliente }}</p>
       <p><strong>Estado:</strong> {{ trackingData.estado }}</p>
       <p><strong>Fecha de Emisión:</strong> {{ trackingData.fechaEmision | date:'short' }}</p>
 
-      <!-- === Línea de progreso con íconos === -->
+      <!-- Línea de estados -->
       <div class="estado-container">
         <div
           class="estado"
           *ngFor="let e of estados; let i = index"
           [class.completado]="i < indiceEstado"
         >
-          <div class="icono">
+          <div class="icono" [class.glow]="i < indiceEstado">
             <i [class]="e.icono"></i>
           </div>
           <p>{{ e.nombre }}</p>
         </div>
       </div>
 
+      <!-- 🔹 Barra justo debajo de los estados -->
       <div class="estado-barra">
-        <div class="progreso" [ngStyle]="{ width: progreso + '%' }"></div>
+        <div class="progreso" [class.animate]="animar"></div>
+        <div class="carrito" [class.animate]="animar">
+          <i class="bi bi-cart-check-fill"></i>
+        </div>
       </div>
 
-      <p class="mt-3 fw-semibold">{{ progreso }}% completado</p>
+      <p class="mt-3 fw-semibold progreso-texto">{{ progreso }}% completado</p>
     </div>
   </div>
 </div>
