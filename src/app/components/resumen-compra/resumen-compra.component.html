@@ -242,12 +242,13 @@
         class="btn btn-success w-100 mt-3"
         (click)="confirmarPedidoInvitado()"
       >
-        <i class="fas fa-credit-card me-2" *ngIf="requiereCulqi()"></i>
-        <i class="fas fa-check me-2" *ngIf="!requiereCulqi()"></i>
-        <span *ngIf="requiereCulqi()">Pagar con Culqi</span>
-        <span *ngIf="!requiereCulqi()">Registrar Pedido</span>
+        <i class="fas fa-credit-card me-2" *ngIf="requiereMercadoPago()"></i>
+        <i class="fas fa-check me-2" *ngIf="!requiereMercadoPago()"></i>
+        <span *ngIf="requiereMercadoPago()">Pagar con Mercado Pago</span>
+        <span *ngIf="!requiereMercadoPago()">Registrar Pedido</span>
       </button>
     </div>
+
 
     <!-- Carrito vacío -->
     <ng-template #carritoVacio>
