@@ -78,7 +78,7 @@
               role="button" 
               data-bs-toggle="modal" 
               data-bs-target="#detalleEntregaModal"
-              (click)="entregaSeleccionada = e; cargarDatosEntrega()"
+              (click)="entregaSeleccionada = e"
               title="Ver detalle de entrega"
             >
               <i class="bi bi-eye text-primary"></i>
@@ -353,7 +353,7 @@
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label class="form-label"><strong>ID de Entrega:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada._id }}</p>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.codigo }}</p>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label"><strong>Estado:</strong></label>
@@ -382,7 +382,7 @@
             <!-- INFORMACIÓN DE LA OPERACIÓN -->
             <div class="card mb-4" *ngIf="entregaSeleccionada.operacionId">
               <div class="card-header text-white" style="background-color: #0B3D1C;">
-                <h5 class="mb-0">Información de la Operación</h5>
+                <h5 class="mb-0">Información del Pedido</h5>
               </div>
               <div class="card-body">
                 <div class="row g-3">
@@ -428,23 +428,23 @@
                   <div class="row g-3">
                     <div class="col-md-6">
                       <label class="form-label"><strong>Nombre:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.nombre }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.nombre }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Correo:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.correo || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.correo || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Teléfono:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.telefono || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.telefono || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Tipo de Documento:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.tipoDoc || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.tipoDoc || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Número de Documento:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.nroDoc || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.nroDoc || 'No especificado' }}</p>
                     </div>
                   </div>
                 </div>
