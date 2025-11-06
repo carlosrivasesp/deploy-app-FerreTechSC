@@ -53,21 +53,20 @@
 
   <table class="table">
     <thead>
-      <tr class="header">
-        <th scope="col" style="width: 250px">Nro Operacion</th>
-        <th scope="col" style="width: 200px">Dirección</th>
-        <th scope="col" style="width: 150px">Distrito</th>
-        <th scope="col" style="width: 120px">Costo</th>
-        <th scope="col" style="width: 120px">Estado</th>
-        <th scope="col" style="width: 120px">Acciones</th>
-      </tr>
-    </thead>
+  <tr class="header">
+    <th scope="col" style="width: 250px">Nro Operacion</th>
+    <th scope="col" style="width: 250px">Dirección</th> <!-- Ajusta el ancho -->
+    <th scope="col" style="width: 200px">Distrito</th>
+    <th scope="col" style="width: 240px">Estado</th>  <!-- Ajusta el ancho -->
+    <th scope="col" style="width: 120px">Acciones</th>
+  </tr>
+</thead>
+
     <tbody class="body">
       <tr *ngFor="let e of filteredEntregas">
         <td>{{ e.operacionId.nroOperacion }}</td>
         <td>{{ e.direccion }}</td>
         <td>{{ e.distrito }}</td>
-        <td>{{ e.costo }}</td>
         <td>{{ e.estado }}</td>
         
         <td>
@@ -78,7 +77,7 @@
               role="button" 
               data-bs-toggle="modal" 
               data-bs-target="#detalleEntregaModal"
-              (click)="entregaSeleccionada = e; cargarDatosEntrega()"
+              (click)="entregaSeleccionada = e"
               title="Ver detalle de entrega"
             >
               <i class="bi bi-eye text-primary"></i>
@@ -244,37 +243,9 @@
                 name="fechaInicio"
               />
             </div>
+            
             <div class="col-md-6">
-              <label class="form-label">Dirección de entrega:</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Ej. Jr. Lima 123, Surco"
-                [(ngModel)]="direccion"
-                name="direccion"
-              />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Distrito:</label>
-              <select
-                class="form-select"
-                [(ngModel)]="distrito"
-                name="distrito"
-                aria-placeholder="Seleccionar"
-              >
-                <option selected value="Surco">Surco</option>
-                <option value="Barranco">Barranco</option>
-                <option value="Miraflores">Miraflores</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Costo:</label>
-              <input
-                type="number"
-                class="form-control"
-                [(ngModel)]="costo"
-                name="costo"
-              />
+             
             </div>
           </form>
         </div>
@@ -353,7 +324,7 @@
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label class="form-label"><strong>ID de Entrega:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada._id }}</p>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.codigo }}</p>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label"><strong>Estado:</strong></label>
@@ -368,10 +339,6 @@
                     <p class="form-control-plaintext">{{ entregaSeleccionada.distrito }}</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label"><strong>Costo:</strong></label>
-                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.costo | number:'1.2-2' }}</p>
-                  </div>
-                  <div class="col-md-6">
                     <label class="form-label"><strong>Fecha de Entrega:</strong></label>
                     <p class="form-control-plaintext">{{ entregaSeleccionada.fechaEntrega | date:'dd/MM/yyyy' }}</p>
                   </div>
@@ -382,7 +349,7 @@
             <!-- INFORMACIÓN DE LA OPERACIÓN -->
             <div class="card mb-4" *ngIf="entregaSeleccionada.operacionId">
               <div class="card-header text-white" style="background-color: #0B3D1C;">
-                <h5 class="mb-0">Información de la Operación</h5>
+                <h5 class="mb-0">Información del Pedido</h5>
               </div>
               <div class="card-body">
                 <div class="row g-3">
@@ -406,14 +373,6 @@
                     <label class="form-label"><strong>Total:</strong></label>
                     <p class="form-control-plaintext">S/ {{ entregaSeleccionada.operacionId.total | number:'1.2-2' }}</p>
                   </div>
-                  <div class="col-md-6">
-                    <label class="form-label"><strong>IGV:</strong></label>
-                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.operacionId.igv | number:'1.2-2' }}</p>
-                  </div>
-                  <div class="col-md-12">
-                    <label class="form-label"><strong>Servicio de Delivery:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.servicioDelivery ? 'Sí' : 'No' }}</p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -428,23 +387,23 @@
                   <div class="row g-3">
                     <div class="col-md-6">
                       <label class="form-label"><strong>Nombre:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.nombre }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.nombre }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Correo:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.correo || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.correo || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Teléfono:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.telefono || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.telefono || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Tipo de Documento:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.tipoDoc || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.tipoDoc || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Número de Documento:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.cliente.nroDoc || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.nroDoc || 'No especificado' }}</p>
                     </div>
                   </div>
                 </div>

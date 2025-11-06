@@ -8,6 +8,7 @@ export class Entregas {
   estado: string;
   fechaEntrega: Date;
   costo: number;
+  codigo: string;
 
   constructor(
     operacionId: Operacion,
@@ -15,7 +16,8 @@ export class Entregas {
     distrito: string,
     estado: string,
     fechaEntrega: Date,
-    costo: number
+    costo: number,
+    codigo: string
   ) {
     this.operacionId = operacionId;
     this.direccion = direccion;
@@ -23,5 +25,6 @@ export class Entregas {
     this.estado = estado;
     this.fechaEntrega = fechaEntrega;
     this.costo = costo;
+    this.codigo = codigo;
   }
 }
