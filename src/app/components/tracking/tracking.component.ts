@@ -35,7 +35,6 @@ export class TrackingComponent {
       this.trackingData = null;
       return;
     }
-
     this.loading = true;
     this.errorMessage = '';
     this.trackingData = null;
