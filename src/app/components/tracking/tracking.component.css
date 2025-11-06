@@ -1,0 +1,271 @@
+/* === Fondo === */
+.tracking-container {
+  padding-top: 100px;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: gradientMove 10s ease infinite alternate;
+}
+
+/* === Card === */
+.tracking-card {
+  width: 90%;
+  max-width: 850px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 25px;
+  padding: 50px 40px;
+  box-shadow: 0 8px 30px rgba(25, 135, 84, 0.25);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: slideUpFade 0.8s ease both;
+}
+
+/* === Efecto decorativo === */
+.tracking-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(25,135,84,0.3), transparent 70%);
+  z-index: 0;
+}
+
+/* === Título === */
+h2 {
+  color: #198754;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+h2 i {
+  font-size: 2.2rem;
+  color: #00b37e;
+  animation: bounce 2s infinite;
+}
+
+/* === Caja de búsqueda === */
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 12px 16px;
+  font-size: 1rem;
+  width: 60%;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.search-box input:focus {
+  border-color: #198754;
+  box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+}
+
+.search-box button {
+  border-radius: 12px;
+  padding: 12px 20px;
+  background: #198754;
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.search-box button:hover {
+  background: #146c43;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(25, 135, 84, 0.4);
+}
+
+/* === Información del pedido === */
+.pedido-info {
+  background: #f8f9fa;
+  border-left: 5px solid #198754;
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 25px;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(25,135,84,0.15);
+}
+
+/* === Línea de estados === */
+.estado-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 25px auto 10px auto;
+  width: 80%;
+  position: relative;
+}
+
+.estado-container::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #e9ecef;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.estado {
+  text-align: center;
+  z-index: 2;
+  flex: 1;
+}
+
+.estado .icono {
+  background: #e9ecef;
+  color: #6c757d;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  transition: all 0.4s ease;
+}
+
+.estado.completado .icono {
+  background: #198754;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(25, 135, 84, 0.5);
+}
+
+.estado .glow {
+  animation: glowPulse 1.5s infinite alternate;
+}
+
+/* === Barra de progreso === */
+.estado-barra {
+  width: 80%;
+  height: 18px;
+  background-color: #e9ecef;
+  border-radius: 10px;
+  margin: 0 auto 30px auto;
+  overflow: visible;
+  position: relative;
+  top: 15px;
+  z-index: 1;
+}
+
+.progreso {
+  height: 100%;
+  background: linear-gradient(90deg, #198754, #00c896);
+  width: 0%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 200, 150, 0.6);
+  animation: none;
+}
+
+.progreso.animate {
+  animation: rellenar 1.8s ease forwards;
+}
+
+@keyframes rellenar {
+  from { width: 0%; }
+  to { width: var(--target-width); }
+}
+
+/* === Carrito animado === */
+.carrito {
+  position: absolute;
+  top: -25px;
+  transform: translateX(-50%);
+  transition: left 1s ease-in-out;
+  font-size: 2rem;
+  color: #198754;
+  text-shadow: 0 0 10px rgba(25, 135, 84, 0.6);
+  animation: bounce 1.8s infinite ease-in-out;
+  z-index: 10;
+}
+
+.carrito.animate {
+  animation: moverCarrito 1.8s ease forwards, bounce 2s infinite ease-in-out;
+}
+
+/* === Estela luminosa del carrito === */
+.carrito::after {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 8px;
+  background: linear-gradient(90deg, rgba(0,200,150,0.7), transparent);
+  filter: blur(6px);
+  opacity: 0;
+  animation: trail 2s ease-in-out infinite;
+  border-radius: 5px;
+}
+
+@keyframes moverCarrito {
+  from { left: 0%; }
+  to { left: var(--target-width); }
+}
+
+@keyframes trail {
+  0% { opacity: 0; width: 0; }
+  25% { opacity: 1; width: 50px; }
+  50% { opacity: 0.8; width: 60px; }
+  100% { opacity: 0; width: 0; }
+}
+
+/* === Texto === */
+.progreso-texto {
+  color: #198754;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+/* === Animaciones === */
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -6px); }
+}
+
+@keyframes glowPulse {
+  from { box-shadow: 0 0 5px rgba(25,135,84,0.4); }
+  to { box-shadow: 0 0 20px rgba(25,135,84,0.8); }
+}
+
+@keyframes gradientMove {
+  from { background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 100%); }
+  to { background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%); }
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Responsivo === */
+@media (max-width: 768px) {
+  .estado-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .estado-container::before {
+    display: none;
+  }
+}
