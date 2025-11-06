@@ -368,10 +368,6 @@
                     <p class="form-control-plaintext">{{ entregaSeleccionada.distrito }}</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label"><strong>Costo:</strong></label>
-                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.costo | number:'1.2-2' }}</p>
-                  </div>
-                  <div class="col-md-6">
                     <label class="form-label"><strong>Fecha de Entrega:</strong></label>
                     <p class="form-control-plaintext">{{ entregaSeleccionada.fechaEntrega | date:'dd/MM/yyyy' }}</p>
                   </div>
@@ -405,14 +401,6 @@
                   <div class="col-md-6">
                     <label class="form-label"><strong>Total:</strong></label>
                     <p class="form-control-plaintext">S/ {{ entregaSeleccionada.operacionId.total | number:'1.2-2' }}</p>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label"><strong>IGV:</strong></label>
-                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.operacionId.igv | number:'1.2-2' }}</p>
-                  </div>
-                  <div class="col-md-12">
-                    <label class="form-label"><strong>Servicio de Delivery:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.servicioDelivery ? 'Sí' : 'No' }}</p>
                   </div>
                 </div>
               </div>
