@@ -109,10 +109,9 @@ export class EntregasComponent {
         modal?.hide();
 
         // Limpiar los inputs después de cerrar el modal (opcional)
-        this.direccion = '';
-        this.distrito = '';
+        
         this.fechaEntrega = '';
-        this.costo = 0;
+        
 
         this.obtenerEntregas();
       },
