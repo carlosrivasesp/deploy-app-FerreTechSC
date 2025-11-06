@@ -25,7 +25,7 @@ export class TrackingComponent {
 
   indiceEstado: number = 0;
   progreso: number = 0;
-  animar: boolean = false;
+  animacion: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -38,7 +38,7 @@ export class TrackingComponent {
     this.loading = true;
     this.errorMessage = '';
     this.trackingData = null;
-    this.animar = false;
+    this.animacion = false;
 
     this.http.get(`${this.urlTracking}/${this.trackingCode}`).subscribe({
       next: (response: any) => {
@@ -69,6 +69,6 @@ export class TrackingComponent {
     document.documentElement.style.setProperty('--target-width', this.progreso + '%');
 
     // Activa la animación (relleno + carrito) una sola vez
-    setTimeout(() => this.animar = true, 50);
+    setTimeout(() => this.animacion = true, 50);
   }
 }
