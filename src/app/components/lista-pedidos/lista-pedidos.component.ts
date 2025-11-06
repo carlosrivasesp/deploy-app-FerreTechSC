@@ -62,8 +62,8 @@ export class ListaPedidosComponent implements OnInit {
   getEstadosDisponibles(estadoActual: string): string[] {
     switch (estadoActual) {
       case 'Pagado':
-        return ['En preparación'];
-      case 'En preparación':
+        return ['En preparacion'];
+      case 'En preparacion':
         return ['Enviado'];
       case 'Enviado':
         return ['Entregado'];

@@ -54,7 +54,7 @@ export class SalidaProductosComponent {
     this._pedidoService.getAllOperaciones(1).subscribe(
       (data: Operacion[]) => {
         this.pedidosEnviados = data.filter(p => {
-          return p.estado === 'Enviado' && (!p.salidas || p.salidas.length === 0);
+          return p.estado === 'Enviado' || p.estado === 'Entregado' && (!p.salidas || p.salidas.length === 0);
         });
       },
       error => console.error('Error al obtener pedidos enviados:', error)
