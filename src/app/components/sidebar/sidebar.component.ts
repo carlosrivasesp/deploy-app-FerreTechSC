@@ -30,8 +30,7 @@ setActiveLink(link: string): void {
 
   const submenuMap: { [key: string]: string } = {
     'lista-pedidos': 'submenu1',
-
-    'nuevo-comprobante': 'submenu2',
+    
     'listado-comprobantes': 'submenu2',
 
     'nueva-cotizacion': 'submenu3',

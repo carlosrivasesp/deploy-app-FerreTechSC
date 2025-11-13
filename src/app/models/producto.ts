@@ -1,5 +1,6 @@
 import { Categoria } from "./categoria";
 import { Marca } from "./marca";
+import { ProductoProveedor } from "./productoProveedor";
 
 export class Producto {
   _id?: string;
@@ -12,8 +13,8 @@ export class Producto {
   marca: Marca;
   estado: string;
   imageUrl?: string;
+  productoProveedor?: ProductoProveedor;
 
-  // 🛠 Implementación del constructor
   constructor(
     codInt: string,
     nombre: string,
@@ -23,7 +24,8 @@ export class Producto {
     categoria: Categoria,
     marca: Marca,
     estado: string,
-    imageUrl?: string
+    productoProveedor?: ProductoProveedor,
+    imageUrl?: string,
   ) {
     this.codInt = codInt;
     this.nombre = nombre;
@@ -33,6 +35,7 @@ export class Producto {
     this.categoria = categoria;
     this.marca = marca;
     this.estado = estado;
-    this.imageUrl = imageUrl; // Se puede omitir si no se pasa
+    this.imageUrl = imageUrl;
+    this.productoProveedor = productoProveedor;
   }
 }

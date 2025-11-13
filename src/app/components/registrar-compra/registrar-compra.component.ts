@@ -18,16 +18,17 @@ interface ElementoRegistrado {
   subtotal: number;
 }
 
-type listaSeries = "BOLETA DE COMPRA ELECTRONICA" | "FACTURA DE COMPRA ELECTRONICA"
+type listaSeries =
+  | 'BOLETA DE COMPRA ELECTRONICA'
+  | 'FACTURA DE COMPRA ELECTRONICA';
 
 @Component({
   selector: 'app-registrar-compra',
   standalone: false,
   templateUrl: './registrar-compra.component.html',
-  styleUrl: './registrar-compra.component.css'
+  styleUrl: './registrar-compra.component.css',
 })
 export class RegistrarCompraComponent {
-
   listaProducto: Producto[] = [];
   elementosRegistrados: ElementoRegistrado[] = [];
   elementoSeleccionado: Producto | null = null;
@@ -49,7 +50,7 @@ export class RegistrarCompraComponent {
   proveedorSeleccionado: Proveedor | null = null;
   selectedProveedor: any = null;
 
-  serie: string = "B01";
+  serie: string = 'B01';
 
   constructor(
     private _productoService: ProductoService,
@@ -66,29 +67,28 @@ export class RegistrarCompraComponent {
       tipoDoc: ['', Validators.required],
       nroDoc: ['', Validators.required],
       telefono: [{ value: '', disabled: true }, Validators.required],
-      correo: [{ value: '', disabled: true }, Validators.required]
+      correo: [{ value: '', disabled: true }, Validators.required],
     });
 
     this.compraForm = this.fb.group({
       tipoComprobante: ['BOLETA DE COMPRA ELECTRONICA', Validators.required],
-      serie: ['B01', Validators.required ],
+      serie: ['B01', Validators.required],
       nroComprobante: [''],
-      fechaEmision: [ this.getTodayString(), Validators.required ],
-      fechaVenc: [ this.getTodayString(), Validators.required ],
+      fechaEmision: [this.getTodayString(), Validators.required],
+      fechaVenc: [this.getTodayString(), Validators.required],
       total: ['', Validators.required],
       estado: ['Pendiente', Validators.required],
       proveedor: ['', Validators.required],
       igv: ['', Validators.required],
       metodoPago: ['', Validators.required],
       detalles: this.fb.array([]),
-    })
+    });
   }
 
   ngOnInit(): void {
-    this.obtenerDatos();
     this.obtenerProveedores();
 
-    this.compraForm.get('proveedor')?.valueChanges.subscribe(value => {
+    this.compraForm.get('proveedor')?.valueChanges.subscribe((value) => {
       if (typeof value === 'string') {
         this.proveedorSearchTerm = value;
       } else {
@@ -103,15 +103,17 @@ export class RegistrarCompraComponent {
     if (selectElement) {
       const selectedValue = selectElement.value as listaSeries;
 
-      if (selectedValue === "BOLETA DE COMPRA ELECTRONICA") {
-        this.serie = "B01";
+      if (selectedValue === 'BOLETA DE COMPRA ELECTRONICA') {
+        this.serie = 'B01';
       } else {
-        this.serie = "F01";
+        this.serie = 'F01';
       }
 
       const dropdownInput = document.getElementById('dropdownInput');
       if (dropdownInput && (window as any).bootstrap) {
-        const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
+        const dropdownInstance = new (window as any).bootstrap.Dropdown(
+          dropdownInput
+        );
         dropdownInstance.hide();
       }
     }
@@ -123,20 +125,20 @@ export class RegistrarCompraComponent {
       console.log('Formulario:', this.compraForm.value);
       return;
     }
-    
+
     const form = this.compraForm.value;
     console.log('Proveedor del formulario:', form.proveedor);
 
-    const productos = this.elementosRegistrados.map(item => ({
+    const productos = this.elementosRegistrados.map((item) => ({
       compraId: '',
-      producto: item.producto, 
+      producto: item.producto,
       codInt: item.codigo,
       nombre: item.nombre,
       cantidad: item.cant,
       precio: item.precio,
-      subtotal: item.subtotal
+      subtotal: item.subtotal,
     }));
-  
+
     const nuevaCompra = {
       serie: form.serie,
       nroComprobante: form.nroComprobante,
@@ -148,35 +150,32 @@ export class RegistrarCompraComponent {
       estado: form.estado,
       proveedor: form.proveedor,
       metodoPago: form.metodoPago,
-      detalles: productos 
+      detalles: productos,
     };
-    console.log(nuevaCompra);  // Esto te permitirá ver el objeto completo que estás enviando
+    console.log(nuevaCompra); // Esto te permitirá ver el objeto completo que estás enviando
 
     // Llamamos al servicio para registrar la compra
-    this._compraService.registrarCompra(nuevaCompra).subscribe(() => {
-      this.toastr.success('Compra registrada correctamente');
-      this.router.navigate(['/listado-compras']);
-    }, error => {
-      console.error('Error al registrar compra:', error);
-      this.toastr.error('Error al registrar la compra');
-    });
+    this._compraService.registrarCompra(nuevaCompra).subscribe(
+      () => {
+        this.toastr.success('Compra registrada correctamente');
+        this.router.navigate(['/listado-compras']);
+      },
+      (error) => {
+        console.error('Error al registrar compra:', error);
+        this.toastr.error('Error al registrar la compra');
+      }
+    );
   }
-
-  obtenerDatos(): void {
-    this._productoService.getAllProductos().subscribe((productos: Producto[]) => {
-        this.listaProducto = productos;
-      }, error => {
-      console.error('Error al obtener productos:', error);
-    });
-  }
-  
 
   obtenerProveedores() {
-    this._proveedorService.getAllProveedores().subscribe(data => {
-      this.listProveedores = data;
-    }, error => {
-      console.log(error);
-    });
+    this._proveedorService.getAllProveedores().subscribe(
+      (data) => {
+        this.listProveedores = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   registrarProveedor() {
@@ -189,92 +188,107 @@ export class RegistrarCompraComponent {
       estado: this.proveedorForm.get('estado')?.value,
     };
 
-    this._proveedorService.guardarProveedor(PROVEEDOR).subscribe(data => {
-      this.toastr.success('El Proveedor fue registrado exitosamente', 'Proveedor registrado');
-      this.router.navigate(['/compras']);
-      this.obtenerProveedores();
-    }, error => {
-      console.log(error);
-      this.proveedorForm.reset();
-    });
+    this._proveedorService.guardarProveedor(PROVEEDOR).subscribe(
+      (data) => {
+        this.toastr.success(
+          'El Proveedor fue registrado exitosamente',
+          'Proveedor registrado'
+        );
+        this.router.navigate(['/compras']);
+        this.obtenerProveedores();
+      },
+      (error) => {
+        console.log(error);
+        this.proveedorForm.reset();
+      }
+    );
   }
 
   get filteredDatos(): Producto[] {
     if (!this.searchTerm.trim()) return [];
     const term = this.searchTerm.trim().toLowerCase();
-    return this.listaProducto.filter(p =>
-      p.nombre.toLowerCase().startsWith(term) ||
-      p.codInt.toLowerCase().startsWith(term)
+    return this.listaProducto.filter(
+      (p) =>
+        p.nombre.toLowerCase().startsWith(term) ||
+        p.codInt.toLowerCase().startsWith(term)
     );
   }
 
   get filteredProveedores() {
     const term = (this.proveedorSearchTerm || '').toLowerCase().trim();
-    return this.listProveedores.filter(p =>
-      p.nroDoc.toLowerCase().startsWith(term) ||
-      p.nombre.toLowerCase().startsWith(term)
+    return this.listProveedores.filter(
+      (p) =>
+        p.nroDoc.toLowerCase().startsWith(term) ||
+        p.nombre.toLowerCase().startsWith(term)
     );
   }
-  
 
   onSelectProveedor(proveedor: Proveedor) {
-  this.selectedProveedor = proveedor;
+    this.selectedProveedor = proveedor;
 
-  if (!proveedor._id) {
-    this.toastr.error('El proveedor seleccionado no tiene ID válido.');
-    return;
-  }
+    if (!proveedor._id) {
+      this.toastr.error('El proveedor seleccionado no tiene ID válido.');
+      return;
+    }
 
-  console.log('ID proveedor enviado:', proveedor._id);
+    console.log('ID proveedor enviado:', proveedor._id);
 
-  this.compraForm.controls['proveedor'].setValue(proveedor._id);
-  // Establecemos solo el ObjectId en el formulario
-  this.proveedorSearchTerm = proveedor.nroDoc + ' - ' + proveedor.nombre
-  console.log('Proveedor seleccionado en el formulario:', this.compraForm.controls['proveedor'].value);
+    this.compraForm.controls['proveedor'].setValue(proveedor._id);
+    // Establecemos solo el ObjectId en el formulario
+    this.proveedorSearchTerm = proveedor.nroDoc + ' - ' + proveedor.nombre;
+    console.log(
+      'Proveedor seleccionado en el formulario:',
+      this.compraForm.controls['proveedor'].value
+    );
 
-  // Limpiar productos actuales y selección
-  this.listaProducto = [];
-  this.searchTerm = '';
-  this.elementoSeleccionado = null;
-  this.precioSeleccionado = 0;
-  this.subtotal = 0;
-  this.cantidad = 1;
+    // Limpiar productos actuales y selección
+    this.listaProducto = [];
+    this.searchTerm = '';
+    this.elementoSeleccionado = null;
+    this.precioSeleccionado = 0;
+    this.subtotal = 0;
+    this.cantidad = 1;
 
-  // Llamar al servicio para obtener productos por proveedor
-  this._productoService.getProductosPorProveedorSinStock(proveedor._id).subscribe(
-    (productos: Producto[]) => {
-      this.listaProducto = productos;
-      if (productos.length === 0) {
-      this.toastr.info('No hay productos para este proveedor');
-      } else {
-        this.elementosRegistrados = productos.map(p => ({
-          producto: p,
-          codigo: p.codInt,
-          nombre: p.nombre,
-          cant: 30,
-          precio: p.precio,
-          subtotal: parseFloat((p.precio * 30).toFixed(2))
-        }));
-        this.actualizarTotalYIgv();
+    // Llamar al servicio para obtener productos por proveedor
+    this._productoService
+      .getProductosPorProveedorSinStock(proveedor._id)
+      .subscribe(
+        (productos: Producto[]) => {
+          this.listaProducto = productos;
+          if (productos.length === 0) {
+            this.toastr.info('No hay productos para este proveedor');
+          } else {
+            this.elementosRegistrados = productos.map((p) => {
+              const precioCompra = p.productoProveedor?.precio ?? p.precio;
+              return {
+                producto: p,
+                codigo: p.codInt,
+                nombre: p.nombre,
+                cant: 30,
+                precio: precioCompra,
+                subtotal: parseFloat((precioCompra * 30).toFixed(2)),
+              };
+            });
+            this.actualizarTotalYIgv();
+          }
+        },
+        (error) => {
+          console.error('Error al obtener productos por proveedor:', error);
+          this.toastr.error('Error al obtener productos por proveedor');
+        }
+      );
+
+    // 🔹 Llamada para llenar el autocompletado con todos los productos del proveedor
+    this._productoService.getProductosPorProveedor(proveedor._id).subscribe(
+      (productos: Producto[]) => {
+        this.listaProducto = productos;
+      },
+      (error) => {
+        console.error('Error al obtener todos los productos:', error);
+        this.toastr.error('Error al cargar productos del proveedor');
       }
-    },
-    error => {
-      console.error('Error al obtener productos por proveedor:', error);
-      this.toastr.error('Error al obtener productos por proveedor');
-    }
-  );
-
-  // 🔹 Llamada para llenar el autocompletado con todos los productos del proveedor
-  this._productoService.getProductosPorProveedor(proveedor._id).subscribe(
-    (productos: Producto[]) => {
-      this.listaProducto = productos;
-    },
-    error => {
-      console.error('Error al obtener todos los productos:', error);
-      this.toastr.error('Error al cargar productos del proveedor');
-    }
-  );
-  }  
+    );
+  }
 
   onProveedorInputChange(valor: any) {
     if (typeof valor === 'string') {
@@ -282,7 +296,7 @@ export class RegistrarCompraComponent {
     } else {
       this.proveedorSearchTerm = '';
     }
-  }  
+  }
 
   clearProveedorSearch(): void {
     this.proveedorSearchTerm = '';
@@ -296,16 +310,17 @@ export class RegistrarCompraComponent {
   onSelectElement(producto: Producto): void {
     this.searchTerm = `${producto.codInt} - ${producto.nombre}`;
     this.elementoSeleccionado = producto;
-    this.precioSeleccionado = producto.precio;
+    this.precioSeleccionado = producto.productoProveedor?.precio ?? producto.precio;
     this.onValueSubTotal();
 
     const dropdownInput = document.getElementById('dropdownInput');
     if (dropdownInput && (window as any).bootstrap) {
-      const dropdownInstance = new (window as any).bootstrap.Dropdown(dropdownInput);
+      const dropdownInstance = new (window as any).bootstrap.Dropdown(
+        dropdownInput
+      );
       dropdownInstance.hide();
     }
   }
-  
 
   onElementChange(valor: string): void {
     if (!valor.trim()) {
@@ -314,23 +329,28 @@ export class RegistrarCompraComponent {
       this.cantidad = 1;
     }
   }
-  
+
   clearSearch() {
     this.searchTerm = '';
     this.precioSeleccionado = 0;
     this.elementoSeleccionado = null;
     this.subtotal = 0;
     this.cantidad = 1;
-  }  
+  }
 
   onValueSubTotal(): void {
-    this.subtotal = parseFloat((this.precioSeleccionado * this.cantidad).toFixed(2));
+    this.subtotal = parseFloat(
+      (this.precioSeleccionado * this.cantidad).toFixed(2)
+    );
     this.actualizarTotalYIgv();
   }
 
   private actualizarTotalYIgv(): void {
-    const subtotalTotal = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
-    
+    const subtotalTotal = this.elementosRegistrados.reduce(
+      (sum, el) => sum + el.subtotal,
+      0
+    );
+
     this.igv = parseFloat((subtotalTotal * 0.18).toFixed(2));
 
     this.total = parseFloat((subtotalTotal + this.igv).toFixed(2));
@@ -341,30 +361,33 @@ export class RegistrarCompraComponent {
   onRegisterElement(): void {
     if (!this.elementoSeleccionado) return;
 
-    const { codInt, nombre, precio } = this.elementoSeleccionado;
+    const { codInt, nombre } = this.elementoSeleccionado;
+    const precio = this.elementoSeleccionado.productoProveedor?.precio ?? this.elementoSeleccionado.precio;
 
-  // Buscar si ya existe en la lista
-  const existente = this.elementosRegistrados.find(e => e.codigo === codInt);
+    const existente = this.elementosRegistrados.find(
+      (e) => e.codigo === codInt
+    );
 
-  if (existente) {
-    // Sumar cantidad y actualizar subtotal
-    existente.cant += this.cantidad;
-    existente.subtotal = existente.cant * precio;
-  } else {
-    // Agregar nuevo si no existe
-    const nuevoElemento: ElementoRegistrado = {
-      producto: this.elementoSeleccionado,
-      codigo: codInt,
-      nombre,
-      cant: this.cantidad,
-      precio,
-      subtotal: this.cantidad * precio
-    };
-    this.elementosRegistrados.push(nuevoElemento);
-  }
+    if (existente) {
+      existente.cant += this.cantidad;
+      existente.subtotal = existente.cant * precio;
+    } else {
+      const nuevoElemento: ElementoRegistrado = {
+        producto: this.elementoSeleccionado,
+        codigo: codInt,
+        nombre,
+        cant: this.cantidad,
+        precio,
+        subtotal: this.cantidad * precio,
+      };
+      this.elementosRegistrados.push(nuevoElemento);
+    }
     console.log('Elementos registrados:', this.elementosRegistrados);
-    this.total = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
-    this.actualizarTotalYIgv();  // Aseguramos que el IGV y total se actualicen cada vez que se agrega un producto
+    this.total = this.elementosRegistrados.reduce(
+      (sum, el) => sum + el.subtotal,
+      0
+    );
+    this.actualizarTotalYIgv(); // Aseguramos que el IGV y total se actualicen cada vez que se agrega un producto
 
     this.clearSearch();
     this.cdr.detectChanges();
@@ -387,28 +410,33 @@ export class RegistrarCompraComponent {
   }
 
   actualizarSubtotal(p: any): void {
-    if(p.cant<=0){
-        this.toastr.info('La cantidad mínima es 1');
-        p.cant=1;
+    if (p.cant <= 0) {
+      this.toastr.info('La cantidad mínima es 1');
+      p.cant = 1;
     }
     p.subtotal = p.cant * p.precio;
     this.actualizarTotalYIgv();
   }
 
   eliminarElemento(codigo: string): void {
-      this.elementosRegistrados = this.elementosRegistrados.filter(e => e.codigo !== codigo);
-      this.total = this.elementosRegistrados.reduce((sum, el) => sum + el.subtotal, 0);
-      this.actualizarTotalYIgv();
-      this.cdr.detectChanges();
+    this.elementosRegistrados = this.elementosRegistrados.filter(
+      (e) => e.codigo !== codigo
+    );
+    this.total = this.elementosRegistrados.reduce(
+      (sum, el) => sum + el.subtotal,
+      0
+    );
+    this.actualizarTotalYIgv();
+    this.cdr.detectChanges();
   }
 
   private getTodayString(): string {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');  // Añade un cero al inicio si el día es menor a 10
-    const month = String(today.getMonth() + 1).padStart(2, '0');  // `getMonth()` es cero-indexado, por eso sumamos 1
+    const day = String(today.getDate()).padStart(2, '0'); // Añade un cero al inicio si el día es menor a 10
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // `getMonth()` es cero-indexado, por eso sumamos 1
     const year = today.getFullYear();
-    
-    return `${day}/${month}/${year}`;  // DD-MM-YYYY
+
+    return `${day}/${month}/${year}`; // DD-MM-YYYY
   }
 
   itemsPerPage = 5; // filas por página
@@ -428,6 +456,4 @@ export class RegistrarCompraComponent {
       this.currentPage = page;
     }
   }
-
-  
 }

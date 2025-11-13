@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Producto } from '../../models/producto';
 import { ToastrService } from 'ngx-toastr';
 import { ProductoService } from '../../services/producto.service';
-import { Observable } from 'rxjs';
 import { Categoria } from '../../models/categoria';
 import { Marca } from '../../models/marca';
 import { CategoriaService } from '../../services/categoria.service';
@@ -57,7 +56,8 @@ export class ListaProductosComponent {
       stockMin: { value: 9, disabled: true },
       categoria: '',
       marca: '',
-      estado: ''
+      estado: '',
+      productoProveedor: '',
     }); // Esto limpia todos los campos this.productoForm.reset();
   }
 
@@ -94,7 +94,8 @@ export class ListaProductosComponent {
       stockMin : 9,
       categoria : this.productoForm.get('categoria')?.value,
       marca : this.productoForm.get('marca')?.value,
-      estado : 'Activo'
+      estado : 'Activo',
+      productoProveedor: this.productoForm.get('productoProveedor')?.value
     }    
       this._productoService.guardarProducto(Producto).subscribe(data => {
         this.toastr.success('El Producto fue registrado exitosamente', 'Producto registrado');
@@ -145,7 +146,7 @@ export class ListaProductosComponent {
       stockMin: Producto.stockMin,
       categoria: Producto.categoria._id,
       marca: Producto.marca._id,
-      estado: Producto.estado
+      estado: Producto.estado,
     });
   }
 

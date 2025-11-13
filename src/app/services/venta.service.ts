@@ -8,28 +8,27 @@ import { Venta } from '../models/venta';
 })
 export class VentaService {
 
-  private url = 'http://localhost:4000/api/';
+  private url = 'http://localhost:4000/api/ventas';
 
   constructor(private http: HttpClient) {}
 
   getAllVentas(): Observable<any> {
-          let direccionUrl = this.url + 'obtenerVentas';
+          let direccionUrl = this.url;
           return this.http.get<Venta>(direccionUrl);
   }
 
   registrarVenta(venta: Venta): Observable<any> {
-           let direccionUrl = this.url + 'registrarVenta';
+           let direccionUrl = this.url;
            return this.http.post<Venta>(direccionUrl, venta);
    }
  
-
   obtenerVenta(id: string): Observable<any> {
-          let direccionUrl = this.url + 'obtenerVenta';
+          let direccionUrl = this.url;
           return this.http.get<Venta>(direccionUrl + '/' + id);
  }
 
  editarVenta(id: string, venta: Venta): Observable<any>{
-          let direccionUrl = this.url + 'actualizarVenta';
+          let direccionUrl = this.url;
           return this.http.put<Venta>(direccionUrl + '/' + id, venta)
  }
  

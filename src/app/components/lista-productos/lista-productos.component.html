@@ -47,6 +47,7 @@
           <th scope="col" style="width: 100px;">Stock Min.</th>
           <th scope="col" style="width: 170px;">Categoria</th>
           <th scope="col" style="width: 110px;">Marca</th>
+          <th scope="col" style="width: 110px;">Proveedor</th>
           <th scope="col" style="width: 100px;">Estado</th>
           <th scope="col" style="width: 80px;">Acciones</th>
         </tr>
@@ -60,6 +61,7 @@
           <td>{{prod.stockMin}}</td>
           <td>{{prod.categoria.nombre}}</td>
           <td>{{prod.marca.nombre}}</td>
+          <td>{{prod.marca.proveedor.nombre}}</td>
           <td>{{prod.estado}}</td>
           <td>
             <a data-bs-toggle="modal" data-bs-target="#modalEdit"
