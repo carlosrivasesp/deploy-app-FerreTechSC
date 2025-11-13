@@ -45,4 +45,11 @@ export class CotizacionService {
 
 obtenerDetallesCotizacionPorVenta(ventaId: string): Observable<any> {
   return this.http.get<any>(`${this.url}cotizacion/detalles-por-venta/${ventaId}`);
-}}
+}
+crearPedido(data: any) {
+  return this.http.post(`${this.url}/api/operaciones/pedido`, data);
+}
+
+
+
+}

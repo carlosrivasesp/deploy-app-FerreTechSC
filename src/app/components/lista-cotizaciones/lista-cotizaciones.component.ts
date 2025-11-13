@@ -4,6 +4,7 @@ import { CotizacionService } from '../../services/cotizacion.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { OperacionService } from '../../services/operacion.service';
 
 declare const bootstrap: any;
 
@@ -34,6 +35,7 @@ export class ListadoCotizacionesComponent {
 
   constructor(
     private _cotizacionService: CotizacionService,
+    private operacionService: OperacionService,
     private toastr: ToastrService,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -140,35 +142,67 @@ export class ListadoCotizacionesComponent {
     }
   }
 
-  guardarConfirmacion(): void {
-    if (!this.cotizacionEnProceso) return;
+guardarConfirmacion(): void {
+  if (!this.cotizacionEnProceso) return;
 
-    const cotizacionActualizada = {
-      ...this.cotizacionEnProceso,
-      estado: 'Confirmada',
-      tipoComprobante: this.formData.tipoComprobante,
-      serie: this.formData.serie,
-      metodoPago: this.formData.metodoPago
-    };
+  const cotizacionActualizada = {
+    ...this.cotizacionEnProceso,
+    estado: 'Confirmada',
+    tipoComprobante: this.formData.tipoComprobante,
+    serie: this.formData.serie,
+    metodoPago: this.formData.metodoPago
+  };
 
-    this._cotizacionService.editarCotizacion(cotizacionActualizada._id!, cotizacionActualizada).subscribe({
-      next: () => {
-        this.toastr.success('Cotización confirmada correctamente', 'Éxito');
+  // 1️⃣ Confirmar la cotización
+  this._cotizacionService.editarCotizacion(cotizacionActualizada._id!, cotizacionActualizada).subscribe({
+    next: () => {
+      this.toastr.success('Cotización confirmada correctamente', 'Éxito');
 
-        const modalElement = document.getElementById('modalConfirmacion');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal?.hide();
-        }
+      // 2️⃣ Crear venta y pedido automáticamente
+      this.crearPedidoDesdeCotizacion(cotizacionActualizada);
 
-        this.formData = { tipoComprobante: '', serie: '', metodoPago: '' };
-        this.obtenerCotizaciones();
-      },
-      error: () => {
-        this.toastr.error('No se pudo confirmar la cotización', 'Error');
+      // 3️⃣ Cerrar modal y limpiar
+      const modalElement = document.getElementById('modalConfirmacion');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal?.hide();
       }
-    });
-  }
+
+      this.formData = { tipoComprobante: '', serie: '', metodoPago: '' };
+      this.obtenerCotizaciones();
+    },
+    error: () => {
+      this.toastr.error('No se pudo confirmar la cotización', 'Error');
+    }
+  });
+}
+
+
+  crearPedidoDesdeCotizacion(cotizacion: any): void {
+  const pedidoData = {
+    cliente: cotizacion.cliente._id,
+    detalles: cotizacion.detalles.map((item: any) => ({
+      nombre: item.producto?.nombre || item.nombre,
+      cantidad: item.cantidad,
+      precio: item.precio
+    })),
+    tipoComprobante: cotizacion.tipoComprobante,
+    metodoPago: cotizacion.metodoPago,
+    servicioDelivery: false
+  };
+
+  this._cotizacionService.crearPedido(pedidoData).subscribe({
+    next: (res) => {
+      this.toastr.success('Pedido y venta creados desde la cotización', 'Éxito');
+      console.log('Pedido generado:', res);
+    },
+    error: (err) => {
+      console.error(err);
+      this.toastr.error('Error al generar pedido desde cotización', 'Error');
+    }
+  });
+}
+
 
 onTipoComprobanteChange(): void {
   if (this.formData.tipoComprobante === 'BOLETA DE VENTA ELECTRONICA') {
