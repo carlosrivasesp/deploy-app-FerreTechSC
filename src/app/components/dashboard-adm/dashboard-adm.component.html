@@ -149,7 +149,8 @@
         </canvas>
       </div>
         -->
-      <div class="chart-box">
+      <!-- 
+       <div class="chart-box">
         <h5>Compras sugeridas</h5> <p class="link" routerLink="/compras-sugeridas">Ver más +</p>
         <div style="max-height: 400px; overflow-y: auto;">
           <table class="table table-sm">
@@ -163,15 +164,17 @@
             </thead>
             <tbody>
               <tr *ngFor="let cs of listCompraSugeridas">
-                <td>{{ cs.producto.codInt }}</td>
-                <td>{{ cs.producto.nombre }}</td>
-                <td>{{ cs.producto.stockActual }}</td>
+                <td>{{ cs.producto?.codInt }}</td>
+                <td>{{ cs.producto?.nombre }}</td>
+                <td>{{ cs.producto?.stockActual }}</td>
                 <td>{{ cs.tieneOrdenCompra? 'SÍ' : 'No' }}</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
+      </div> 
+    -->
+
       <!-- Gráfico de barras -->
       <div class="chart-box">
         <h5>Productos Más Vendidos del mes</h5>

@@ -89,10 +89,7 @@ listCompraSugeridas: CompraSugerida[]=[];
     this.obtenerComprasSugeridas();
     this.obtenerComprasPendientes();
     this.obtenerVentasPendientes();
-    
   }
-
-
 
 obtenerComprasSugeridas(): void {
   this._compraSugService.getSugerencias().subscribe({
@@ -140,8 +137,6 @@ obtenerComprasPendientes(): void {
     }
   });
 }
-
-
 
 obtenerVentasPendientes(): void {
   this._ventaService.getAllVentas().subscribe({
