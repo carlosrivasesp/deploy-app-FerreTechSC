@@ -24,7 +24,7 @@ export class ResumenCompraComponent implements OnInit {
   servicioDelivery: boolean = false;
   direccion: string = '';
   distrito: string = '';
-
+  clienteId: string|null=null;;
   nroDocError: string = '';
   clienteBloqueado: boolean = false;
 
@@ -164,6 +164,7 @@ export class ResumenCompraComponent implements OnInit {
             this.correo = res.correo || '';
             this.nroDocError = '';
             this.clienteBloqueado = true;
+            this.clienteId=res._id;
           } else {
             this.nroDocError =
               'Cliente no encontrado. Por favor, complete sus datos.';
@@ -177,6 +178,7 @@ export class ResumenCompraComponent implements OnInit {
             'Error al consultar el documento. Intente más tarde.';
           this.limpiarDatosCliente();
           this.clienteBloqueado = false;
+          this.clienteId = null;
         },
       });
   }
@@ -318,6 +320,7 @@ export class ResumenCompraComponent implements OnInit {
         tipoComprobante: this.tipoComprobante,
         metodoPago: this.metodoPago,
         cliente: {
+          _id:this.clienteId || undefined,
           tipoDoc: this.tipoDoc,
           nroDoc: this.nroDoc,
           nombre: this.nombre,
@@ -331,6 +334,7 @@ export class ResumenCompraComponent implements OnInit {
           cantidad: item.cantidad,
         })),
         servicioDelivery: this.servicioDelivery,
+        igv:this.igv,
         monto: this.totalPrice,
       },
     };
