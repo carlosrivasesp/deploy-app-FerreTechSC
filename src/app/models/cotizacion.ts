@@ -1,20 +1,23 @@
 import { Cliente } from "./cliente";  // Suponiendo que tienes el modelo Cliente
+import { DetalleCotizacion } from "./detalleCotizacion";
 // import { DetalleCotizacion } from "./detalleCotizacion";  // Comentado por ahora
 
 export class Cotizacion {
   _id?: string;
-  cliente: Cliente;  // Referencia al cliente de la cotización
+  cliente: Cliente;
   contacto: string;
   telefono: string;
   fechaEmision: Date;
   fechaVenc: Date;
   moneda: string;
   tipoCambio: number;
-  tiempoValidez: number;  // Tiempo de validez en días para la cotización
+  tiempoValidez: number;
   total: number;
   igv: number;
   estado: string;
-  // detalleC: DetalleCotizacion[];  // Comentado por ahora, se agregará más tarde
+  detalleC: DetalleCotizacion[];
+  tipoComprobante?: string;  // Opcional
+  metodoPago?: string;      // Opcional
 
   constructor(
     cliente: Cliente,
@@ -28,7 +31,9 @@ export class Cotizacion {
     total: number,
     igv: number,
     estado: string,
-    // detalleC: DetalleCotizacion[] = []  // Comentado por ahora
+    detalleC: DetalleCotizacion[] = [],
+    tipoComprobante?: string,  // Opcional
+    metodoPago?: string       // Opcional
   ) {
     this.cliente = cliente;
     this.contacto = contacto;
@@ -41,6 +46,8 @@ export class Cotizacion {
     this.igv = igv;
     this.total = total;
     this.estado = estado;
-    // this.detalleC = detalleC;  // Comentado por ahora
+    this.detalleC = detalleC;
+    this.tipoComprobante = tipoComprobante || 'Factura';  // Asigna valor por defecto si no se pasa
+    this.metodoPago = metodoPago || 'Efectivo';           // Asigna valor por defecto si no se pasa
   }
 }

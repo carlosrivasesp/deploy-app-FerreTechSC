@@ -114,7 +114,7 @@ export class ListadoCotizacionesComponent {
   }
 
   cambiarEstado(cotizacion: Cotizacion, nuevoEstado: string): void {
-    if (nuevoEstado === 'Confirmada') {
+    if (nuevoEstado === 'Aceptada') {
       this.cotizacionEnProceso = cotizacion;
 
       const modalElement = document.getElementById('modalConfirmacion');

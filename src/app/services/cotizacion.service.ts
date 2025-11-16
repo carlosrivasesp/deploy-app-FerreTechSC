@@ -43,6 +43,14 @@ export class CotizacionService {
     return this.http.put<Cotizacion>(direccionUrl + '/' + id, cotizacion);
   }
 
+cambiarEstadoCotizacion(id: string, nuevoEstado: string) {
+  const url = `${this.url}operacion/${id}/estado`;
+  console.log('URL generada para cambiar estado:', url);
+
+  return this.http.put(url, { nuevoEstado });
+}
+
+
 obtenerDetallesCotizacionPorVenta(ventaId: string): Observable<any> {
   return this.http.get<any>(`${this.url}cotizacion/detalles-por-venta/${ventaId}`);
 }}
