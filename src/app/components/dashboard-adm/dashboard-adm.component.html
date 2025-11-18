@@ -239,30 +239,24 @@
   <table class="table">
     <thead>
       <tr class="header">
-        <th scope="col">Tipo de comprobante</th>
-        <th scope="col">Serie</th>
-        <th scope="col">Nro. Comprobante</th>
+        <th scope="col">Codigo</th>
         <th scope="col">Proveedor</th>
         <th scope="col">Fecha de emisión</th>
-        <th scope="col">Método de pago</th>
         <th scope="col">Total</th>
         <th scope="col">Estado</th>
       </tr>
     </thead>
     <tbody class="body">
       <tr *ngFor="let compra of comprasPendientes">
-        <td>{{ compra.tipoComprobante }}</td>
-        <td>{{ compra.serie }}</td>
-        <td>{{ compra.nroComprobante }}</td>
+        <td>{{ compra.codigo }}</td>
         <td>{{ compra.proveedor.nombre }}</td>
         <td>
           {{
-          compra.fechaEmision
-          ? (compra.fechaEmision | date : "dd/MM/yyyy")
+          compra.fechaCreacion
+          ? (compra.fechaCreacion | date : "dd/MM/yyyy")
           : "Sin fecha"
           }}
         </td>
-        <td>{{ compra.metodoPago }}</td>
         <td>S/ {{ compra.total.toFixed(2) }}</td>
         <td>{{ compra.estado }}</td>
       </tr>

@@ -34,8 +34,9 @@ export class ResumenCompraComponent implements OnInit {
 
   constructor(
     private carritoService: CarritoService,
-    private http: HttpClient
-  , private router: Router) {}
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadCart();
@@ -66,23 +67,20 @@ export class ResumenCompraComponent implements OnInit {
     this.clienteBloqueado = false; // ✅ Desbloquear campos al cambiar el tipo
     this.pedidoExitoso = false; // ✅ Ocultar notificación si se edita
   }
-autocompletarClienteAutomatico(): void {
-  const dniGuardado = localStorage.getItem('dniCliente'); // 🔹 recupera el DNI guardado al hacer login
+  autocompletarClienteAutomatico(): void {
+    const dniGuardado = localStorage.getItem('dniCliente'); // 🔹 recupera el DNI guardado al hacer login
 
-  if (dniGuardado) {
-    this.tipoDoc = 'DNI';
-    this.nroDoc = dniGuardado;
-    console.log('🔎 DNI cargado automáticamente:', dniGuardado);
+    if (dniGuardado) {
+      this.tipoDoc = 'DNI';
+      this.nroDoc = dniGuardado;
+      console.log('🔎 DNI cargado automáticamente:', dniGuardado);
 
-    // ✅ Llama automáticamente al backend para llenar los demás datos
-    this.buscarClientePorDocumento();
-  } else {
-    console.warn('⚠️ No se encontró ningún DNI guardado en el localStorage.');
+      // ✅ Llama automáticamente al backend para llenar los demás datos
+      this.buscarClientePorDocumento();
+    } else {
+      console.warn('⚠️ No se encontró ningún DNI guardado en el localStorage.');
+    }
   }
-}
-
-
-
 
   onNroDocInput(): void {
     this.nroDocError = ''; // Limpiar error en cada input
@@ -109,7 +107,7 @@ autocompletarClienteAutomatico(): void {
         this.limpiarDatosCliente();
       }
     }
-  } 
+  }
 
   private limpiarDatosCliente(): void {
     this.nombre = '';
@@ -128,12 +126,12 @@ autocompletarClienteAutomatico(): void {
     this.direccion = '';
     this.distrito = '';
     this.nroDocError = '';
-    this.clienteBloqueado = false; 
+    this.clienteBloqueado = false;
     if (ocultarNotificacion) {
       this.pedidoExitoso = false;
     }
     console.log('Campos de cliente limpiados.');
-  } 
+  }
 
   buscarClientePorDocumento(): void {
     if (this.tipoDoc === 'DNI' && this.nroDoc.length !== 8) {
@@ -171,7 +169,7 @@ autocompletarClienteAutomatico(): void {
             this.nroDocError =
               'Cliente no encontrado. Por favor, complete sus datos.';
             this.limpiarDatosCliente();
-            this.clienteBloqueado = false; 
+            this.clienteBloqueado = false;
           }
         },
         error: (err) => {
@@ -182,7 +180,7 @@ autocompletarClienteAutomatico(): void {
           this.clienteBloqueado = false;
         },
       });
-  } 
+  }
 
   confirmarPedidoInvitado(): void {
     if (this.cartItems.length === 0) {
@@ -197,7 +195,7 @@ autocompletarClienteAutomatico(): void {
         this.nroDocError = 'El RUC de 11 dígitos es obligatorio.';
         return;
       }
-    } 
+    }
 
     if (this.tipoDoc === 'DNI' && this.nroDoc.length !== 8) {
       console.error('El DNI debe tener 8 dígitos.');
@@ -215,7 +213,7 @@ autocompletarClienteAutomatico(): void {
 
     const detalles = this.cartItems.map((item) => ({
       nombre: item.nombre,
-      cantidad: item.cantidad, 
+      cantidad: item.cantidad,
     }));
 
     const datosCliente = {
@@ -261,5 +259,4 @@ autocompletarClienteAutomatico(): void {
         },
       });
   }
-
 }

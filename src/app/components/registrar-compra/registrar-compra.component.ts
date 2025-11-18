@@ -6,8 +6,7 @@ import { Proveedor } from '../../models/proveedor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProveedorService } from '../../services/proveedor.service';
-import { CompraService } from '../../services/compra.service';
-import { Compra } from '../../models/compra';
+import { OrdenCompraService } from '../../services/ordenCompra.service';
 
 interface ElementoRegistrado {
   producto: Producto;
@@ -17,10 +16,6 @@ interface ElementoRegistrado {
   precio: number;
   subtotal: number;
 }
-
-type listaSeries =
-  | 'BOLETA DE COMPRA ELECTRONICA'
-  | 'FACTURA DE COMPRA ELECTRONICA';
 
 @Component({
   selector: 'app-registrar-compra',
@@ -44,7 +39,7 @@ export class RegistrarCompraComponent {
 
   listProveedores: Proveedor[] = [];
   proveedorForm: FormGroup;
-  compraForm: FormGroup;
+  ordenCompraForm: FormGroup;
 
   proveedorSearchTerm: string = '';
   proveedorSeleccionado: Proveedor | null = null;
@@ -59,7 +54,7 @@ export class RegistrarCompraComponent {
     private toastr: ToastrService,
     private _proveedorService: ProveedorService,
     private aRoute: ActivatedRoute,
-    private _compraService: CompraService,
+    private _compraService: OrdenCompraService,
     private cdr: ChangeDetectorRef
   ) {
     this.proveedorForm = this.fb.group({
@@ -70,17 +65,12 @@ export class RegistrarCompraComponent {
       correo: [{ value: '', disabled: true }, Validators.required],
     });
 
-    this.compraForm = this.fb.group({
-      tipoComprobante: ['BOLETA DE COMPRA ELECTRONICA', Validators.required],
-      serie: ['B01', Validators.required],
-      nroComprobante: [''],
-      fechaEmision: [this.getTodayString(), Validators.required],
-      fechaVenc: [this.getTodayString(), Validators.required],
+    this.ordenCompraForm = this.fb.group({
+      codigo: [''],
+      fechaCreacion: [this.getTodayString(), Validators.required],
       total: ['', Validators.required],
       estado: ['Pendiente', Validators.required],
       proveedor: ['', Validators.required],
-      igv: ['', Validators.required],
-      metodoPago: ['', Validators.required],
       detalles: this.fb.array([]),
     });
   }
@@ -88,7 +78,7 @@ export class RegistrarCompraComponent {
   ngOnInit(): void {
     this.obtenerProveedores();
 
-    this.compraForm.get('proveedor')?.valueChanges.subscribe((value) => {
+    this.ordenCompraForm.get('proveedor')?.valueChanges.subscribe((value) => {
       if (typeof value === 'string') {
         this.proveedorSearchTerm = value;
       } else {
@@ -97,36 +87,14 @@ export class RegistrarCompraComponent {
     });
   }
 
-  onSelectSerie(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-
-    if (selectElement) {
-      const selectedValue = selectElement.value as listaSeries;
-
-      if (selectedValue === 'BOLETA DE COMPRA ELECTRONICA') {
-        this.serie = 'B01';
-      } else {
-        this.serie = 'F01';
-      }
-
-      const dropdownInput = document.getElementById('dropdownInput');
-      if (dropdownInput && (window as any).bootstrap) {
-        const dropdownInstance = new (window as any).bootstrap.Dropdown(
-          dropdownInput
-        );
-        dropdownInstance.hide();
-      }
-    }
-  }
-
   registrarCompra() {
     if (!this.selectedProveedor) {
       console.log(this.selectedProveedor);
-      console.log('Formulario:', this.compraForm.value);
+      console.log('Formulario:', this.ordenCompraForm.value);
       return;
     }
 
-    const form = this.compraForm.value;
+    const form = this.ordenCompraForm.value;
     console.log('Proveedor del formulario:', form.proveedor);
 
     const productos = this.elementosRegistrados.map((item) => ({
@@ -140,21 +108,15 @@ export class RegistrarCompraComponent {
     }));
 
     const nuevaCompra = {
-      serie: form.serie,
-      nroComprobante: form.nroComprobante,
-      fechaEmision: new Date(),
-      fechaVenc: new Date(),
-      tipoComprobante: form.tipoComprobante,
-      igv: this.igv,
+      codigo: form.codigo,
+      fechaCreacion: new Date(),
       total: this.total,
       estado: form.estado,
       proveedor: form.proveedor,
-      metodoPago: form.metodoPago,
       detalles: productos,
     };
-    console.log(nuevaCompra); // Esto te permitirá ver el objeto completo que estás enviando
+    console.log(nuevaCompra);
 
-    // Llamamos al servicio para registrar la compra
     this._compraService.registrarCompra(nuevaCompra).subscribe(
       () => {
         this.toastr.success('Compra registrada correctamente');
@@ -233,15 +195,13 @@ export class RegistrarCompraComponent {
 
     console.log('ID proveedor enviado:', proveedor._id);
 
-    this.compraForm.controls['proveedor'].setValue(proveedor._id);
-    // Establecemos solo el ObjectId en el formulario
+    this.ordenCompraForm.controls['proveedor'].setValue(proveedor._id);
     this.proveedorSearchTerm = proveedor.nroDoc + ' - ' + proveedor.nombre;
     console.log(
       'Proveedor seleccionado en el formulario:',
-      this.compraForm.controls['proveedor'].value
+      this.ordenCompraForm.controls['proveedor'].value
     );
 
-    // Limpiar productos actuales y selección
     this.listaProducto = [];
     this.searchTerm = '';
     this.elementoSeleccionado = null;
@@ -249,7 +209,6 @@ export class RegistrarCompraComponent {
     this.subtotal = 0;
     this.cantidad = 1;
 
-    // Llamar al servicio para obtener productos por proveedor
     this._productoService
       .getProductosPorProveedorSinStock(proveedor._id)
       .subscribe(
@@ -278,7 +237,6 @@ export class RegistrarCompraComponent {
         }
       );
 
-    // 🔹 Llamada para llenar el autocompletado con todos los productos del proveedor
     this._productoService.getProductosPorProveedor(proveedor._id).subscribe(
       (productos: Producto[]) => {
         this.listaProducto = productos;
@@ -355,7 +313,7 @@ export class RegistrarCompraComponent {
 
     this.total = parseFloat((subtotalTotal + this.igv).toFixed(2));
 
-    this.compraForm.patchValue({ total: this.total, igv: this.igv });
+    this.ordenCompraForm.patchValue({ total: this.total, igv: this.igv });
   }
 
   onRegisterElement(): void {
@@ -432,8 +390,8 @@ export class RegistrarCompraComponent {
 
   private getTodayString(): string {
     const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0'); // Añade un cero al inicio si el día es menor a 10
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // `getMonth()` es cero-indexado, por eso sumamos 1
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
 
     return `${day}/${month}/${year}`; // DD-MM-YYYY

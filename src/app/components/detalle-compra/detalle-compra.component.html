@@ -5,36 +5,20 @@
   <div class="separador">
     <div class="header-title">
       <a href="/listado-compras"><i class="bi bi-arrow-bar-left"></i>Regresar</a>
-      <p class="title">Detalle compra</p>
+      <p class="title">Detalle de orden de compra</p>
     </div>
 
     <div class="formulario">
       <form class="row g-3" [formGroup]="compraForm">
-        <!--tipo comprobante-->
-        <div class="col-md-5">
-          <label for="inputComprobante" class="form-label">Tipo de Comprobante</label>
-          <select id="inputComprobante" class="form-select" formControlName="tipoComprobante">
-            <option selected>BOLETA DE COMPRA ELECTRONICA</option>
-            <option>FACTURA DE COMPRA ELECTRONICA</option>
-          </select>
-        </div>
-        <!--serie-->
-        <div class="col-md-1">
-          <label for="inputSerie" class="form-label">Serie</label>
-          <select id="inputSerie" class="form-select" formControlName="serie">
-            <option selected>F01</option>
-            <option>B01</option>
-          </select>
-        </div>
 
-        <!-- número de comprobante -->
+        <!-- codigo -->
         <div class="col-md-2">
-          <label for="inputNro" class="form-label">N° Comprobante</label>
+          <label for="inputNro" class="form-label">Codigo</label>
           <input
             type="text"
             class="form-control"
             id="inputNro"
-            formControlName="nroComprobante"
+            formControlName="codigo"
           />
         </div>
 
@@ -43,15 +27,7 @@
           <label for="inputEmision" class="form-label">Fecha de Emisión</label>
           <div class="input-group">
             <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
-            <input type="text" class="form-control" id="inputEmision" formControlName="fechaEmision" />
-          </div>
-        </div>
-        <!--venc-->
-        <div class="col-md-2">
-          <label for="inputVec" class="form-label">Fec. Vencimiento</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
-            <input type="text" class="form-control" id="inputVec" formControlName="fechaVenc" />
+            <input type="text" class="form-control" id="inputEmision" formControlName="fechaCreacion" />
           </div>
         </div>
         <!--proveedor-->
@@ -61,17 +37,6 @@
             <option *ngFor="let proveedor of listProveedores" [ngValue]="proveedor._id">
               {{ proveedor.nroDoc }} - {{ proveedor.nombre }}
             </option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label for="inputMetodoPago" class="form-label">Método de pago</label>
-          <select id="inputMetodoPago" class="form-select" formControlName="metodoPago">
-            <option selected>Efectivo</option>
-            <option>Tarjeta de débito</option>
-            <option>Tarjeta de credito</option>
-            <option>Yape</option>
-            <option>Plin</option>
-            <option>Transferencia</option>
           </select>
         </div>
         <!-- estado -->

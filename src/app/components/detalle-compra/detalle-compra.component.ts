@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { isPlatformBrowser } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProveedorService } from '../../services/proveedor.service';
+import { OrdenCompraService } from '../../services/ordenCompra.service';
 
 @Component({
   selector: 'app-detalle-compra',
@@ -21,23 +22,18 @@ export class DetalleCompraComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private aRouter: ActivatedRoute,
-    private compraService: CompraService,
+    private compraService: OrdenCompraService,
     private toastr: ToastrService,
     private router: Router,
     private fb: FormBuilder,
     private _proveedorService: ProveedorService
   ) {
     this.compraForm = this.fb.group({
-      tipoComprobante: ['', Validators.required],
-      nroComprobante: ['', Validators.required],
-      serie: ['', Validators.required],
-      metodoPago: ['', Validators.required],
+      codigo: ['', Validators.required],
       estado: ['', Validators.required],
-      igv: ['', Validators.required],
       total: ['', [Validators.required, Validators.min(0)]],
       proveedor: ['', Validators.required],
-      fechaEmision: [{ value: '', disabled: true }],
-      fechaVenc: [{ value: '', disabled: true }],
+      fechaCreacion: [{ value: '', disabled: true }],
       detalles: this.fb.array([]),
     });
 
@@ -75,17 +71,11 @@ export class DetalleCompraComponent implements OnInit {
       this.compraService.obtenerCompra(this.idCompra).subscribe({
         next: (data) => {
           this.compraForm.patchValue({
-            tipoComprobante: data.tipoComprobante,
-            nroComprobante: data.nroComprobante,
-            serie: data.serie,
-            metodoPago: data.metodoPago,
+            codigo: data.codigo,
             estado: data.estado,
-            igv: data.igv,
             total: data.total,
-            fechaEmision: this.formatDate(data.fechaEmision),
-            fechaVenc: this.formatDate(data.fechaVenc),
-            proveedor: data.proveedor?._id || '',
-            fechaRegistro: this.formatDate(data.createdAt),
+            fechaCreacion: this.formatDate(data.fechaCreacion),
+            proveedor: data.proveedor?._id || ''
           });
 
           this.detalles.clear();
@@ -93,8 +83,8 @@ export class DetalleCompraComponent implements OnInit {
           data.detalles.forEach((detalle: any) => {
             this.detalles.push(
               this.fb.group({
-                codigo: [detalle.codInt],
-                descripcion: [detalle.nombre],
+                codigo: [detalle.producto.codInt],
+                descripcion: [detalle.producto.nombre],
                 cantidad: [detalle.cantidad],
                 precio: [detalle.precio],
                 subtotal: [detalle.subtotal],

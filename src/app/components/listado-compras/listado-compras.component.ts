@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Compra } from '../../models/compra';
-import { CompraService } from '../../services/compra.service';
+import { OrdenCompra } from '../../models/ordenCompra';
+import { OrdenCompraService } from '../../services/ordenCompra.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,12 +9,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'app-listado-compras',
   standalone: false,
   templateUrl: './listado-compras.component.html',
-  styleUrl: './listado-compras.component.css'
+  styleUrl: './listado-compras.component.css',
 })
 export class ListadoComprasComponent {
-  listCompras: Compra[] = [];
-  idCompra: string | null;
-  compraForm: FormGroup;
+  listCompras: OrdenCompra[] = [];
   selectedCompra: any = null;
   selectedFilter: string = 'proveedor';
   searchTerm: string = '';
@@ -23,31 +21,12 @@ export class ListadoComprasComponent {
   itemsPerPage: number = 10;
 
   constructor(
-    private _compraService: CompraService,
+    private _compraService: OrdenCompraService,
     private toastr: ToastrService,
     private router: Router,
     private aRoute: ActivatedRoute,
     private fb: FormBuilder
-  ) {
-    this.compraForm = this.fb.group({
-      tipoComprobante: [''],
-      serie: [''],
-      nroComprobante: [''],
-      fechaEmision: [{ value: '', disabled: true }],
-      fechaVenc: [{ value: '', disabled: true }],
-      igv: [''],
-      total: [''],
-      estado: ['', Validators.required],
-      moneda: [''],
-      tipoCambio: [''],
-      proveedor: [''],
-      metodoPago: ['', Validators.required],
-      detalleC: this.fb.array([]),
-    });
-    
-
-    this.idCompra = this.aRoute.snapshot.paramMap.get('id');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.obtenerCompras();
@@ -63,65 +42,21 @@ export class ListadoComprasComponent {
     });
   }
 
-  editarCompra(compra: Compra) {
-    this.idCompra = compra._id || null;
-    this.selectedCompra = `${compra.serie}-${compra.nroComprobante}`;
-    this.compraForm.patchValue({
-      estado: compra.estado,
-      metodoPago: compra.metodoPago,
-    });
-  }
+  cambiarEstado(compra: any, nuevoEstado: string): void {
+    if (compra.estado === nuevoEstado) return;
 
-  actualizarCompra() {
-    if (this.compraForm.invalid || !this.idCompra) {
-      console.warn('Formulario inválido o idCompra nulo');
-      return;
-    }
-
-    const compra: Compra = this.compraForm.value;
-
-    this._compraService.editarCompra(this.idCompra, compra).subscribe(
-      () => {
-        this.toastr.info(
-          'El comprobante fue actualizado exitosamente',
-          'Compra actualizada'
-        );
-        this.compraForm.reset();
-        this.idCompra = null;
-        this.obtenerCompras();
-      },
-      (error) => {
-        console.log(error);
-        this.compraForm.reset();
-      }
-    );
-  }
-
-  compraAAnular: any;
-
-  setCompraAAnular(compra: any): void {
-    this.compraAAnular = compra;
-  }
-
-  anularCompra(compra: Compra): void {
-    const compraActualizada = {
-      ...compra,
-      estado: 'Anulado',
-    };
-
-    this._compraService.editarCompra(compra._id!, compraActualizada).subscribe({
+    this._compraService.actualizarEstado(compra._id!, nuevoEstado).subscribe({
       next: () => {
-        this.toastr.error('Comprobante anulado correctamente', 'Anulado');
-        this.obtenerCompras();
+        this.toastr.success('Estado actualizado correctamente', 'Éxito');
+        this.obtenerCompras(); // recarga la lista
       },
-      error: (error) => {
-        console.error(error);
-        this.toastr.error('No se pudo anular el comprobante', 'Error');
+      error: () => {
+        this.toastr.error('No se pudo actualizar el estado', 'Error');
       },
     });
   }
 
-  get filteredCompras(): Compra[] {
+  get filteredCompras(): OrdenCompra[] {
     if (!this.searchTerm.trim()) return this.listCompras;
 
     const term = this.searchTerm.toLowerCase();
@@ -132,8 +67,8 @@ export class ListadoComprasComponent {
         );
       case 'fecha':
         return this.listCompras.filter((s) =>
-          s.fechaEmision
-            ? this.formatDate(s.fechaEmision).includes(term)
+          s.fechaCreacion
+            ? this.formatDate(s.fechaCreacion).includes(term)
             : false
         );
       case 'estado':
@@ -153,7 +88,7 @@ export class ListadoComprasComponent {
     return `${day}/${month}/${year}`;
   }
 
-  get paginatedCompras(): Compra[] {
+  get paginatedCompras(): OrdenCompra[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredCompras.slice(start, start + this.itemsPerPage);
   }

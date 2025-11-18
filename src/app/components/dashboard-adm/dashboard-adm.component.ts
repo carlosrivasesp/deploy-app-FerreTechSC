@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { ChartOptions, ChartType, ChartData } from 'chart.js';
 import { Venta } from '../../models/venta';
-import { Compra } from '../../models/compra';
+import { OrdenCompra } from '../../models/ordenCompra';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VentaService } from '../../services/venta.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CompraService } from '../../services/compra.service';
-import { Producto } from '../../models/producto';
+import { OrdenCompraService } from '../../services/ordenCompra.service';
 import { CompraSugeridaService } from '../../services/compraS.service';
 import { CompraSugerida } from '../../models/compraS';
 
@@ -18,9 +17,9 @@ import { CompraSugerida } from '../../models/compraS';
   styleUrls: ['./dashboard-adm.component.css']
 })
 export class DashboardAdmComponent {
-listCompras: Compra[]=[];
+listCompras: OrdenCompra[]=[];
 listVentas: Venta[] = [];
-comprasPendientes: Compra[] = [];
+comprasPendientes: OrdenCompra[] = [];
 ventasPendientes: Venta[] = [];
 listCompraSugeridas: CompraSugerida[]=[];
   idCompra: string | null ;
@@ -42,7 +41,7 @@ listCompraSugeridas: CompraSugerida[]=[];
   
   constructor(
     private _ventaService: VentaService,
-    private _compraService: CompraService,
+    private _compraService: OrdenCompraService,
     private _compraSugService: CompraSugeridaService,
     private toastr: ToastrService,
     private router: Router,
@@ -103,7 +102,7 @@ obtenerComprasSugeridas(): void {
   });
 }
 
-  get filteredCompras(): Compra[] {
+  get filteredCompras(): OrdenCompra[] {
     if (!this.searchTerm.trim()) return this.listCompras;
 
     const term = this.searchTerm.toLowerCase();
@@ -114,8 +113,8 @@ obtenerComprasSugeridas(): void {
         );
       case 'fecha':
         return this.listCompras.filter((s) =>
-          s.fechaEmision
-            ? this.formatDate(s.fechaEmision).includes(term)
+          s.fechaCreacion
+            ? this.formatDate(s.fechaCreacion).includes(term)
             : false
         );
       default:
@@ -125,7 +124,7 @@ obtenerComprasSugeridas(): void {
   //------------------------------------------------------------------------------------
 obtenerComprasPendientes(): void {
   this._compraService.getAllCompras().subscribe({
-    next: (data: Compra[]) => {
+    next: (data: OrdenCompra[]) => {
       this.comprasPendientes = data
         .filter(compra => compra.estado === 'Pendiente')
         .reverse()
