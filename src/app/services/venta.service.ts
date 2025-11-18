@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Venta } from '../models/venta';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VentaService {
 
@@ -27,9 +27,13 @@ export class VentaService {
           return this.http.get<Venta>(direccionUrl + '/' + id);
  }
 
- editarVenta(id: string, venta: Venta): Observable<any>{
-          let direccionUrl = this.url;
-          return this.http.put<Venta>(direccionUrl + '/' + id, venta)
- }
- 
+  editarVenta(id: string, venta: Venta): Observable<any> {
+    let direccionUrl = this.url+ id;
+    return this.http.put<Venta>(direccionUrl, venta);
+  }
+
+  getVentaByPedidoId(pedidoId: string): Observable<Venta> {
+    let direccionUrl = this.url + '/pedido/' + pedidoId;
+    return this.http.get<Venta>(direccionUrl);
+  }
 }
