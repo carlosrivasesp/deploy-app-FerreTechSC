@@ -1,114 +1,125 @@
 import { Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Operacion } from '../../models/operacion';
+import { Venta } from '../../models/venta';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenerarPDFService {
 
-  generarComprobante(pedido: any) {
+  generarComprobante(data: { pedido: Operacion, venta: Venta }) {
 
-    const doc = new jsPDF({
-      unit: 'mm',
-      format: 'a4'
-    });
+  const pedido = data.pedido;
+  const venta = data.venta;
 
-    // ==============================
-    // ENCABEZADO EMPRESARIAL
-    // ==============================
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(20);
-    doc.text('FERRETERIA SANTO CRISTO', 10, 15);
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
-    doc.text('RUC: 10091429077', 10, 22);
-    doc.text('Dirección: AV. SANTO CRISTO NRO. C INT. 7 ASOC', 10, 28);
-    doc.text('           SANTO CRISTO (ALT. JR. CACERES)', 10, 33);
-    doc.text('Ciudad: Santiago de Surco', 10, 39);
-    doc.text('Teléfono: (01) 2748870', 10, 45);
-    doc.text('Celular: 997168712', 10, 51);
-    doc.text('Correo: ferreteriaCarlos@gmail.com', 10, 57);
+  // =================================================
+  // CONFIG DE PADDING
+  // =================================================
+  let y = 15;
+  const left = 12;
 
-    // Línea divisoria elegante
-    doc.setLineWidth(0.5);
-    doc.line(10, 63, 200, 63);
+  // =================================================
+  // ENCABEZADO EMPRESA
+  // =================================================
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.text('FERRETERÍA SANTO CRISTO', left, y);
+  y += 7;
 
-    // ==============================
-    // TIPO DE COMPROBANTE
-    // ==============================
-    const tipo = pedido.tipoComprobante || 'COMPROBANTE ELECTRÓNICO';
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.text('RUC: 10091429077', left, y); y += 5;
+  doc.text('AV. SANTO CRISTO NRO. C INT. 7 ASOC SANTO CRISTO', left, y); y += 5;
+  doc.text('ALT. JR. CÁCERES - Santiago de Surco', left, y); y += 5;
+  doc.text('Teléfono: (01) 2748870 | Cel: 997168712', left, y); y += 5;
+  doc.text('Correo: ferreteriasantocristo@gmail.com', left, y); y += 8;
 
-    doc.setFont('helvetica', 'bold');
+  doc.line(10, y, 200, y);
+  y += 8;
 
-    // Reducimos un poco el tamaño para que entre siempre
-    doc.setFontSize(14);
+  const tipo = venta.tipoComprobante;
 
-    // Ajustamos el texto para que quepa sin cortar
-    doc.text(tipo, 115, 20, { maxWidth: 80, align: 'left' });
 
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Serie: ${pedido.serie || '---'}`, 130, 27);
-    doc.text(`N° Comprobante: ${pedido.nroComprobante || pedido.nroOperacion}`, 130, 34);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.text(tipo.toUpperCase(), 158, 28, { align: 'center' });
 
-    // ==============================
-    // DATOS DEL CLIENTE
-    // ==============================
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
-    doc.text('Datos del Cliente', 10, 75);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(12);
-    doc.text(`Cliente: ${pedido.cliente?.nombre}`, 10, 83);
-    doc.text(`DNI: ${pedido.cliente?.nroDoc || '---'}`, 10, 90);
-    doc.text(`Teléfono: ${pedido.cliente?.telefono || '---'}`, 10, 97);
-    doc.text(`Fecha emisión: ${new Date(pedido.fechaEmision).toLocaleString()}`, 10, 104);
+  doc.text(`${venta.serie} - ${venta.nroComprobante}`, 158, 38, { align: 'center' });
 
-    // ==============================
-    // DETALLE DEL COMPROBANTE
-    // ==============================
-    const detalle = pedido.detalles.map((item: any) => [
-      item.codInt,
-      item.nombre,
-      item.cantidad,
-      `S/ ${item.subtotal.toFixed(2)}`
-    ]);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(13);
+  doc.text('Datos del Cliente', left, y);
+  y += 7;
 
-    autoTable(doc, {
-      startY: 115,
-      head: [['Código', 'Descripción', 'Cantidad', 'Subtotal']],
-      body: detalle,
-      theme: 'grid',
-      headStyles: { fillColor: [30, 30, 30] }, // Negro elegante
-      styles: { fontSize: 10 }
-    });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.text(`Cliente       : ${pedido.cliente?.nombre}`, left, y); y += 6;
+  doc.text(`Documento : ${pedido.cliente?.nroDoc || '---'}`, left, y); y += 6;
+  doc.text(`Teléfono     : ${pedido.cliente?.telefono || '---'}`, left, y); y += 6;
+  doc.text(`F. Emisión  : ${new Date(pedido.fechaEmision).toLocaleString()}`, left, y);
+  y += 10;
 
-    // ==============================
-    // TOTALES
-    // ==============================
-    const y = (doc as any).lastAutoTable.finalY + 10;
+  doc.line(10, y, 200, y);
+  y += 10;
 
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`IGV: S/ ${pedido.igv.toFixed(2)}`, 150, y);
-    doc.text(`TOTAL: S/ ${pedido.total.toFixed(2)}`, 150, y + 7);
+  const detalle = pedido.detalles.map((item: any) => [
+    item.codInt || '',
+    item.nombre,
+    item.cantidad,
+    `S/ ${item.precio.toFixed(2)}`,
+    `S/ ${item.subtotal.toFixed(2)}`
+  ]);
 
-    // ==============================
-    // PIE DE PÁGINA
-    // ==============================
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(10);
-    doc.text('Gracias por su compra.', 10, 285);
-    doc.text('Comprobante generado electrónicamente.', 10, 290);
+  autoTable(doc, {
+    startY: y,
+    head: [['Código', 'Descripción', 'Cant.', 'P. Unit', 'Subtotal']],
+    body: detalle,
+    theme: 'grid',
+    headStyles: { fillColor: [50, 50, 50], textColor: 255 },
+    styles: { fontSize: 10, cellPadding: 2 },
+    columnStyles: {
+      0: { cellWidth: 22 },
+      1: { cellWidth: 90 },
+      2: { cellWidth: 18, halign: 'center' },
+      3: { cellWidth: 25, halign: 'right' },
+      4: { cellWidth: 25, halign: 'right' }
+    }
+  });
 
-    // ==============================
-    // GUARDAR
-    // ==============================
-    const fileName = `${tipo.replace(/ /g, "_")}_${pedido.nroOperacion}.pdf`;
+  const yFin = (doc as any).lastAutoTable.finalY + 15;
 
-    doc.save(fileName);
-  }
+  const opGravada = pedido.total - pedido.igv;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.text(`OP. GRAVADA:`, 145, yFin);
+  doc.text(`S/ ${opGravada.toFixed(2)}`, 195, yFin, { align: 'right' });
+
+  doc.text(`IGV (18%):`, 145, yFin + 7);
+  doc.text(`S/ ${pedido.igv.toFixed(2)}`, 195, yFin + 7, { align: 'right' });
+
+  doc.text(`TOTAL:`, 145, yFin + 14);
+  doc.text(`S/ ${pedido.total.toFixed(2)}`, 195, yFin + 14, { align: 'right' });
+
+  // =================================================
+  // PIE DE PÁGINA
+  // =================================================
+  doc.setFont('helvetica', 'italic');
+  doc.setFontSize(10);
+  doc.text('Representación impresa del Comprobante Electrónico.', 10, 285);
+  doc.text('Gracias por su preferencia.', 10, 291);
+
+  // =================================================
+  // GUARDAR ARCHIVO
+  // =================================================
+  const fileName = `${tipo.replace(/ /g, "_")}_${pedido.nroOperacion}.pdf`;
+  doc.save(fileName);
+}
 }
