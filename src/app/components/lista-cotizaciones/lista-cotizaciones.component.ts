@@ -27,6 +27,7 @@ export class ListadoCotizacionesComponent {
   cotizacionEnProceso: Cotizacion | null = null;
 
   formData = {
+    delivery:'',
     tipoComprobante: '',
     serie: '',
     metodoPago: ''
@@ -140,35 +141,37 @@ export class ListadoCotizacionesComponent {
     }
   }
 
-  guardarConfirmacion(): void {
-    if (!this.cotizacionEnProceso) return;
+ guardarConfirmacion(): void {
+  if (!this.cotizacionEnProceso) return;
 
-    const cotizacionActualizada = {
-      ...this.cotizacionEnProceso,
-      estado: 'Confirmada',
-      tipoComprobante: this.formData.tipoComprobante,
-      serie: this.formData.serie,
-      metodoPago: this.formData.metodoPago
-    };
+  const cotizacionActualizada = {
+    ...this.cotizacionEnProceso,
+    estado: 'Confirmada',
+    tipoComprobante: this.formData.tipoComprobante,
+    serie: this.formData.serie,
+    metodoPago: this.formData.metodoPago,
+    servicioDelivery: this.formData.delivery === 'Si' // true si escogió Sí
+  };
 
-    this._cotizacionService.editarCotizacion(cotizacionActualizada._id!, cotizacionActualizada).subscribe({
-      next: () => {
-        this.toastr.success('Cotización confirmada correctamente', 'Éxito');
+  this._cotizacionService.editarCotizacion(cotizacionActualizada._id!, cotizacionActualizada).subscribe({
+    next: () => {
+      this.toastr.success('Cotización confirmada correctamente', 'Éxito');
 
-        const modalElement = document.getElementById('modalConfirmacion');
-        if (modalElement) {
-          const modal = bootstrap.Modal.getInstance(modalElement);
-          modal?.hide();
-        }
-
-        this.formData = { tipoComprobante: '', serie: '', metodoPago: '' };
-        this.obtenerCotizaciones();
-      },
-      error: () => {
-        this.toastr.error('No se pudo confirmar la cotización', 'Error');
+      const modalElement = document.getElementById('modalConfirmacion');
+      if (modalElement) {
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal?.hide();
       }
-    });
-  }
+
+      this.formData = { tipoComprobante: '', serie: '', metodoPago: '', delivery:'' };
+      this.obtenerCotizaciones();
+    },
+    error: () => {
+      this.toastr.error('No se pudo confirmar la cotización', 'Error');
+    }
+  });
+}
+
 
 onTipoComprobanteChange(): void {
   if (this.formData.tipoComprobante === 'BOLETA DE VENTA ELECTRONICA') {

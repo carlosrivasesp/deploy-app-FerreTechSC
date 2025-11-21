@@ -164,3 +164,25 @@ thead tr.header th {
     border-color: #dee2e6;
     font-style: italic;
   }
+
+.actions-center {
+  display: flex;
+  justify-content: flex-start; /* alineado a la izquierda */
+  align-items: center;
+  gap: 18px; /* separación entre iconos */
+  padding-left: 10px; /* opcional, para que no quede tan pegado al borde */
+}
+
+.actions-center a i,
+.actions-center span i {
+  font-size: 18px;
+  color: #10401b;
+}
+
+/* Tuerca deshabilitada */
+.disabled-gear i {
+  color: #a5a5a5;
+  cursor: not-allowed;
+  opacity: 0.4;
+  pointer-events: none;
+}
