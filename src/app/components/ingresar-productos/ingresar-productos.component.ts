@@ -105,11 +105,21 @@ export class IngresarProductosComponent {
       return;
     }
 
+    let fechaIngreso = this.ingresoForm.get('fechaIngreso')?.value;
+
+    // Corregir la zona horaria: forzar que la fecha seleccionada sea a las 00:00 sin tomar en cuenta la zona horaria
+    if (fechaIngreso) {
+      const fecha = new Date(fechaIngreso);
+      // Establecer la hora a las 00:00 del día seleccionado
+      fecha.setHours(0, 0, 0, 0); // Establece la hora a las 00:00
+      fechaIngreso = fecha; // Asigna la fecha ajustada a la variable
+    }
+
     const ingresoData = {
       tipoOperacion: 'Ingreso por OrdenCompra',
       compraId: this.ingresoForm.get('compraId')?.value,
       cantidadTotal: this.ingresoForm.get('cantidadTotal')?.value,
-      fechaIngreso: this.ingresoForm.get('fechaIngreso')?.value,
+      fechaIngreso: fechaIngreso,  // Usa la fecha ajustada
       detalles: this.detalles.controls.map((c) => ({
         detalleId: c.get('detalleId')?.value,
         cantidadIngreso: c.get('cantidadIngreso')?.value,
@@ -126,6 +136,7 @@ export class IngresarProductosComponent {
         this.toastr.error(err.error.message || 'Error al registrar ingreso'),
     });
   }
+
 
   validarFechaNoFutura(control: FormControl) {
     const fechaSeleccionada = new Date(control.value);
