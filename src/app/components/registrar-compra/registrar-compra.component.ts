@@ -214,18 +214,18 @@ export class RegistrarCompraComponent {
       .subscribe(
         (productos: Producto[]) => {
           this.listaProducto = productos;
+
           if (productos.length === 0) {
             this.toastr.info('No hay productos para este proveedor');
           } else {
             this.elementosRegistrados = productos.map((p) => {
-              const precioCompra = p.productoProveedor?.precio ?? p.precio;
               return {
                 producto: p,
                 codigo: p.codInt,
                 nombre: p.nombre,
                 cant: 30,
-                precio: precioCompra,
-                subtotal: parseFloat((precioCompra * 30).toFixed(2)),
+                precio: p.precio,
+                subtotal: parseFloat((p.precio * 30).toFixed(2)),
               };
             });
             this.actualizarTotalYIgv();
@@ -268,7 +268,8 @@ export class RegistrarCompraComponent {
   onSelectElement(producto: Producto): void {
     this.searchTerm = `${producto.codInt} - ${producto.nombre}`;
     this.elementoSeleccionado = producto;
-    this.precioSeleccionado = producto.productoProveedor?.precio ?? producto.precio;
+
+    this.precioSeleccionado = producto.precio;
     this.onValueSubTotal();
 
     const dropdownInput = document.getElementById('dropdownInput');
@@ -320,7 +321,7 @@ export class RegistrarCompraComponent {
     if (!this.elementoSeleccionado) return;
 
     const { codInt, nombre } = this.elementoSeleccionado;
-    const precio = this.elementoSeleccionado.productoProveedor?.precio ?? this.elementoSeleccionado.precio;
+    const precio = this.elementoSeleccionado.precio; // SIN productoProveedor
 
     const existente = this.elementosRegistrados.find(
       (e) => e.codigo === codInt
@@ -338,15 +339,11 @@ export class RegistrarCompraComponent {
         precio,
         subtotal: this.cantidad * precio,
       };
+
       this.elementosRegistrados.push(nuevoElemento);
     }
-    console.log('Elementos registrados:', this.elementosRegistrados);
-    this.total = this.elementosRegistrados.reduce(
-      (sum, el) => sum + el.subtotal,
-      0
-    );
-    this.actualizarTotalYIgv(); // Aseguramos que el IGV y total se actualicen cada vez que se agrega un producto
 
+    this.actualizarTotalYIgv();
     this.clearSearch();
     this.cdr.detectChanges();
   }

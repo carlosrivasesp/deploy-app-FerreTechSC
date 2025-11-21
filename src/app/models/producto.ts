@@ -1,6 +1,5 @@
 import { Categoria } from "./categoria";
 import { Marca } from "./marca";
-import { ProductoProveedor } from "./productoProveedor";
 
 export class Producto {
   _id?: string;
@@ -13,7 +12,6 @@ export class Producto {
   marca: Marca;
   estado: string;
   imageUrl?: string;
-  productoProveedor?: ProductoProveedor;
 
   constructor(
     codInt: string,
@@ -24,7 +22,6 @@ export class Producto {
     categoria: Categoria,
     marca: Marca,
     estado: string,
-    productoProveedor?: ProductoProveedor,
     imageUrl?: string,
   ) {
     this.codInt = codInt;
@@ -36,6 +33,5 @@ export class Producto {
     this.marca = marca;
     this.estado = estado;
     this.imageUrl = imageUrl;
-    this.productoProveedor = productoProveedor;
-  }
+}
 }

@@ -57,7 +57,6 @@ export class ListaProductosComponent {
       categoria: '',
       marca: '',
       estado: '',
-      productoProveedor: '',
     }); // Esto limpia todos los campos this.productoForm.reset();
   }
 
@@ -95,7 +94,6 @@ export class ListaProductosComponent {
       categoria : this.productoForm.get('categoria')?.value,
       marca : this.productoForm.get('marca')?.value,
       estado : 'Activo',
-      productoProveedor: this.productoForm.get('productoProveedor')?.value
     }    
       this._productoService.guardarProducto(Producto).subscribe(data => {
         this.toastr.success('El Producto fue registrado exitosamente', 'Producto registrado');

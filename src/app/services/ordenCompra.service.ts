@@ -12,12 +12,12 @@ export class OrdenCompraService {
   constructor(private http: HttpClient) {}
 
   registrarCompra(compra: OrdenCompra): Observable<any> {
-    let direccionUrl = this.url;
+    let direccionUrl = this.url + '/';
     return this.http.post<OrdenCompra>(direccionUrl, compra);
   }
 
   getAllCompras(): Observable<any> {
-    let direccionUrl = this.url;
+    let direccionUrl = this.url+ '/';
     return this.http.get<OrdenCompra>(direccionUrl);
   }
 
