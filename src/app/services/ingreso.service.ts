@@ -10,19 +10,19 @@ export class IngresoService {
 
   private url = 'http://localhost:4000/api/ingresos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllIngresos(): Observable<any> {
-          let direccionUrl = this.url;
-          return this.http.get<Ingreso>(direccionUrl);
+    let direccionUrl = this.url;
+    return this.http.get<Ingreso>(direccionUrl);
   }
 
   obtenerIngreso(id: string): Observable<any> {
-          let direccionUrl = this.url;
-          return this.http.get<Ingreso>(direccionUrl + '/' + id);
- }
+    let direccionUrl = this.url;
+    return this.http.get<Ingreso>(direccionUrl + '/' + id);
+  }
 
- registrarIngreso(ingreso: Ingreso): Observable<any> {
-     return this.http.post(`${this.url}`, ingreso);
-   }
+  registrarIngreso(ingreso: Ingreso): Observable<any> {
+    return this.http.post(`${this.url}`, ingreso);
+  }
 }

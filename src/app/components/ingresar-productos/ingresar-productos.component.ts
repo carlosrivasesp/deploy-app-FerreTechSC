@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IngresoService } from '../../services/ingreso.service';
 import { Ingreso } from '../../models/ingreso';
-import { Producto } from '../../models/producto';
+import { OrdenCompra } from '../../models/ordenCompra'; // Asegúrate de importar OrdenCompra
 import {
   FormArray,
   FormBuilder,
@@ -10,9 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ProductoService } from '../../services/producto.service';
-import { Compra } from '../../models/compra';
-import { CompraService } from '../../services/compra.service';
+import { OrdenCompraService } from '../../services/ordenCompra.service';
 
 @Component({
   selector: 'app-ingreso',
@@ -22,21 +20,21 @@ import { CompraService } from '../../services/compra.service';
 })
 export class IngresarProductosComponent {
   listIngresos: Ingreso[] = [];
-  comprasAprobadas: Compra[] = [];
+  comprasAprobadas: OrdenCompra[] = []; // Asegúrate de usar OrdenCompra en lugar de Compra
   ingresoForm!: FormGroup;
   ingresoSeleccionado: any = null;
 
-  selectedFilter: string = 'nro compra';
+  selectedFilter: string = 'nro OrdenCompra';
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
   constructor(
     private _ingresoService: IngresoService,
-    private _compraService: CompraService,
+    private _OrdenCompraService: OrdenCompraService,
     private fb: FormBuilder,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.obtenerIngresos();
@@ -58,13 +56,18 @@ export class IngresarProductosComponent {
   }
 
   obtenerComprasAprobadas() {
-    this._compraService.getAllCompras().subscribe((data: Compra[]) => {
-      this.comprasAprobadas = data.filter((c) => {
-        return (
-          c.estado === 'Aprobado' && (!c.ingresos || c.ingresos.length === 0)
-        );
-      });
-    });
+    this._OrdenCompraService.getAllCompras().subscribe(
+      (data: OrdenCompra[]) => {
+        console.log('Compras Aprobadas:', data);
+        this.comprasAprobadas = data.filter((c) => {
+          return c.estado === 'Aprobada' && (!c.ingresos || c.ingresos.length === 0);
+        });
+      },
+      (error) => {
+        console.error('Error al obtener las compras:', error);
+        this.toastr.error('Error al obtener las compras aprobadas');
+      }
+    );
   }
 
   obtenerIngresos() {
@@ -75,12 +78,12 @@ export class IngresarProductosComponent {
 
   onCompraChange(event: any) {
     const compraId = event.target.value;
-    const compra = this.comprasAprobadas.find((c) => c._id === compraId);
+    const OrdenCompra = this.comprasAprobadas.find((c) => c._id === compraId);
 
     this.detalles.clear();
 
-    if (compra && compra.detalles) {
-      compra.detalles.forEach((d) => {
+    if (OrdenCompra && OrdenCompra.detalles) {
+      OrdenCompra.detalles.forEach((d) => {
         this.detalles.push(
           this.fb.group({
             producto: [d.producto.nombre],
@@ -91,7 +94,7 @@ export class IngresarProductosComponent {
         );
       });
 
-      const total = compra.detalles.reduce((sum, d) => sum + d.cantidad, 0);
+      const total = OrdenCompra.detalles.reduce((sum, d) => sum + d.cantidad, 0);
       this.ingresoForm.get('cantidadTotal')?.setValue(total);
     }
   }
@@ -103,7 +106,7 @@ export class IngresarProductosComponent {
     }
 
     const ingresoData = {
-      tipoOperacion: 'Ingreso por compra',
+      tipoOperacion: 'Ingreso por OrdenCompra',
       compraId: this.ingresoForm.get('compraId')?.value,
       cantidadTotal: this.ingresoForm.get('cantidadTotal')?.value,
       fechaIngreso: this.ingresoForm.get('fechaIngreso')?.value,
@@ -127,11 +130,8 @@ export class IngresarProductosComponent {
   validarFechaNoFutura(control: FormControl) {
     const fechaSeleccionada = new Date(control.value);
     const hoy = new Date();
-
-    // Quitar horas para comparar solo fechas
     hoy.setHours(0, 0, 0, 0);
     fechaSeleccionada.setHours(0, 0, 0, 0);
-
     if (fechaSeleccionada > hoy) {
       return { fechaFutura: true };
     }
@@ -148,20 +148,20 @@ export class IngresarProductosComponent {
     const term = this.searchTerm.trim().toLowerCase();
 
     switch (this.selectedFilter) {
-      case 'nro compra':
+      case 'nro OrdenCompra':
+        // Accede al objeto OrdenCompra referenciado por compraId y luego accede a su propiedad 'codigo'
         return this.listIngresos.filter((i) =>
-          i.compraId.nroComprobante?.toString().startsWith(term)
+          i.compraId?.codigo?.toString().startsWith(term) // Acceso a la propiedad 'codigo' de OrdenCompra
         );
       case 'fecha salida':
         return this.listIngresos.filter((s) =>
-          s.fechaIngreso
-            ? this.formatDate(s.fechaIngreso).includes(term)
-            : false
+          s.fechaIngreso ? this.formatDate(s.fechaIngreso).includes(term) : false
         );
       default:
         return this.listIngresos;
     }
   }
+
 
   formatDate(date: Date): string {
     const d = new Date(date);
@@ -176,6 +176,7 @@ export class IngresarProductosComponent {
       console.log('DETALLES:', this.ingresoSeleccionado);
     });
   }
+
   calcularCantidadTotal() {
     const total = this.detalles.controls.reduce((sum, c) => {
       return sum + Number(c.get('cantidadIngreso')?.value || 0);
