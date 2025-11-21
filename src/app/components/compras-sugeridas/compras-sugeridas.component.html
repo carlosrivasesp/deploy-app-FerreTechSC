@@ -27,17 +27,17 @@
         </div>
       </div>
 
-      <div class="group3">
-        <button type="button" class="btn" (click)="registrarCompraAutomatica()" style="background-color: #10401b;">
+      <!-- <div class="group3">
+        <button type="button" class="btn" (click)="registrarCompraAutomatica()" style="background-color: #10401b;color: #fff;">
             Generar compra automática
         </button>
-      </div>
+      </div> -->
 
-      <div class="group3">
-        <button type="button" class="btn" (click)="procesarSugerencias()">
+      <!-- <div class="group3">
+        <button type="button" class="btn">
             <i class="bi bi-arrow-clockwise"></i>
         </button>
-      </div>
+      </div> -->
 
     </div>
 
@@ -53,26 +53,31 @@
         <tr class="header">
           <th scope="col" style="width: 90px;">Codigo</th>
           <th scope="col" style="width: 370px;">Nombre</th>
-          <th scope="col" style="width: 80px;">Precio</th>
           <th scope="col" style="width: 90px;">Stock Actual</th>
-          <th scope="col" style="width: 90px;">Stock Min.</th>
           <th scope="col" style="width: 170px;">Categoria</th>
           <th scope="col" style="width: 110px;">Marca</th>
           <th scope="col" style="width: 90px;">Fecha Sugerencia</th>
-          <th scope="col" style="width: 90px;">Orden de Compra</th>
+          <th scope="col" style="width: 90px;">Motivo</th>
+          <th scope="col" style="width: 90px;">Accion</th>
         </tr>
       </thead>
       <tbody class="body">
         <tr *ngFor="let prod of paginated">
           <td>{{prod.producto.codInt}}</td>
           <td>{{prod.producto.nombre}}</td>
-          <td>S/ {{prod.producto.precio}}</td>
           <td>{{prod.producto.stockActual}}</td>
-          <td>{{prod.producto.stockMin}}</td>
           <td>{{prod.producto.categoria.nombre}}</td>
           <td>{{prod.producto.marca.nombre}}</td>
           <td>{{prod.fechaSugerencia | date : "dd/MM/yyyy"}}</td>
-          <td>{{prod.tieneOrdenCompra ? 'Sí' : 'No'}}</td>
+          <td>{{prod.motivo}}</td>
+          <td><button type="button"
+            class="btn" 
+            (click)="registrarCompraAutomatica(prod.producto._id)" 
+            style="background-color: #10401b;color: #fff;"
+            [disabled]="prod.generado||isLoading||prod.aprobado"
+            >
+            {{prod.aprobado?'Aprobado':(prod.generado?'Generado':'Comprar')}}
+        </button></td>
         </tr>
       </tbody>
     </table>

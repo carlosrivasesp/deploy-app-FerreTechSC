@@ -48,7 +48,7 @@ export class ProductoService {
     }
 
     getProductosPocoStock(): Observable<any> {
-    const direccionUrl = this.url + 'stock/poco';
+    const direccionUrl = this.url + '/stock/poco';
     return this.http.get<Producto[]>(direccionUrl);
     }
 

@@ -140,6 +140,63 @@
         </div>
       </div>
     </div>
+
+    <div class="card shadow-sm border-0 h-100">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center py-3 border-bottom-0">
+        <h5 class="mb-0 fw-bold" style="color: #10401b;">
+          <i class="bi bi-bell-fill me-2"></i>Compras Sugeridas
+        </h5>
+        <span class="badge rounded-pill" style="background-color: #10401b; font-size: 18;">
+          {{ listCompraSugeridas.length }}
+        </span>
+      </div>
+
+      <div class="list-group list-group-flush scroll-container">
+
+        <div *ngFor="let item of listCompraSugeridas" class="list-group-item px-3 py-3 border-bottom-0">
+          <div class="d-flex align-items-center gap-3">
+
+          <div class="icon-circle text-white shadow-sm" style="background-color: #10401b;">
+              <i class="bi"
+                [ngClass]="item.motivo === 'Poco stock' ? 'bi-exclamation-triangle-fill' : 'bi-graph-up-arrow'"></i>
+            </div>
+
+            <div class="flex-grow-1">
+              <h6 class="mb-1 fw-bold text-dark">
+                {{ item.producto?.nombre || 'Producto ...' }}
+              </h6>
+
+              <div class="d-flex justify-content-between align-items-center small">
+                <span class="text-muted">{{ item.motivo }}</span>
+
+                <span class="badge bg-light text-dark border">
+                  Stock:
+                  <span [class.text-danger]="(item.producto?.stockActual || 0) <= (item.producto?.stockMin || 0)">
+                    {{ item.producto?.stockActual || 0 }}
+                  </span>
+                  / {{ item.producto?.stockMin || 0 }}
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div *ngIf="listCompraSugeridas.length === 0" class="text-center py-5 text-muted">
+          <i class="bi bi-check-circle fs-1 mb-2 d-block" style="color: #10401b;"></i>
+          Todo en orden
+        </div>
+
+      </div>
+
+      <div class="card-footer bg-white border-top-0 p-3">
+        <a routerLink="/compras-sugeridas" class="btn w-100 fw-bold text-white shadow-sm"
+          style="background-color: #10401b;">
+          Ver más detalles <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+
     <div class="charts-container">
       <!-- Gráfico de líneas -->
       <!--
@@ -150,7 +207,7 @@
       </div>
         -->
       <!-- 
-       <div class="chart-box">
+      <div class="chart-box">
         <h5>Compras sugeridas</h5> <p class="link" routerLink="/compras-sugeridas">Ver más +</p>
         <div style="max-height: 400px; overflow-y: auto;">
           <table class="table table-sm">
@@ -225,7 +282,8 @@
   </div>
   <br>
   <div class="d-flex justify-content-end mb-3">
-    <a href="/comprobantes" class="btn d-flex align-items-center gap-2" style="font-size: 12px;" style="background-color: #10401b;">
+    <a href="/comprobantes" class="btn d-flex align-items-center gap-2"
+      style="background-color: #10401b; font-size: 12; color: #fff;">
       Ver más
       <!-- Icono + a la derecha -->
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
@@ -263,7 +321,8 @@
     </tbody>
   </table>
   <div class="d-flex justify-content-end mb-3">
-    <a href="/listado-compras" class="btn d-flex align-items-center gap-2" style="font-size: 12px;" style="background-color: #10401b;">
+    <a href="/listado-compras" class="btn d-flex align-items-center gap-2"
+      style="background-color: #10401b; font-size: 12; color: #fff;">
       Ver más
       <!-- Icono + a la derecha -->
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
