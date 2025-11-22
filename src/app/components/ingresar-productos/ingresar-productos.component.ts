@@ -106,13 +106,10 @@ export class IngresarProductosComponent {
     }
 
     let fechaIngreso = this.ingresoForm.get('fechaIngreso')?.value;
-
-    // Corregir la zona horaria: forzar que la fecha seleccionada sea a las 00:00 sin tomar en cuenta la zona horaria
     if (fechaIngreso) {
       const fecha = new Date(fechaIngreso);
-      // Establecer la hora a las 00:00 del día seleccionado
-      fecha.setHours(0, 0, 0, 0); // Establece la hora a las 00:00
-      fechaIngreso = fecha; // Asigna la fecha ajustada a la variable
+      fecha.setHours(0, 0, 0, 0);
+      fechaIngreso = fecha;
     }
 
     const ingresoData = {
@@ -160,9 +157,8 @@ export class IngresarProductosComponent {
 
     switch (this.selectedFilter) {
       case 'nro OrdenCompra':
-        // Accede al objeto OrdenCompra referenciado por compraId y luego accede a su propiedad 'codigo'
         return this.listIngresos.filter((i) =>
-          i.compraId?.codigo?.toString().startsWith(term) // Acceso a la propiedad 'codigo' de OrdenCompra
+          i.compraId?.codigo?.toString().startsWith(term)
         );
       case 'fecha salida':
         return this.listIngresos.filter((s) =>
