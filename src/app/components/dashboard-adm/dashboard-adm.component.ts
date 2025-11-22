@@ -7,8 +7,6 @@ import { VentaService } from '../../services/venta.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrdenCompraService } from '../../services/ordenCompra.service';
-// import { CompraSugeridaService } from '../../services/compraS.service';
-// import { CompraSugerida } from '../../models/compraS';
 import { Producto } from '../../models/producto';
 import { ProductoService } from '../../services/producto.service';
 import { forkJoin } from 'rxjs';
@@ -94,22 +92,24 @@ export class DashboardAdmComponent {
   forkJoin({
     ventas: this._ventaService.getAllVentas(),
     productos: this._productoService.getAllProductos(),
-    pocoStock: this._productoService.getProductosPocoStock()
-  }).subscribe(({ ventas, productos, pocoStock }) => {
+    pocoStock: this._productoService.getProductosPocoStock(),
+    compras: this._compraService.getAllCompras() 
+  }).subscribe(({ ventas, productos, pocoStock, compras }) => {
 
     this.listVentas = ventas.reverse();
+    this.listCompras = compras.reverse();
     this.listProductos = productos;
     this.listPocoStock = pocoStock;
 
-    // Procesa el gráfico
     this.procesarProductosMasVendidos();
 
-    // Calcula los más vendidos
     this.obtenerProductosMasVendidos();
 
-    // Construye la lista final
     this.obtenerComprasSugeridas();
 
+    this.obtenerComprasPendientes();
+
+    this.obtenerVentasPendientes();
   });
 }
 
@@ -162,8 +162,6 @@ export class DashboardAdmComponent {
     });
   }
 
-
-  //Obtenemos los productos con poco stock
   obtenerProductosPocoStock() {
     this._productoService.getProductosPocoStock().subscribe({
       next: (data: Producto[]) => {
@@ -176,7 +174,6 @@ export class DashboardAdmComponent {
     });
   }
 
-  //procesamos los productos mas vendidos
   obtenerProductosMasVendidos() {
     const resultado: any[] = [];
 
@@ -196,8 +193,6 @@ export class DashboardAdmComponent {
     return resultado;
   }
 
-//Unificamos las dos listas para obtener las compras sugeridas
-// Unificamos las dos listas para obtener las compras sugeridas
   obtenerComprasSugeridas() {
     const sugeridosMap = new Map<string, any>();
 
@@ -236,7 +231,6 @@ export class DashboardAdmComponent {
         
     console.log('COMPRAS SUGERIDAS (DASHBOARD): ', this.listCompraSugeridas);
   }
-
 
 
   obtenerCompras(): void {
@@ -292,7 +286,6 @@ export class DashboardAdmComponent {
     return `${day}/${month}/${year}`;
   }
 
-  //----funcion para hayar el mes con mas ventas(retornamos un numerico)
   get mesConMasVentas(): { mes: string, cantidad: number } | null {
     if (!this.listVentas.length) {
       return null;
@@ -523,13 +516,11 @@ export class DashboardAdmComponent {
   get totalComprasRegistradas(): number {
     return this.listCompras
       .filter(compra =>
-        compra.estado === 'Registrado'
+        compra.estado === 'Aprobada'
       )
       .reduce((total, compra) => total + (compra.total || 0), 0);
   }
 
-
-  // Gráfico de barras: Productos más vendidos
   public barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
