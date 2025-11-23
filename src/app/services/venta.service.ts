@@ -28,7 +28,7 @@ export class VentaService {
  }
 
   editarVenta(id: string, venta: Venta): Observable<any> {
-    let direccionUrl = this.url+ id;
+    let direccionUrl = this.url+ '/' + id;
     return this.http.put<Venta>(direccionUrl, venta);
   }
 

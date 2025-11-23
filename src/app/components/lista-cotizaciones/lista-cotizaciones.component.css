@@ -1,22 +1,21 @@
-.main-content {
+.main-content{
     height: 100%;
     margin-left: 300px;
     padding: 20px;
+   
 }
+
 .separador{
-    margin-top:70px;
+    margin-top: 70px;
 }
 
 .title {
     font-size: 20px;
 }
-.separador{
-    margin-top: 70px;
-}
 
 .filter {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-start;   
 }
 
 .group1 {
@@ -101,7 +100,7 @@ thead tr.header th {
 }
 
 .form-select {
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .btn {
@@ -110,14 +109,6 @@ thead tr.header th {
 
 .input-group-text {
     font-size: 12px;
-}
-
-.text-danger {
-    margin-left: 5px;
-}
-
-.dropdown {
-    width: 100px;
 }
 
 .pagination {
@@ -165,24 +156,16 @@ thead tr.header th {
     font-style: italic;
   }
 
-.actions-center {
-  display: flex;
-  justify-content: flex-start; /* alineado a la izquierda */
-  align-items: center;
-  gap: 18px; /* separación entre iconos */
-  padding-left: 10px; /* opcional, para que no quede tan pegado al borde */
-}
+  .links {
+    display: flex;
+    gap: 8px; /* espacio automático entre todos los <a> */
+    align-items: center;
+    }
 
-.actions-center a i,
-.actions-center span i {
-  font-size: 18px;
-  color: #10401b;
-}
+    a {
+        cursor: pointer;
+    }
 
-/* Tuerca deshabilitada */
-.disabled-gear i {
-  color: #a5a5a5;
-  cursor: not-allowed;
-  opacity: 0.4;
-  pointer-events: none;
-}
+    .bi {
+        color: #10401b;
+    }

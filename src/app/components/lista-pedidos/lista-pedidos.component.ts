@@ -19,7 +19,7 @@ export class ListaPedidosComponent implements OnInit {
   selectedFilter: string = 'cliente';
   searchTerm: string = '';
 
-  estadosDisponibles: string[] = ['Pagado', 'En preparación', 'Enviado', 'Entregado', 'Cancelado'];
+  estadosDisponibles: string[] = ['Pendiente', 'Pagado', 'En preparación', 'Enviado', 'Entregado', 'Cancelado'];
 
 
   currentPage: number = 1;
@@ -61,6 +61,8 @@ export class ListaPedidosComponent implements OnInit {
 
   getEstadosDisponibles(estadoActual: string): string[] {
     switch (estadoActual) {
+      case 'Pendiente':
+        return ['Pagado'];
       case 'Pagado':
         return ['En preparacion'];
       case 'En preparacion':
