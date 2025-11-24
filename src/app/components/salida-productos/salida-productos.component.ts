@@ -104,39 +104,58 @@ export class SalidaProductosComponent {
   }
 
   registrarSalida() {
-    if (this.salidaForm.invalid) {
-      this.toastr.warning('Complete los campos correctamente');
-      return;
+  if (this.salidaForm.invalid) {
+    this.toastr.warning('Complete los campos correctamente');
+    return;
+  }
+
+  // 🔥 Convertir fechaSalida a fecha local sin desfase
+  let fechaSalida = this.salidaForm.get('fechaSalida')?.value;
+
+  if (fechaSalida) {
+    const [y, m, d] = fechaSalida.split("-");
+    fechaSalida = new Date(y, m - 1, d);
+  }
+
+  const salidaData = {
+    tipoOperacion: 'Pedido despachado',
+    pedidoId: this.salidaForm.get('pedidoId')?.value,
+    cantidadTotal: this.salidaForm.get('cantidadTotal')?.value,
+    fechaSalida: fechaSalida, // <-- YA CORREGIDO
+    detalles: this.detalles.controls.map(c => ({
+      detalleId: c.get('detalleId')?.value,
+      cantidadSalida: c.get('cantidadSalida')?.value
+    }))
+  };
+
+  this._salidaService.registrarSalida(salidaData).subscribe({
+    next: () => {
+      this.toastr.success('Salida registrada correctamente');
+      this.obtenerSalidas();
+      this.resetFormulario();
+    },
+    error: err => {
+      console.error(err);
+      this.toastr.error(err.error.message || 'Error al registrar salida');
     }
+  });
+}
 
-    const salidaData = {
-      tipoOperacion: 'Pedido despachado',
-      pedidoId: this.salidaForm.get('pedidoId')?.value,
-      cantidadTotal: this.salidaForm.get('cantidadTotal')?.value,
-      fechaSalida: this.salidaForm.get('fechaSalida')?.value,
-      detalles: this.detalles.controls.map(c => ({
-        detalleId: c.get('detalleId')?.value,
-        cantidadSalida: c.get('cantidadSalida')?.value
-      }))
-    };
 
-    this._salidaService.registrarSalida(salidaData).subscribe({
-      next: () => {
-        this.toastr.success('Salida registrada correctamente');
-        this.obtenerSalidas();
-        this.resetFormulario();
-      },
-      error: err => {
-        console.error(err);
-        this.toastr.error(err.error.message || 'Error al registrar salida');
-      }
-    });
-  }
+resetFormulario() {
+  this.salidaForm.reset();
+  this.detalles.clear();
 
-  resetFormulario() {
-    this.salidaForm.reset();
-    this.detalles.clear();
-  }
+  const hoy = new Date();
+  const yyyy = hoy.getFullYear();
+  const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+  const dd = String(hoy.getDate()).padStart(2, '0');
+
+  const fechaHoy = `${yyyy}-${mm}-${dd}`;
+
+  this.salidaForm.get('fechaSalida')?.setValue(fechaHoy);
+}
+
 
   verDetalles(salida: Salida) {
     this._salidaService.obtenerSalida(salida._id!).subscribe(data => {
