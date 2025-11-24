@@ -107,13 +107,11 @@ export class IngresarProductosComponent {
 
     let fechaIngreso = this.ingresoForm.get('fechaIngreso')?.value;
 
-    // Corregir la zona horaria: forzar que la fecha seleccionada sea a las 00:00 sin tomar en cuenta la zona horaria
-    if (fechaIngreso) {
-      const fecha = new Date(fechaIngreso);
-      // Establecer la hora a las 00:00 del día seleccionado
-      fecha.setHours(0, 0, 0, 0); // Establece la hora a las 00:00
-      fechaIngreso = fecha; // Asigna la fecha ajustada a la variable
-    }
+if (fechaIngreso) {
+  const [year, month, day] = fechaIngreso.split('-').map(Number);
+  fechaIngreso = new Date(year, month - 1, day);  // <-- LOCAL date, no UTC
+}
+
 
     const ingresoData = {
       tipoOperacion: 'Ingreso por OrdenCompra',
@@ -149,10 +147,19 @@ export class IngresarProductosComponent {
     return null;
   }
 
-  resetFormulario() {
-    this.ingresoForm.reset();
-    this.detalles.clear();
-  }
+resetFormulario() {
+  this.ingresoForm.reset();
+  this.detalles.clear();
+
+  // 🔹 Fecha actual en formato yyyy-MM-dd
+  const hoy = new Date();
+  const iso = hoy.toISOString().substring(0, 10);
+
+  this.ingresoForm.patchValue({
+    fechaIngreso: iso
+  });
+}
+
 
   get filteredIngresos(): Ingreso[] {
     if (!this.searchTerm.trim()) return this.listIngresos;
