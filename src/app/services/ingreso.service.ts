@@ -8,7 +8,7 @@ import { Ingreso } from '../models/ingreso';
 })
 export class IngresoService {
 
-  private url = 'http://localhost:4000/api/ingresos';
+  private url = 'https://deploy-server-ferretechsc.onrender.com/api/ingresos';
 
   constructor(private http: HttpClient) { }
 

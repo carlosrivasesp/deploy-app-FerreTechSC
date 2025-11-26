@@ -14,7 +14,7 @@ export class TrackingComponent {
   loading: boolean = false;
   errorMessage: string = '';
 
-  private urlTracking = 'http://localhost:4000/api/tracking';
+  private urlTracking = 'https://deploy-server-ferretechsc.onrender.com/api/tracking';
 
   estados = [
     { nombre: 'Recibido', icono: 'bi bi-inbox' },

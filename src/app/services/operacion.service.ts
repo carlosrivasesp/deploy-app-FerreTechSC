@@ -8,7 +8,7 @@ import { Operacion } from '../models/operacion';
 })
 export class OperacionService {
 
-  private url = 'http://localhost:4000/api/operacion/';
+  private url = 'https://deploy-server-ferretechsc.onrender.com/api/operacion/';
 
   constructor(private http: HttpClient) {}
 

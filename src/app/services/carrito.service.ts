@@ -36,7 +36,7 @@ export interface CarritoResponse {
   providedIn: 'root'
 })
 export class CarritoService {
-  private apiUrl = 'http://localhost:4000/api/carrito';  // Ajusta según tu URL backend
+  private apiUrl = 'https://deploy-server-ferretechsc.onrender.com/api/carrito';  // Ajusta según tu URL backend
 
   private invitadoKey = "key_invitado" //key para determinar invitado
 

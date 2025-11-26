@@ -8,7 +8,7 @@ import { Salida } from '../models/salida';
 })
 export class SalidaService {
 
-  private url = 'http://localhost:4000/api/salidas';
+  private url = 'https://deploy-server-ferretechsc.onrender.com/api/salidas';
 
   constructor(private http: HttpClient) {}
 

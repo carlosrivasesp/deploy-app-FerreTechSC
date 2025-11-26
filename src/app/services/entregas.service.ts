@@ -9,7 +9,7 @@ import { Entregas } from "../models/entregas";
 
 export class EntregaService {
 
-    url= 'http://localhost:4000/api/';
+    url= 'https://deploy-server-ferretechsc.onrender.com/api/';
 
     constructor(private http: HttpClient) { }
 

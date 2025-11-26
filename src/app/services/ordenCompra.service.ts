@@ -7,7 +7,7 @@ import { OrdenCompra } from '../models/ordenCompra';
   providedIn: 'root',
 })
 export class OrdenCompraService {
-  private url = 'http://localhost:4000/api/ordenC';
+  private url = 'https://deploy-server-ferretechsc.onrender.com/api/ordenC';
 
   constructor(private http: HttpClient) {}
 

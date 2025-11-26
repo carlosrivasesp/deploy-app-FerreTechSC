@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:4000/api/auth';
+  private baseUrl = 'https://deploy-server-ferretechsc.onrender.com/api/auth';
 
   constructor(private http: HttpClient, private router: Router) {}
 

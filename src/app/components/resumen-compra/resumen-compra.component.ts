@@ -148,7 +148,7 @@ export class ResumenCompraComponent implements OnInit {
 
     this.http
       .get<any>(
-        `http://localhost:4000/api/clientes/getClienteByNroDoc/${this.nroDoc}`
+        `https://deploy-server-ferretechsc.onrender.com/api/clientes/getClienteByNroDoc/${this.nroDoc}`
       )
       .subscribe({
         next: (res) => {
@@ -237,7 +237,7 @@ export class ResumenCompraComponent implements OnInit {
     console.log('📦 Enviando pedido invitado:', pedido);
 
     this.http
-      .post('http://localhost:4000/api/operacion/pedido-invitado', pedido)
+      .post('https://deploy-server-ferretechsc.onrender.com/api/operacion/pedido-invitado', pedido)
       .subscribe({
         next: (res) => {
           console.log('✅ Pedido registrado correctamente:', res);

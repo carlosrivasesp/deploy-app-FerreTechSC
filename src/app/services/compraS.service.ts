@@ -9,7 +9,7 @@ import { Producto } from '../models/producto';
   providedIn: 'root'
 })
 export class CompraSugeridaService {
-  private apiUrl = 'http://localhost:4000/api/comprasSugeridas';
+  private apiUrl = 'https://deploy-server-ferretechsc.onrender.com/api/comprasSugeridas';
 
   constructor(private http: HttpClient) {}
 

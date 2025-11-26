@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReniecService {
-  url= 'http://localhost:4000/api/reniec/';
+  url= 'https://deploy-server-ferretechsc.onrender.com/api/reniec/';
 
   constructor(private http: HttpClient) {}
 

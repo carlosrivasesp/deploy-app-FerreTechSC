@@ -8,7 +8,7 @@ import { Devolucion } from '../models/devolucion';
 })
 export class DevolucionService {
 
-  private url = 'http://localhost:4000/api/';
+  private url = 'https://deploy-server-ferretechsc.onrender.com/api/';
 
   constructor(private http: HttpClient) {}
 

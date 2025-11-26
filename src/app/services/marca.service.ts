@@ -8,7 +8,7 @@ import { Marca } from "../models/marca";
 })
 export class MarcaService {
 
-    url = 'http://localhost:4000/api/';
+    url = 'https://deploy-server-ferretechsc.onrender.com/api/';
 
     constructor(private http: HttpClient) { }
 

@@ -8,7 +8,7 @@ import { Lugar } from "../models/lugar";
 })
 export class LugarService {
 
-    url = 'http://localhost:4000/api/';
+    url = 'https://deploy-server-ferretechsc.onrender.com/api/';
 
     constructor(private http: HttpClient) { }
 
