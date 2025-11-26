@@ -174,16 +174,11 @@
           <div class="mt-3">
             <label class="form-label fw-bold">Fecha de Salida:</label>
             <input
-              type="date"
+              type="text"
               class="form-control"
-              formControlName="fechaSalida"
+              [value]="todayString"
+              readonly
             />
-            <div class="text-danger mt-1" *ngIf="salidaForm.get('fechaSalida')?.touched && salidaForm.get('fechaSalida')?.hasError('required')">
-              La fecha de salida es obligatoria.
-            </div>
-            <div *ngIf="salidaForm.get('fechaSalida')?.hasError('fechaFutura')" class="text-danger mt-1">
-              La fecha no puede ser posterior al día actual.
-            </div>
           </div>
 
           <!-- 🔹 Footer con acciones -->

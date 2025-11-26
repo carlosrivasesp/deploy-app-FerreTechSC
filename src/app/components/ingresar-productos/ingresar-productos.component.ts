@@ -28,18 +28,30 @@ export class IngresarProductosComponent {
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 10;
+  todayString!: string;
 
   constructor(
     private _ingresoService: IngresoService,
     private _OrdenCompraService: OrdenCompraService,
     private fb: FormBuilder,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.obtenerIngresos();
     this.obtenerComprasAprobadas();
     this.inicializarFormulario();
+
+    this.todayString = this.getTodayString();
+  }
+
+  private getTodayString(): string {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+
+    return `${day}/${month}/${year}`; // DD/MM/YYYY
   }
 
   inicializarFormulario() {
@@ -47,7 +59,6 @@ export class IngresarProductosComponent {
       compraId: ['', Validators.required],
       detalles: this.fb.array([]),
       cantidadTotal: [{ value: 0, disabled: true }],
-      fechaIngreso: ['', [Validators.required, this.validarFechaNoFutura]],
     });
   }
 
@@ -60,7 +71,9 @@ export class IngresarProductosComponent {
       (data: OrdenCompra[]) => {
         console.log('Compras Aprobadas:', data);
         this.comprasAprobadas = data.filter((c) => {
-          return c.estado === 'Aprobada' && (!c.ingresos || c.ingresos.length === 0);
+          return (
+            c.estado === 'Aprobada' && (!c.ingresos || c.ingresos.length === 0)
+          );
         });
       },
       (error) => {
@@ -94,7 +107,10 @@ export class IngresarProductosComponent {
         );
       });
 
-      const total = OrdenCompra.detalles.reduce((sum, d) => sum + d.cantidad, 0);
+      const total = OrdenCompra.detalles.reduce(
+        (sum, d) => sum + d.cantidad,
+        0
+      );
       this.ingresoForm.get('cantidadTotal')?.setValue(total);
     }
   }
@@ -116,7 +132,6 @@ export class IngresarProductosComponent {
       tipoOperacion: 'Ingreso por OrdenCompra',
       compraId: this.ingresoForm.get('compraId')?.value,
       cantidadTotal: this.ingresoForm.get('cantidadTotal')?.value,
-      fechaIngreso: fechaIngreso,  // Usa la fecha ajustada
       detalles: this.detalles.controls.map((c) => ({
         detalleId: c.get('detalleId')?.value,
         cantidadIngreso: c.get('cantidadIngreso')?.value,
@@ -133,19 +148,7 @@ export class IngresarProductosComponent {
         this.toastr.error(err.error.message || 'Error al registrar ingreso'),
     });
   }
-
-
-  validarFechaNoFutura(control: FormControl) {
-    const fechaSeleccionada = new Date(control.value);
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    fechaSeleccionada.setHours(0, 0, 0, 0);
-    if (fechaSeleccionada > hoy) {
-      return { fechaFutura: true };
-    }
-    return null;
-  }
-
+  
   resetFormulario() {
     this.ingresoForm.reset();
     this.detalles.clear();
@@ -162,13 +165,14 @@ export class IngresarProductosComponent {
         );
       case 'fecha salida':
         return this.listIngresos.filter((s) =>
-          s.fechaIngreso ? this.formatDate(s.fechaIngreso).includes(term) : false
+          s.fechaIngreso
+            ? this.formatDate(s.fechaIngreso).includes(term)
+            : false
         );
       default:
         return this.listIngresos;
     }
   }
-
 
   formatDate(date: Date): string {
     const d = new Date(date);

@@ -5,7 +5,7 @@ export class Salida {
       tipoOperacion : string;
       pedidoId : Operacion;
       cantidadTotal : number;
-      fechaSalida : Date;
+      fechaSalida? : Date;
       detalles: { detalleId: string; cantidadSalida: number }[] = [];
   
       constructor(tipoOperacion : string,

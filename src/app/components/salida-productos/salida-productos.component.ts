@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { Salida } from '../../models/salida';
 import { SalidaService } from '../../services/salida.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { OperacionService } from '../../services/operacion.service';
 import { Operacion } from '../../models/operacion';
@@ -10,7 +16,7 @@ import { Operacion } from '../../models/operacion';
   selector: 'app-salida-productos',
   standalone: false,
   templateUrl: './salida-productos.component.html',
-  styleUrl: './salida-productos.component.css'
+  styleUrl: './salida-productos.component.css',
 })
 export class SalidaProductosComponent {
   listSalidas: Salida[] = [];
@@ -30,11 +36,23 @@ export class SalidaProductosComponent {
     private fb: FormBuilder,
     private toastr: ToastrService
   ) {}
+  todayString!: string;
 
   ngOnInit(): void {
     this.obtenerSalidas();
     this.obtenerPedidosEnviados();
     this.inicializarFormulario();
+
+    this.todayString = this.getTodayString();
+  }
+
+  private getTodayString(): string {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+
+    return `${day}/${month}/${year}`; // DD/MM/YYYY
   }
 
   inicializarFormulario() {
@@ -42,7 +60,6 @@ export class SalidaProductosComponent {
       pedidoId: ['', Validators.required],
       detalles: this.fb.array([]),
       cantidadTotal: [{ value: 0, disabled: true }],
-      fechaSalida: ['', [Validators.required, this.validarFechaNoFutura]],
     });
   }
 
@@ -53,40 +70,47 @@ export class SalidaProductosComponent {
   obtenerPedidosEnviados() {
     this._pedidoService.getAllOperaciones(1).subscribe(
       (data: Operacion[]) => {
-        this.pedidosEnviados = data.filter(p => {
-          return (p.estado === 'Enviado' || p.estado === 'Entregado') && (!p.salidas || p.salidas.length === 0);
+        this.pedidosEnviados = data.filter((p) => {
+          return (
+            (p.estado === 'Enviado' || p.estado === 'Entregado') &&
+            (!p.salidas || p.salidas.length === 0)
+          );
         });
       },
-      error => console.error('Error al obtener pedidos enviados:', error)
+      (error) => console.error('Error al obtener pedidos enviados:', error)
     );
   }
 
   obtenerSalidas() {
     this._salidaService.getAllSalidas().subscribe(
-      data => {
+      (data) => {
         this.listSalidas = data.reverse();
       },
-      error => console.error(error)
+      (error) => console.error(error)
     );
   }
 
   onPedidoChange(event: any) {
     const pedidoId = event.target.value;
-    const pedido = this.pedidosEnviados.find(p => p._id === pedidoId);
+    const pedido = this.pedidosEnviados.find((p) => p._id === pedidoId);
 
     this.detalles.clear();
     if (pedido && pedido.detalles) {
-      pedido.detalles.forEach(d => {
+      pedido.detalles.forEach((d) => {
         this.detalles.push(
           this.fb.group({
             producto: [d.producto.nombre],
             cantidadPedido: [d.cantidad],
-            cantidadSalida: [d.cantidad, [ // salida completa por defecto
-              Validators.required,
-              Validators.min(0),
-              Validators.max(d.cantidad) // ✅ no puede superar lo pedido
-            ]],
-            detalleId: [d._id]
+            cantidadSalida: [
+              d.cantidad,
+              [
+                // salida completa por defecto
+                Validators.required,
+                Validators.min(0),
+                Validators.max(d.cantidad), // ✅ no puede superar lo pedido
+              ],
+            ],
+            detalleId: [d._id],
           })
         );
       });
@@ -109,15 +133,16 @@ export class SalidaProductosComponent {
       return;
     }
 
+    const fechaSalida = new Date();
+
     const salidaData = {
       tipoOperacion: 'Pedido despachado',
       pedidoId: this.salidaForm.get('pedidoId')?.value,
       cantidadTotal: this.salidaForm.get('cantidadTotal')?.value,
-      fechaSalida: this.salidaForm.get('fechaSalida')?.value,
-      detalles: this.detalles.controls.map(c => ({
+      detalles: this.detalles.controls.map((c) => ({
         detalleId: c.get('detalleId')?.value,
-        cantidadSalida: c.get('cantidadSalida')?.value
-      }))
+        cantidadSalida: c.get('cantidadSalida')?.value,
+      })),
     };
 
     this._salidaService.registrarSalida(salidaData).subscribe({
@@ -126,10 +151,10 @@ export class SalidaProductosComponent {
         this.obtenerSalidas();
         this.resetFormulario();
       },
-      error: err => {
+      error: (err) => {
         console.error(err);
         this.toastr.error(err.error.message || 'Error al registrar salida');
-      }
+      },
     });
   }
 
@@ -139,38 +164,23 @@ export class SalidaProductosComponent {
   }
 
   verDetalles(salida: Salida) {
-    this._salidaService.obtenerSalida(salida._id!).subscribe(data => {
-    this.salidaSeleccionada = data;
-    console.log("DETALLES:", this.salidaSeleccionada);
-  });
+    this._salidaService.obtenerSalida(salida._id!).subscribe((data) => {
+      this.salidaSeleccionada = data;
+      console.log('DETALLES:', this.salidaSeleccionada);
+    });
   }
 
-  validarFechaNoFutura(control: FormControl) {
-    const fechaSeleccionada = new Date(control.value);
-    const hoy = new Date();
-
-    // Quitar horas para comparar solo fechas
-    hoy.setHours(0, 0, 0, 0);
-    fechaSeleccionada.setHours(0, 0, 0, 0);
-
-    if (fechaSeleccionada > hoy) {
-      return { fechaFutura: true };
-    }
-    return null;
-  }
-
-  // 🔹 Filtros y paginación
   get filteredSalidas(): Salida[] {
     if (!this.searchTerm.trim()) return this.listSalidas;
     const term = this.searchTerm.trim().toLowerCase();
 
     switch (this.selectedFilter) {
       case 'nro pedido':
-        return this.listSalidas.filter(i =>
+        return this.listSalidas.filter((i) =>
           i.pedidoId.nroOperacion.toString().startsWith(term)
         );
       case 'fecha salida':
-        return this.listSalidas.filter(s =>
+        return this.listSalidas.filter((s) =>
           s.fechaSalida ? this.formatDate(s.fechaSalida).includes(term) : false
         );
       default:
@@ -187,7 +197,10 @@ export class SalidaProductosComponent {
 
   get paginated(): Salida[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredSalidas.slice(startIndex, startIndex + this.itemsPerPage);
+    return this.filteredSalidas.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
   }
 
   get totalPages(): number {

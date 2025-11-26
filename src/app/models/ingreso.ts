@@ -5,7 +5,7 @@ export class Ingreso {
   tipoOperacion: string; // 'Orden de compra aprobada'
   compraId: OrdenCompra; // Cambio de 'Compra' a 'OrdenCompra'
   cantidadTotal: number;
-  fechaIngreso: Date;
+  fechaIngreso?: Date;
   detalles: { detalleId: string; cantidadIngreso: number }[] = [];
 
   constructor(
