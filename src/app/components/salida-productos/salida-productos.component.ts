@@ -9,8 +9,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { OperacionService } from '../../services/operacion.service';
-import { Operacion } from '../../models/operacion';
+import { PedidoService } from '../../services/pedido.service';
+import { Pedido } from '../../models/pedido';
 
 @Component({
   selector: 'app-salida-productos',
@@ -20,7 +20,7 @@ import { Operacion } from '../../models/operacion';
 })
 export class SalidaProductosComponent {
   listSalidas: Salida[] = [];
-  pedidosEnviados: Operacion[] = [];
+  pedidosEnviados: Pedido[] = [];
   salidaForm!: FormGroup;
 
   selectedFilter: string = 'nro pedido';
@@ -32,7 +32,7 @@ export class SalidaProductosComponent {
 
   constructor(
     private _salidaService: SalidaService,
-    private _pedidoService: OperacionService,
+    private _pedidoService: PedidoService,
     private fb: FormBuilder,
     private toastr: ToastrService
   ) {}
@@ -68,8 +68,8 @@ export class SalidaProductosComponent {
   }
 
   obtenerPedidosEnviados() {
-    this._pedidoService.getAllOperaciones(1).subscribe(
-      (data: Operacion[]) => {
+    this._pedidoService.getAllPedidos().subscribe(
+      (data: Pedido[]) => {
         this.pedidosEnviados = data.filter((p) => {
           return (
             (p.estado === 'Enviado' || p.estado === 'Entregado') &&
@@ -99,7 +99,7 @@ export class SalidaProductosComponent {
       pedido.detalles.forEach((d) => {
         this.detalles.push(
           this.fb.group({
-            producto: [d.producto.nombre],
+            producto: [d.producto], //.nombre
             cantidadPedido: [d.cantidad],
             cantidadSalida: [
               d.cantidad,
@@ -153,7 +153,7 @@ export class SalidaProductosComponent {
       },
       error: (err) => {
         console.error(err);
-        this.toastr.error(err.error.message || 'Error al registrar salida');
+        this.toastr.error('Error al registrar salida');
       },
     });
   }
@@ -177,7 +177,7 @@ export class SalidaProductosComponent {
     switch (this.selectedFilter) {
       case 'nro pedido':
         return this.listSalidas.filter((i) =>
-          i.pedidoId.nroOperacion.toString().startsWith(term)
+          i.pedidoId.nroPedido.toString().startsWith(term)
         );
       case 'fecha salida':
         return this.listSalidas.filter((s) =>

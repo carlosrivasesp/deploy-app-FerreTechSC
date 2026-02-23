@@ -148,7 +148,7 @@ export class ResumenCompraComponent implements OnInit {
 
     this.http
       .get<any>(
-        `https://deploy-server-ferretechsc.onrender.com/api/clientes/getClienteByNroDoc/${this.nroDoc}`
+        `http://localhost:4000/api/clientes/getClienteByNroDoc/${this.nroDoc}`
       )
       .subscribe({
         next: (res) => {
@@ -231,13 +231,13 @@ export class ResumenCompraComponent implements OnInit {
       metodoPago: this.metodoPago,
       cliente: datosCliente,
       detalles: detalles,
-      servicioDelivery: this.servicioDelivery,
+      servicioDelivery: this.servicioDelivery
     };
 
     console.log('📦 Enviando pedido invitado:', pedido);
 
     this.http
-      .post('https://deploy-server-ferretechsc.onrender.com/api/operacion/pedido-invitado', pedido)
+      .post('http://localhost:4000/api/pedido/pedido-invitado', pedido)
       .subscribe({
         next: (res) => {
           console.log('✅ Pedido registrado correctamente:', res);
@@ -255,7 +255,6 @@ export class ResumenCompraComponent implements OnInit {
         },
         error: (err) => {
           console.error('❌ Error al registrar pedido:', err);
-          console.error('Error al registrar el pedido. Revisa la consola.');
         },
       });
   }

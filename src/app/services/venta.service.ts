@@ -8,7 +8,7 @@ import { Venta } from '../models/venta';
 })
 export class VentaService {
 
-  private url = 'https://deploy-server-ferretechsc.onrender.com/api/ventas';
+  private url = 'http://localhost:4000/api/ventas';
 
   constructor(private http: HttpClient) {}
 

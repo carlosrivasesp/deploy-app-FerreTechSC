@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class HistorialService {
 
   // Cambia esta URL por la de tu backend real
-  private apiUrl = 'https://deploy-server-ferretechsc.onrender.com/api/getPedidoCliente';
+  private apiUrl = 'http://localhost:4000/api/getPedidoCliente';
 
   constructor(private http: HttpClient) { }
 

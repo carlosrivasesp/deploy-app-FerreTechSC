@@ -67,8 +67,8 @@
     <tbody class="body">
       <tr *ngFor="let e of filteredEntregas">
         <td>{{ e.codigo }}</td>
-        <td>{{ e.operacionId.nroOperacion }}</td>
-        <td>{{ e.operacionId.codigo }}</td>
+        <td>{{ e.pedidoId.nroPedido }}</td>
+        <td>{{ e.pedidoId.codigo }}</td>
         <td>{{ e.direccion }}</td>
         <td>{{ e.distrito }}</td>
         <td>{{ e.estado }}</td>
@@ -349,7 +349,7 @@
             </div>
 
             <!-- INFORMACIÓN DE LA OPERACIÓN -->
-            <div class="card mb-4" *ngIf="entregaSeleccionada.operacionId">
+            <div class="card mb-4" *ngIf="entregaSeleccionada.PedidoId">
               <div class="card-header text-white" style="background-color: #0B3D1C;">
                 <h5 class="mb-0">Información del Pedido</h5>
               </div>
@@ -357,23 +357,23 @@
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label class="form-label"><strong>Número de Operación:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.nroOperacion }}</p>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.PedidoId.nroPedido }}</p>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label"><strong>Tipo de Operación:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.tipoOperacion === 1 ? 'Pedido' : 'Cotización' }}</p>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.PedidoId.tipoPedido === 1 ? 'Pedido' : 'Cotización' }}</p>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label"><strong>Fecha de Emisión:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.fechaEmision | date:'dd/MM/yyyy' }}</p>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.PedidoId.fechaEmision | date:'dd/MM/yyyy' }}</p>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label"><strong>Fecha de Vencimiento:</strong></label>
-                    <p class="form-control-plaintext">{{ entregaSeleccionada.operacionId.fechaVenc | date:'dd/MM/yyyy' }}</p>
+                    <p class="form-control-plaintext">{{ entregaSeleccionada.PedidoId.fechaVenc | date:'dd/MM/yyyy' }}</p>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label"><strong>Total:</strong></label>
-                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.operacionId.total | number:'1.2-2' }}</p>
+                    <p class="form-control-plaintext">S/ {{ entregaSeleccionada.PedidoId.total | number:'1.2-2' }}</p>
                   </div>
                 </div>
               </div>
@@ -385,27 +385,27 @@
                 <h5 class="mb-0">Información del Cliente</h5>
               </div>
               <div class="card-body">
-                <div *ngIf="entregaSeleccionada.operacionId?.cliente; else noClienteInfo">
+                <div *ngIf="entregaSeleccionada.PedidoId?.cliente; else noClienteInfo">
                   <div class="row g-3">
                     <div class="col-md-6">
                       <label class="form-label"><strong>Nombre:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.nombre }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.PedidoId?.cliente?.nombre }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Correo:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.correo || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.PedidoId?.cliente?.correo || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Teléfono:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.telefono || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.PedidoId?.cliente?.telefono || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Tipo de Documento:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.tipoDoc || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.PedidoId?.cliente?.tipoDoc || 'No especificado' }}</p>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label"><strong>Número de Documento:</strong></label>
-                      <p class="form-control-plaintext">{{ entregaSeleccionada?.operacionId?.cliente?.nroDoc || 'No especificado' }}</p>
+                      <p class="form-control-plaintext">{{ entregaSeleccionada?.PedidoId?.cliente?.nroDoc || 'No especificado' }}</p>
                     </div>
                   </div>
                 </div>
@@ -421,7 +421,7 @@
             </div>
 
             <!-- DETALLES DE PRODUCTOS -->
-            <div class="card mb-4" *ngIf="entregaSeleccionada.operacionId?.detalles?.length > 0">
+            <div class="card mb-4" *ngIf="entregaSeleccionada.PedidoId?.detalles?.length > 0">
               <div class="card-header text-white" style="background-color: #0B3D1C;">
                 <h5 class="mb-0">Detalles de Productos</h5>
               </div>
@@ -438,7 +438,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let detalle of entregaSeleccionada.operacionId.detalles">
+                      <tr *ngFor="let detalle of entregaSeleccionada.PedidoId.detalles">
                         <td>{{ detalle.codInt }}</td>
                         <td>{{ detalle.nombre }}</td>
                         <td>{{ detalle.cantidad }}</td>

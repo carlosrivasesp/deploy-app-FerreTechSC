@@ -49,7 +49,7 @@
         <tbody class="body">
             <tr *ngFor="let salida of paginated">
                 <td>{{ salida.tipoOperacion }}</td>
-                <td>{{ salida.pedidoId.nroOperacion }}</td>
+                <td>{{ salida.pedidoId.nroPedido }}</td>
                 <td>{{ salida.cantidadTotal }}</td>
                 <td>{{ salida.fechaSalida ? (salida.fechaSalida | date: 'dd/MM/yyyy') : 'Sin fecha' }}</td>
                 <td>
@@ -113,7 +113,7 @@
             >
               <option value="">Seleccione un pedido</option>
               <option *ngFor="let p of pedidosEnviados" [value]="p._id">
-                N° {{ p.nroOperacion }} - {{ p.cliente.nombre }}
+                N° {{ p.nroPedido }} - {{ p.cliente.nombre }}
               </option>
             </select>
 
@@ -134,7 +134,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let det of detalles.controls; let i = index" [formGroupName]="i">
-                  <td>{{ det.get('producto')?.value }}</td>
+                  <td>{{ det.get('producto')?.value?.nombre }}</td>
                   <td>{{ det.get('cantidadPedido')?.value }}</td>
                   <td>
                     <input
@@ -221,8 +221,8 @@
       </div>
 
       <div class="modal-body" *ngIf="salidaSeleccionada">
-        <p><strong>Tipo de Operación:</strong> {{ salidaSeleccionada.tipoOperacion }}</p>
-        <p><strong>N° Pedido:</strong> {{ salidaSeleccionada.pedidoId.nroOperacion }}</p>
+        <p><strong>Tipo de Operación:</strong> {{ salidaSeleccionada.tipoPedido }}</p>
+        <p><strong>N° Pedido:</strong> {{ salidaSeleccionada.pedidoId.nroPedido }}</p>
         <p><strong>Cliente:</strong> {{ salidaSeleccionada.pedidoId.cliente.nombre }}</p>
         <p><strong>Fecha de Salida:</strong> {{ salidaSeleccionada.fechaSalida | date:'dd/MM/yyyy' }}</p>
         <p><strong>Cantidad Total:</strong> {{ salidaSeleccionada.cantidadTotal }}</p>

@@ -4,8 +4,8 @@ import { Entregas } from '../../models/entregas';
 import { EntregaService } from '../../services/entregas.service';
 import { VentaService } from '../../services/venta.service';
 import { Venta } from '../../models/venta';
-import { Operacion } from '../../models/operacion';
-import { OperacionService } from '../../services/operacion.service';
+import { Pedido } from '../../models/pedido';
+import { PedidoService } from '../../services/pedido.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -20,7 +20,7 @@ export class EntregasComponent {
   entregaSeleccionada: any = null;
   entregaForm: FormGroup;
 
-  selectedFilter: string = 'Nro Operacion';
+  selectedFilter: string = 'Nro Pedido';
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 10;
@@ -74,7 +74,7 @@ export class EntregasComponent {
         
         // Eliminar duplicados por número de operación (si los hay)
         const uniqueEntregas = data.filter((entrega: any, index: number, self: any[]) => 
-          index === self.findIndex((e: any) => e.operacionId?.nroOperacion === entrega.operacionId?.nroOperacion)
+          index === self.findIndex((e: any) => e.PedidoId?.nroPedido === entrega.PedidoId?.nroPedido)
         );
         
         console.log('Entregas únicas después de filtrar duplicados:', uniqueEntregas.length);
@@ -141,7 +141,7 @@ export class EntregasComponent {
         break;
       case 'Numero Pedido':
         filtered = this.listaEntregas.filter((v) =>
-          v.operacionId.nroOperacion.toString().startsWith(term)
+          v.pedidoId.nroPedido.toString().startsWith(term)
         );
         break;
       default:
@@ -171,8 +171,8 @@ export class EntregasComponent {
   cargarDatosEntrega(): void {
     // Los datos se muestran directamente en el modal usando entregaSeleccionada
     console.log('Entrega seleccionada:', this.entregaSeleccionada);
-    console.log('Operación ID:', this.entregaSeleccionada?.operacionId);
-    console.log('Cliente:', this.entregaSeleccionada?.operacionId?.cliente);
+    console.log('Operación ID:', this.entregaSeleccionada?.PedidoId);
+    console.log('Cliente:', this.entregaSeleccionada?.PedidoId?.cliente);
   }
 
   // Método para obtener el estado actual del pedido

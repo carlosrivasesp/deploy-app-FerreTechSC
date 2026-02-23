@@ -23,7 +23,7 @@ export class DetalleSalidaProductosComponent {
     private fb: FormBuilder,
   ) {
     this.salidaForm = this.fb.group({
-      tipoOperacion: ['', Validators.required],
+      tipoPedido: ['', Validators.required],
       ventaId: this.fb.group({
         tipoComprobante: [''],
         serie: [''],
@@ -57,7 +57,7 @@ export class DetalleSalidaProductosComponent {
         console.log(data);
   
         this.salidaForm.patchValue({
-          tipoOperacion: data.tipoOperacion,
+          tipoPedido: data.tipoPedido,
           cantidadTotal: data.cantidadTotal,
           fechaSalida: this.formatDate(data.fechaSalida),
           ventaId: {

@@ -1,15 +1,15 @@
-import { Operacion } from './operacion';
+import { Pedido } from './pedido';
 
 export class Salida {
   _id? : string;
       tipoOperacion : string;
-      pedidoId : Operacion;
+      pedidoId : Pedido;
       cantidadTotal : number;
       fechaSalida? : Date;
       detalles: { detalleId: string; cantidadSalida: number }[] = [];
   
       constructor(tipoOperacion : string,
-        pedidoId : Operacion,
+        pedidoId : Pedido,
         cantidadTotal : number,
         fechaSalida : Date,
         detalles: { detalleId: string; cantidadSalida: number }[]) {

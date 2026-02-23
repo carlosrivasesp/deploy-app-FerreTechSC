@@ -9,19 +9,7 @@
     </div>
 
     <div class="formulario">
-      <form class="row g-3" [formGroup]="ingresoForm">
-        <!-- Tipo Operación -->
-        <div class="col-md-2">
-            <label for="inputNro" class="form-label">Tipo Operación</label>
-            <input
-              type="text"
-              class="form-control"
-              id="inputNro"
-              formControlName="tipoOperacion"
-            />
-          </div>
-
-            
+      <form class="row g-3" [formGroup]="ingresoForm">            
         <!--fecha Ingreso-->
         <div class="col-md-2">
             <label for="inputEmision" class="form-label">Fecha de Ingreso</label>
@@ -48,7 +36,7 @@
             />
           </div>
 
-          <div *ngIf="ingresoForm.get('tipoOperacion')?.value === 'Venta Anulada'" formGroupName="ventaId" class="row g-3">
+          <div *ngIf="ingresoForm.get('tipoPedido')?.value === 'Venta Anulada'" formGroupName="ventaId" class="row g-3">
             <!-- Tipo Comprobante -->
             <div class="col-md-5">
               <label for="inputComprobante" class="form-label">Tipo de Comprobante</label>
@@ -85,7 +73,7 @@
             </div>
           </div>
 
-          <div *ngIf="ingresoForm.get('tipoOperacion')?.value === 'Compra Registrada'" formGroupName="compraId" class="row g-3">
+          <div *ngIf="ingresoForm.get('tipoPedido')?.value === 'Compra Registrada'" formGroupName="compraId" class="row g-3">
             <!-- Tipo Comprobante -->
             <div class="col-md-5">
               <label for="inputComprobante" class="form-label">Tipo de Comprobante</label>
@@ -126,7 +114,7 @@
 
     <!-- Para ventas -->
     <table
-      *ngIf="ingresoForm.get('tipoOperacion')?.value === 'Venta Anulada'"
+      *ngIf="ingresoForm.get('tipoPedido')?.value === 'Venta Anulada'"
       class="table"
     >
       <thead>
@@ -147,7 +135,7 @@
 
     <!-- Para compras -->
     <table
-      *ngIf="ingresoForm.get('tipoOperacion')?.value === 'Compra Registrada'"
+      *ngIf="ingresoForm.get('tipoPedido')?.value === 'Compra Registrada'"
       class="table"
     >
       <thead>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OperacionService } from '../../services/operacion.service';
+import { PedidoService } from '../../services/pedido.service';
 import { ClienteService } from '../../services/cliente.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,7 +19,7 @@ export class DetallePedidosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private aRouter: ActivatedRoute,
-    private operacionService: OperacionService,
+    private PedidoService: PedidoService,
     private clienteService: ClienteService,
     private toastr: ToastrService,
     private router: Router
@@ -56,7 +56,7 @@ export class DetallePedidosComponent implements OnInit {
   verDetallePedido(): void {
     if (!this.idPedido) return;
 
-    this.operacionService.obtenerOperacion(this.idPedido).subscribe({
+    this.PedidoService.obtenerPedido(this.idPedido).subscribe({
       next: (data) => {
         console.log('Pedido:', data);
 

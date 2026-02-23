@@ -1,9 +1,9 @@
 import { Producto } from "./producto";  
-import { Operacion } from "./operacion";
+import { Pedido } from "./pedido";
 
-export class DetalleOperacion {
+export class DetallePedido {
   _id?: string;
-  operacionId: Operacion;   // Referencia a la operación
+  PedidoId: Pedido;   // Referencia a la operación
   producto: Producto;     // Referencia al producto
   codInt: string;
   nombre: string;
@@ -13,7 +13,7 @@ export class DetalleOperacion {
   cantidadPendiente?: number;
 
   constructor(
-    operacionId: Operacion,
+    PedidoId: Pedido,
     producto: Producto,
     codInt: string,
     nombre: string,
@@ -22,7 +22,7 @@ export class DetalleOperacion {
     subtotal: number,
     cantidadPendiente?: number
   ) {
-    this.operacionId = operacionId;
+    this.PedidoId = PedidoId;
     this.producto = producto;
     this.codInt = codInt;
     this.nombre = nombre;

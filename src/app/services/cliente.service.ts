@@ -9,7 +9,7 @@ import { Cliente } from "../models/cliente";
 
 export class ClienteService {
 
-    url= 'https://deploy-server-ferretechsc.onrender.com/api/clientes/';
+    url= 'http://localhost:4000/api/clientes/';
 
     constructor(private http: HttpClient) { }
 

@@ -129,7 +129,7 @@ export class IngresarProductosComponent {
     }
 
     const ingresoData = {
-      tipoOperacion: 'Ingreso por OrdenCompra',
+      tipoOperacion: 'Ingreso por Orden de Compra',
       compraId: this.ingresoForm.get('compraId')?.value,
       cantidadTotal: this.ingresoForm.get('cantidadTotal')?.value,
       detalles: this.detalles.controls.map((c) => ({

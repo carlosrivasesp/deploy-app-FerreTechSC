@@ -23,7 +23,7 @@ export class DetalleIngresoProductosComponent {
     private fb: FormBuilder,
   ) {
     this.ingresoForm = this.fb.group({
-      tipoOperacion: ['', Validators.required],
+      tipoPedido: ['', Validators.required],
       ventaId: this.fb.group({
         tipoComprobante: [''],
         serie: [''],
@@ -67,12 +67,12 @@ export class DetalleIngresoProductosComponent {
         console.log(data);
   
         this.ingresoForm.patchValue({
-          tipoOperacion: data.tipoOperacion,
+          tipoPedido: data.tipoPedido,
           cantidadTotal: data.cantidadTotal,
           fechaIngreso: this.formatDate(data.fechaIngreso),
         });
   
-        if (data.tipoOperacion === 'Venta Anulada') {
+        if (data.tipoPedido === 'Venta Anulada') {
           this.ingresoForm.get('ventaId')?.patchValue({
             tipoComprobante: data.ventaId.tipoComprobante,
             serie: data.ventaId.serie,
@@ -89,7 +89,7 @@ export class DetalleIngresoProductosComponent {
               cantidad: detalle.cantidad,
             }));
           });
-        } else if (data.tipoOperacion === 'Compra Registrada') {
+        } else if (data.tipoPedido === 'Compra Registrada') {
           this.ingresoForm.get('compraId')?.patchValue({
             tipoComprobante: data.compraId.tipoComprobante,
             serie: data.compraId.serie,

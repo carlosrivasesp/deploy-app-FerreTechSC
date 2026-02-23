@@ -1,13 +1,12 @@
 import { Cliente } from "./cliente";
-import { DetalleOperacion } from "./detalleOperacion";
+import { DetallePedido } from "./detallePedido";
 import { Proveedor } from "./proveedor";
 import { Salida } from "./salida";
 
-export class Operacion {
+export class Pedido {
   _id?: string;
-  tipoOperacion: number; // 1 = pedido, 2 = cotización
-  nroOperacion: number;
-  detalles: DetalleOperacion[];
+  nroPedido: number;
+  detalles: DetallePedido[];
   servicioDelivery: boolean;
   cliente: Cliente; // ID del cliente
   igv: number;
@@ -19,9 +18,8 @@ export class Operacion {
   codigo: string;
 
   constructor(
-    tipoOperacion: number,
-    nroOperacion: number,
-    detalles: DetalleOperacion[] = [],
+    nroPedido: number,
+    detalles: DetallePedido[] = [],
     servicioDelivery: boolean,
     cliente: Cliente,
     igv: number,
@@ -32,8 +30,7 @@ export class Operacion {
     salidas: Salida[],
     codigo: string
   ) {
-    this.tipoOperacion = tipoOperacion;
-    this.nroOperacion = nroOperacion;
+    this.nroPedido = nroPedido;
     this.detalles = detalles;
     this.servicioDelivery = servicioDelivery;
     this.cliente = cliente;

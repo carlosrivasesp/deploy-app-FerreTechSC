@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Operacion } from '../../models/operacion';
+import { Pedido } from '../../models/pedido';
 import { Venta } from '../../models/venta';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Venta } from '../../models/venta';
 })
 export class GenerarPDFService {
 
-  generarComprobante(data: { pedido: Operacion, venta: Venta }) {
+  generarComprobante(data: { pedido: Pedido, venta: Venta }) {
 
   const pedido = data.pedido;
   const venta = data.venta;
@@ -119,7 +119,7 @@ export class GenerarPDFService {
   // =================================================
   // GUARDAR ARCHIVO
   // =================================================
-  const fileName = `${tipo.replace(/ /g, "_")}_${pedido.nroOperacion}.pdf`;
+  const fileName = `${tipo.replace(/ /g, "_")}_${pedido.nroPedido}.pdf`;
   doc.save(fileName);
 }
 }
