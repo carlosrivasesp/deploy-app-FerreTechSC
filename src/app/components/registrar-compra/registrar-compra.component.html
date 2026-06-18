@@ -99,7 +99,7 @@
           <strong>Total:</strong> S/ <span id="total">{{ total.toFixed(2) }}</span>
         </div>
       </div>
-      <button class="btn" style="background-color: #10401b;" (click)="registrarCompra()">Generar Orden</button>
+      <button class="btn" style="background-color: #10401b;color:white" (click)="registrarCompra()">Generar Orden</button>
     </div>
 
     <nav *ngIf="totalPages > 1" class="mt-3" aria-label="Page navigation">
@@ -243,7 +243,7 @@
             <button
               type="button"
               class="btn"
-              style="background-color: #10401b;"
+              style="background-color: #10401b;color:white"
               (click)="onRegisterElement()"
             >
               Registrar
@@ -321,7 +321,7 @@
                   type="submit"
                   [disabled]="proveedorForm.invalid"
                   class="btn"
-                  style="background-color: #10401b;"
+                  style="background-color: #10401b;color:white"
                   data-bs-dismiss="modal"
                 >
                   Registrar

@@ -156,7 +156,7 @@
         <div *ngFor="let item of listCompraSugeridas" class="list-group-item px-3 py-3 border-bottom-0">
           <div class="d-flex align-items-center gap-3">
 
-          <div class="icon-circle text-white shadow-sm" style="background-color: #10401b;">
+          <div class="icon-circle text-white shadow-sm" style="background-color: #10401b;color:white">
               <i class="bi"
                 [ngClass]="item.motivo === 'Poco stock' ? 'bi-exclamation-triangle-fill' : 'bi-graph-up-arrow'"></i>
             </div>
@@ -191,7 +191,7 @@
 
       <div class="card-footer bg-white border-top-0 p-3">
         <a routerLink="/compras-sugeridas" class="btn w-100 fw-bold text-white shadow-sm"
-          style="background-color: #10401b;">
+          style="background-color: #10401b;color:white">
           Ver más detalles <i class="bi bi-arrow-right ms-1"></i>
         </a>
       </div>

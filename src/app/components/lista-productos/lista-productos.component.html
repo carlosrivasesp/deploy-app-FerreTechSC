@@ -29,7 +29,7 @@
 
       <div class="group3">
         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalAdd"
-          (click)="resetFormulario()" style="background-color: #10401b;">
+          (click)="resetFormulario()" style="background-color: #10401b;color:white">
           <i class="bi bi-plus" style="color: aliceblue;"></i>
         </button>
       </div>
@@ -149,7 +149,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                   (click)="resetFormulario()">Cancelar</button>
-                <button type="submit" [disabled]="productoForm.invalid" class="btn" style="background-color: #10401b;"
+                <button type="submit" [disabled]="productoForm.invalid" class="btn" style="background-color: #10401b; color: white"
                   data-bs-dismiss="modal">Registrar</button>
               </div>
             </form>
@@ -224,7 +224,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                 (click)="resetFormulario()">Cancelar</button>
-              <button type="button" class="btn" style="background-color: #10401b;" (click)="actualizarProducto()"
+              <button type="button" class="btn" style="background-color: #10401b;color:white" (click)="actualizarProducto()"
                 data-bs-dismiss="modal">Aceptar</button>
             </div>
           </form>
