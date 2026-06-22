@@ -1,0 +1,147 @@
+/* Contenedor principal */
+
+.register-container {
+
+    min-height: 75vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+/* Tarjeta */
+
+.register-card {
+
+    border: none;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.12);
+
+}
+
+/* Cabecera */
+
+.register-header {
+
+    background: #1f2937;
+
+    color: white;
+
+    padding: 20px;
+
+    border-bottom: 4px solid #f59e0b;
+
+}
+
+.register-header h3 {
+
+    margin: 0;
+
+    font-weight: 700;
+
+}
+
+/* Cuerpo */
+
+.register-body {
+
+    padding: 30px;
+
+}
+
+/* Labels */
+
+.register-body label {
+
+    font-weight: 600;
+
+    color: #374151;
+
+    margin-bottom: 5px;
+
+}
+
+/* Inputs */
+
+.form-control {
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    transition: 0.3s;
+
+}
+
+.form-control:focus {
+
+    border-color: #f59e0b;
+
+    box-shadow:
+        0 0 0 0.2rem rgba(245, 158, 11, 0.2);
+
+}
+
+/* Botón */
+
+.btn-register {
+
+    background: #f59e0b;
+
+    border: none;
+
+    color: white;
+
+    font-weight: 600;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+
+}
+
+.btn-register:hover {
+
+    background: #d97706;
+
+    transform: translateY(-2px);
+
+}
+
+/* Footer */
+
+.register-footer {
+
+    background: #f9fafb;
+
+    padding: 15px;
+
+}
+
+.register-footer a {
+
+    text-decoration: none;
+
+    color: #f59e0b;
+
+    font-weight: 600;
+
+}
+
+.register-footer a:hover {
+
+    color: #d97706;
+
+}

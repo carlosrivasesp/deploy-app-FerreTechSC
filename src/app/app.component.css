@@ -1,0 +1,17 @@
+.app-container {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.contenido {
+
+    flex: 1;
+
+    padding: 20px;
+
+}

@@ -1,0 +1,84 @@
+<div class="login-container">
+
+    <div class="col-md-5 col-lg-4">
+
+        <div class="card login-card">
+
+            <div class="login-header text-center">
+
+                <h3>
+
+                    Iniciar Sesión
+
+                </h3>
+
+            </div>
+
+            <div class="card-body login-body">
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Correo Electrónico
+
+                    </label>
+
+                    <input
+                        type="email"
+                        class="form-control"
+                        [(ngModel)]="correo">
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Contraseña
+
+                    </label>
+
+                    <input
+                        type="password"
+                        class="form-control"
+                        [(ngModel)]="password">
+
+                </div>
+
+                <div
+                    *ngIf="error"
+                    class="alert alert-danger">
+
+                    {{ error }}
+
+                </div>
+
+                <button
+                    class="btn btn-login w-100"
+                    (click)="iniciarSesion()"
+                    [disabled]="cargando">
+
+                    Ingresar
+
+                </button>
+
+            </div>
+
+            <div class="login-footer text-center">
+
+                ¿No tienes cuenta?
+
+                <a routerLink="/register">
+
+                    Regístrate aquí
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

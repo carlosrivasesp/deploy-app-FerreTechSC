@@ -1,0 +1,121 @@
+<div class="pedidos-container">
+
+    <div class="pedidos-header">
+
+        <h2>
+
+            📦 Mis Pedidos
+
+        </h2>
+
+        <p>
+
+            Consulta el estado de tus pedidos y revisa sus detalles.
+
+        </p>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table pedidos-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Nro Pedido</th>
+
+                    <th>Fecha</th>
+
+                    <th>Total</th>
+
+                    <th>Estado Pago</th>
+
+                    <th>Estado Entrega</th>
+
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let pedido of pedidos">
+
+                    <td>
+
+                        <strong>
+
+                            {{ pedido.NroPedido }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ pedido.FechaPedido | date:'dd/MM/yyyy' }}
+
+                    </td>
+
+                    <td class="total">
+
+                        S/. {{ pedido.Total }}
+
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="badge estado-pago"
+                            [ngClass]="{
+                                'bg-warning': pedido.EstadoPago === 'PENDIENTE_PAGO',
+                                'bg-info': pedido.EstadoPago === 'PENDIENTE_VALIDACION',
+                                'bg-success': pedido.EstadoPago === 'PAGADO'
+                            }">
+
+                            {{ pedido.EstadoPago }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="badge estado-entrega"
+                            [ngClass]="{
+                                'bg-secondary': pedido.EstadoEntrega === 'REGISTRADO',
+                                'bg-primary': pedido.EstadoEntrega === 'PROGRAMADO',
+                                'bg-success': pedido.EstadoEntrega === 'ENTREGADO'
+                            }">
+
+                            {{ pedido.EstadoEntrega }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            [routerLink]="['/pedido', pedido.IdPedido]"
+                            class="btn btn-detalle btn-sm">
+
+                            Ver detalle
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

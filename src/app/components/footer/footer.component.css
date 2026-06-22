@@ -1,0 +1,51 @@
+footer {
+
+    background: #1f2937 !important;
+
+    color: white;
+
+    border-top: 4px solid #f59e0b;
+
+    margin-top: auto;
+
+}
+
+.footer-title {
+
+    color: #f59e0b;
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+
+}
+
+.footer-text {
+
+    color: #d1d5db;
+
+    margin-bottom: 0;
+
+}
+
+.footer-copy {
+
+    color: #9ca3af;
+
+    margin-bottom: 0;
+
+    font-size: 0.95rem;
+
+}
+
+@media (max-width: 768px) {
+
+    .text-end {
+
+        text-align: left !important;
+
+        margin-top: 15px;
+
+    }
+
+}

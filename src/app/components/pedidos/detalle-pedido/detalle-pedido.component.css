@@ -1,0 +1,158 @@
+/* Contenedor */
+
+.detalle-container {
+
+    padding: 20px;
+
+}
+
+/* Encabezado */
+
+.pedido-header {
+
+    margin-bottom: 25px;
+
+}
+
+.pedido-header h2 {
+
+    color: #1f2937;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+
+}
+
+.pedido-header p {
+
+    color: #6b7280;
+
+}
+
+/* Card resumen */
+
+.resumen-card {
+
+    border: none;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+.resumen-card label {
+
+    color: #6b7280;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+
+}
+
+.resumen-card p {
+
+    margin-top: 5px;
+
+    margin-bottom: 0;
+
+    font-weight: 600;
+
+}
+
+/* Tabla */
+
+.productos-card {
+
+    border: none;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+.productos-card .card-header {
+
+    background: #1f2937;
+
+    color: white;
+
+    font-weight: 600;
+
+}
+
+.table thead {
+
+    background: #f8fafc;
+
+}
+
+.table th {
+
+    border: none;
+
+}
+
+.table td {
+
+    vertical-align: middle;
+
+}
+
+.table tbody tr:hover {
+
+    background: #f8fafc;
+
+}
+
+/* Subtotal */
+
+.subtotal {
+
+    color: #f59e0b;
+
+    font-weight: 700;
+
+}
+
+/* Total */
+
+.total-card {
+
+    text-align: right;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+.total-card h3 {
+
+    color: #6b7280;
+
+    margin-bottom: 10px;
+
+}
+
+.total-card h2 {
+
+    color: #f59e0b;
+
+    font-weight: 700;
+
+    margin: 0;
+
+}

@@ -1,42 +1,48 @@
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Pedido } from '../models/pedido';
+
+import { environment } from '../../app/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
 
-  private url = 'http://localhost:4000/api/pedido';
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = `${environment.apiUrl}/pedidos`;
 
-  // Obtener todas las Pedidos (puedes filtrar por tipoPedido con query param)
-  getAllPedidos(): Observable<any> {
-    let direccionUrl = this.url;
-    return this.http.get<Pedido>(direccionUrl);
+  crearPedido(data: any) {
+
+    return this.http.post(
+      this.apiUrl,
+      data
+    );
+
   }
 
-  // Registrar Pedido
-  registrarPedido(Pedido: Pedido): Observable<any> {
-    let direccionUrl = this.url + '/pedido';
-    return this.http.post<Pedido>(direccionUrl, Pedido);
+  obtenerPedidosUsuario(idUsuario: number) {
+
+    return this.http.get(
+        `${this.apiUrl}/usuario/${idUsuario}`
+    );
+
   }
 
-  // Obtener operación por ID
-  obtenerPedido(id: string): Observable<any> {
-    let direccionUrl = this.url +'/'+ id;
-    return this.http.get<Pedido>(direccionUrl);
+  obtenerPedidoPorId(idPedido: number) {
+
+    return this.http.get(
+      `${this.apiUrl}/${idPedido}`
+    );
+
   }
 
-  obtenerHistorialPorCliente(dni: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/pedido/${dni}`);
-  }
+  obtenerClientePorDocumento(documento: string) {
 
-  actualizarEstado(id: string, nuevoEstado: string): Observable<any> {
-    let direccionUrl = this.url +'/'+ id + '/estado';
-    return this.http.put<Pedido>(direccionUrl, { nuevoEstado });
+    return this.http.get(
+      `${this.apiUrl}/cliente/${documento}`
+    );
+
   }
 
 }

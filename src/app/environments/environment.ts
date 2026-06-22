@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  reniecToken: 'TU_TOKEN_AQUI'
+  apiUrl: 'http://localhost:3000/api'
 };

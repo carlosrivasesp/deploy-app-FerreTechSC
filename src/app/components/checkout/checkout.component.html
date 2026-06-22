@@ -1,0 +1,306 @@
+<div class="checkout-container">
+
+    <div class="checkout-header">
+
+        <h2>
+
+            🛒 Finalizar Pedido
+
+        </h2>
+
+        <p>
+
+            Completa tus datos para registrar tu pedido.
+
+        </p>
+
+    </div>
+
+    <div class="card checkout-card">
+
+        <div class="card-body">
+
+            <form
+                [formGroup]="form"
+                (ngSubmit)="crearPedido()">
+
+                <h5 class="section-title">
+
+                    Información del Cliente
+
+                </h5>
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Tipo de Cliente
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        formControlName="tipoCliente">
+
+                        <option value="EMPRESA">
+
+                            EMPRESA
+
+                        </option>
+
+                        <option value="PERSONA">
+
+                            PERSONA
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Tipo de Documento
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        formControlName="tipoDocumento">
+
+                        <option value="DNI">
+
+                            DNI
+
+                        </option>
+
+                        <option value="RUC">
+
+                            RUC
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Número de Documento
+
+                    </label>
+
+                    <input
+                        class="form-control"
+                        formControlName="nroDocumento" (blur)="buscarCliente()">
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Nombre Completo
+
+                    </label>
+
+                    <input
+                        class="form-control"
+                        formControlName="nombre">
+
+                </div>
+
+                <div class="mb-3">
+
+                  <label>
+
+                      Teléfono
+
+                  </label>
+
+                  <input
+                      type="text"
+                      class="form-control"
+                      formControlName="telefono">
+
+              </div>
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Correo Electrónico
+
+                    </label>
+
+                    <input
+                        class="form-control"
+                        formControlName="correo">
+
+                </div>
+
+                <hr>
+
+                <h5 class="section-title">
+
+                    Entrega
+
+                </h5>
+
+                <div class="form-check mb-4">
+
+                    <input
+                        type="checkbox"
+                        class="form-check-input"
+                        formControlName="servicioDelivery">
+
+                    <label class="form-check-label">
+
+                        Solicitar servicio de delivery
+
+                    </label>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label>
+
+                        Dirección de Entrega
+
+                    </label>
+
+                    <input
+                        class="form-control"
+                        formControlName="direccionEntrega">
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label>
+
+                        Distrito
+
+                    </label>
+
+                    <input
+                        class="form-control"
+                        formControlName="distrito">
+
+                </div>
+
+                <hr>
+
+                <h5 class="section-title">
+
+                    Método de Pago
+
+                </h5>
+
+                <div class="mb-4">
+
+                    <label>
+
+                        Seleccione método de pago
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        formControlName="metodoPago">
+
+                        <option value="YAPE">
+
+                            Yape
+
+                        </option>
+
+                        <option value="PLIN">
+
+                            Plin
+
+                        </option>
+
+                        <option value="TRANSFERENCIA">
+
+                            Transferencia Bancaria
+
+                        </option>
+
+                    </select>
+
+                </div>
+                <div
+                    class="alert alert-warning"
+                    *ngIf="form.value.metodoPago === 'YAPE'">
+
+                    <strong>Yape:</strong>
+                    999999999
+
+                </div>
+
+                <div
+                    class="alert alert-info"
+                    *ngIf="form.value.metodoPago === 'PLIN'">
+
+                    <strong>Plin:</strong>
+                    999999999
+
+                </div>
+
+                <div
+                    class="alert alert-success"
+                    *ngIf="form.value.metodoPago === 'TRANSFERENCIA'">
+
+                    <strong>BCP:</strong>
+                    191-12345678-0-00
+
+                </div>
+
+                <!--
+
+                <hr>
+
+                <h5 class="section-title">
+
+                    Evidencia de Pago
+
+                </h5>
+
+                <div class="mb-4">
+
+                    <label>
+
+                        Adjuntar comprobante
+
+                    </label>
+
+                    <input
+                        type="file"
+                        class="form-control"
+                        accept="image/*,.pdf">
+
+                </div>
+
+                -->
+
+                <button
+                    type="submit"
+                    class="btn btn-confirmar w-100" >
+
+                    Confirmar Pedido
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

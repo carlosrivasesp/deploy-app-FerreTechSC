@@ -1,0 +1,199 @@
+<div
+    class="detalle-container"
+    *ngIf="cabecera">
+
+    <div class="pedido-header">
+
+        <div>
+
+            <h2>
+
+                📦 Pedido {{ cabecera.NroPedido }}
+
+            </h2>
+
+            <p>
+
+                Detalle completo de tu pedido
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card resumen-card">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <label>
+
+                        Fecha del Pedido
+
+                    </label>
+
+                    <p>
+
+                        {{ cabecera.FechaPedido | date:'dd/MM/yyyy' }}
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label>
+
+                        Estado de Pago
+
+                    </label>
+
+                    <p>
+
+                        <span
+                            class="badge"
+                            [ngClass]="{
+                                'bg-warning': cabecera.EstadoPago === 'PENDIENTE_PAGO',
+                                'bg-info': cabecera.EstadoPago === 'PENDIENTE_VALIDACION',
+                                'bg-success': cabecera.EstadoPago === 'PAGADO'
+                            }">
+
+                            {{ cabecera.EstadoPago }}
+
+                        </span>
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label>
+
+                        Estado de Entrega
+
+                    </label>
+
+                    <p>
+
+                        <span
+                            class="badge"
+                            [ngClass]="{
+                                'bg-secondary': cabecera.EstadoEntrega === 'REGISTRADO',
+                                'bg-primary': cabecera.EstadoEntrega === 'PROGRAMADO',
+                                'bg-success': cabecera.EstadoEntrega === 'ENTREGADO'
+                            }">
+
+                            {{ cabecera.EstadoEntrega }}
+
+                        </span>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card productos-card mt-4">
+
+        <div class="card-header">
+
+            Productos del Pedido
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Producto</th>
+
+                            <th>Unidad</th>
+
+                            <th>Cantidad</th>
+
+                            <th>Precio</th>
+
+                            <th>Subtotal</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr *ngFor="let item of detalle">
+
+                            <td>
+
+                                {{ item.Producto }}
+
+                            </td>
+
+                            <td>
+
+                                {{ item.UnidadMedida }}
+
+                            </td>
+
+                            <td>
+
+                                {{ item.Cantidad }}
+
+                            </td>
+
+                            <td>
+
+                                S/. {{ item.PrecioUnitario }}
+
+                            </td>
+
+                            <td class="subtotal">
+
+                                S/. {{ item.SubTotal }}
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="total-card mt-4">
+
+        <h3>
+
+            Total del Pedido
+
+        </h3>
+
+        <h2>
+
+            S/. {{ cabecera.Total }}
+
+        </h2>
+
+    </div>
+
+</div>

@@ -1,0 +1,141 @@
+/* Contenedor */
+
+.pedidos-container {
+
+    padding: 20px;
+
+}
+
+/* Encabezado */
+
+.pedidos-header {
+
+    margin-bottom: 25px;
+
+}
+
+.pedidos-header h2 {
+
+    color: #1f2937;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+
+}
+
+.pedidos-header p {
+
+    color: #6b7280;
+
+    margin-bottom: 0;
+
+}
+
+/* Tabla */
+
+.pedidos-table {
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+/* Cabecera */
+
+.pedidos-table thead {
+
+    background: #1f2937;
+
+    color: white;
+
+}
+
+.pedidos-table thead th {
+
+    border: none;
+
+    padding: 15px;
+
+}
+
+/* Filas */
+
+.pedidos-table tbody td {
+
+    vertical-align: middle;
+
+    padding: 15px;
+
+}
+
+.pedidos-table tbody tr {
+
+    transition: 0.3s;
+
+}
+
+.pedidos-table tbody tr:hover {
+
+    background: #f8fafc;
+
+}
+
+/* Total */
+
+.total {
+
+    color: #f59e0b;
+
+    font-weight: 700;
+
+}
+
+/* Estados */
+
+.estado-pago,
+.estado-entrega {
+
+    padding: 8px 12px;
+
+    font-size: 0.8rem;
+
+    border-radius: 20px;
+
+}
+
+/* Botón */
+
+.btn-detalle {
+
+    background: #f59e0b;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 8px 15px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+
+}
+
+.btn-detalle:hover {
+
+    background: #d97706;
+
+    color: white;
+
+    transform: translateY(-2px);
+
+}

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
-import { Producto } from '../../models/producto';
 import { CarritoService } from '../../services/carrito.service';
 @Component({
   selector: 'app-catalogo',
@@ -9,122 +8,63 @@ import { CarritoService } from '../../services/carrito.service';
   standalone: false
 })
 export class CatalogoComponent implements OnInit {
-  searchTerm: string = '';
-  selectedCategory: string = '';
-  sortOrder: string = 'az'; // 'az' = A-Z, 'za' = Z-A
+  
+  private productoService = inject(ProductoService);
+  private carritoService = inject(CarritoService);
 
-  // Precios fijos
-  minPrice: number = 0;
-  maxPrice: number = 100;
-  selectedMinPrice: number = 0;
-  selectedMaxPrice: number = 100;
-  selectedMarcas: { [marca: string]: boolean } = {};
-
-  productos: Producto[] = [];
-
-  // Paginación
-  currentPage: number = 1;
-  itemsPerPage: number = 30;
-
-  constructor(
-    private productoService: ProductoService,
-    private carritoService: CarritoService // inyecta servicio carrito
-  ) {}
+  productos: any[] = [];
 
   ngOnInit(): void {
-    this.productoService.getAllProductos().subscribe((data: Producto[]) => {
-      this.productos = data;
-      
-    });
+    console.log('CATALOGO INICIADO');
+    this.cargarProductos();
   }
 
-  // Categorías únicas para el dropdown
-  get categorias(): string[] {
-    return [...new Set(this.productos.map(p => p.categoria.nombre))];
-  }
+  cargarProductos() {
 
-  // Marcas únicas para filtros
-  get marcas(): string[] {
-    return [...new Set(this.productos.map(p => p.marca?.nombre).filter(Boolean))];
-  }
+    this.productoService
+      .obtenerProductos()
+      .subscribe({
 
-  // Productos filtrados sin paginar
-  get productosFiltradosSinPaginar(): Producto[] {
-    let filtrados = [...this.productos];
+        next: (resp: any) => {
 
-    // Solo productos con estado "Activo"
-    filtrados = filtrados.filter(p => p.estado === 'Activo');
+  console.log('PRODUCTOS:', resp);
 
-    // Filtro por texto
-    if (this.searchTerm) {
-      const term = this.searchTerm.toLowerCase();
-      filtrados = filtrados.filter(p =>
-        p.nombre.toLowerCase().includes(term) ||
-        (p.categoria && p.categoria.nombre.toLowerCase().includes(term)) ||
-        (p.marca && p.marca.nombre.toLowerCase().includes(term))
-      );
-    }
+  this.productos = resp;
 
-    // Filtro por marcas seleccionadas
-    if (Object.values(this.selectedMarcas).some(selected => selected)) {
-      filtrados = filtrados.filter(p => this.selectedMarcas[p.marca?.nombre || ''] === true);
-    }
+  setTimeout(() => {
 
-    // Filtro por categoría
-    if (this.selectedCategory) {
-      filtrados = filtrados.filter(p => p.categoria.nombre === this.selectedCategory);
-    }
-
-    // Filtro por rango de precios
-    filtrados = filtrados.filter(p =>
-      p.precio >= this.selectedMinPrice && p.precio <= this.selectedMaxPrice
+    console.log(
+      'LENGTH COMPONENTE:',
+      this.productos.length
     );
 
-    // Orden alfabético
-    filtrados = filtrados.sort((a, b) => {
-      const nameA = a.nombre.toLowerCase();
-      const nameB = b.nombre.toLowerCase();
-      return this.sortOrder === 'az'
-        ? nameA.localeCompare(nameB)
-        : nameB.localeCompare(nameA);
-    });
+  }, 1000);
 
-    return filtrados;
+},
+
+        error: (error) => {
+
+          console.error('ERROR:', error);
+
+        }
+
+      });
+
   }
+  agregarAlCarrito(producto: any) {
 
-  // Productos filtrados para mostrar solo la página actual
-  get productosFiltrados(): Producto[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.productosFiltradosSinPaginar.slice(start, end);
-  }
+    if (producto.StockActual <= 0) {
 
-  // Total de páginas para paginación
-  get totalPages(): number {
-    return Math.ceil(this.productosFiltradosSinPaginar.length / this.itemsPerPage);
-  }
+      alert('Producto sin stock disponible');
 
-  // Cambiar página
-  setPage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
+      return;
+
     }
-  }
-agregarAlCarrito(producto: Producto) {
-  if (!producto._id) {
-    alert('El producto no tiene ID y no se puede agregar al carrito.');
-    return;
-  }
 
-  this.carritoService.addItem(producto, 1).subscribe({
-    next: () => {
-      alert(`Se agregó ${producto.nombre} al carrito`);
-    },
-    error: (err) => {
-      console.error('Error agregando producto al carrito:', err);
-      alert('Error al agregar producto al carrito');
-    }
-  });
-}
+    this.carritoService
+        .agregarProducto(producto);
 
+    alert('Producto agregado');
+
+  }
 }
