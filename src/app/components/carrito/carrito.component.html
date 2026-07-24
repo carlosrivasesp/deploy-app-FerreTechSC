@@ -1,122 +1,74 @@
 <div class="carrito-container">
+  <div class="carrito-header">
+    <h2>🛒 Carrito de Compras</h2>
 
-    <div class="carrito-header">
+    <p>Revisa los productos antes de confirmar tu pedido.</p>
+  </div>
 
-        <h2>
+  <div *ngIf="carrito.length === 0" class="alert alert-warning">
+    Tu carrito está vacío.
+  </div>
 
-            🛒 Carrito de Compras
+  <div *ngIf="carrito.length > 0" class="table-responsive">
+    <table class="table carrito-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
 
-        </h2>
+          <th>Presentación</th>
 
-        <p>
+          <th>Cantidad</th>
 
-            Revisa los productos antes de confirmar tu pedido.
+          <th>Precio</th>
 
-        </p>
+          <th>Subtotal</th>
 
-    </div>
+          <th></th>
+        </tr>
+      </thead>
 
-    <div
-        *ngIf="carrito.length === 0"
-        class="alert alert-warning">
+      <tbody>
+        <tr *ngFor="let item of carrito">
+          <td>
+            {{ item.Producto }}
+          </td>
 
-        Tu carrito está vacío.
+          <td>
+            {{ item.Presentacion }}
+          </td>
 
-    </div>
+          <td>
+            {{ item.cantidad }}
+          </td>
 
-    <div *ngIf="carrito.length > 0" class="table-responsive">
+          <td class="precio">S/. {{ item.PrecioVenta }}</td>
 
-        <table class="table carrito-table">
+          <td class="subtotal">S/. {{ item.cantidad * item.PrecioVenta }}</td>
 
-            <thead>
+          <td>
+            <button
+              class="btn btn-danger btn-sm btn-eliminar"
+              (click)="eliminar(item.IdPresentacionVenta)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-                <tr>
+  <div class="resumen-carrito">
+    <h5 class="total-label">Total a pagar</h5>
 
-                    <th>Producto</th>
+    <h2 class="total-monto">S/. {{ total }}</h2>
 
-                    <th>Cantidad</th>
-
-                    <th>Precio</th>
-
-                    <th>Subtotal</th>
-
-                    <th></th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <tr *ngFor="let item of carrito">
-
-                    <td>
-
-                        {{ item.Producto }}
-
-                    </td>
-
-                    <td>
-
-                        {{ item.cantidad }}
-
-                    </td>
-
-                    <td class="precio">
-
-                        S/. {{ item.PrecioVenta }}
-
-                    </td>
-
-                    <td class="subtotal">
-
-                        S/. {{ item.cantidad * item.PrecioVenta }}
-
-                    </td>
-
-                    <td>
-
-                        <button
-                            class="btn btn-danger btn-sm btn-eliminar"
-                            (click)="eliminar(item.IdPresentacionVenta)">
-
-                            Eliminar
-
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <div class="resumen-carrito">
-
-        <h5 class="total-label">
-
-            Total a pagar
-
-        </h5>
-
-        <h2 class="total-monto">
-
-            S/. {{ total }}
-
-        </h2>
-
-        <button
-            class="btn btn-checkout mt-3"
-            [disabled]="carrito.length === 0"
-            (click)="irCheckout()">
-
-            Continuar Compra
-
-        </button>
-
-    </div>
-
+    <button
+      class="btn btn-checkout mt-3"
+      [disabled]="carrito.length === 0"
+      (click)="irCheckout()"
+    >
+      Continuar Compra
+    </button>
+  </div>
 </div>

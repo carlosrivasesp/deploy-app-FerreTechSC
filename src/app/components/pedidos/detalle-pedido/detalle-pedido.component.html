@@ -57,9 +57,9 @@
                         <span
                             class="badge"
                             [ngClass]="{
-                                'bg-warning': cabecera.EstadoPago === 'PENDIENTE_PAGO',
+                                'bg-warning': cabecera.EstadoPago === 'RECHAZADO',
                                 'bg-info': cabecera.EstadoPago === 'PENDIENTE_VALIDACION',
-                                'bg-success': cabecera.EstadoPago === 'PAGADO'
+                                'bg-success': cabecera.EstadoPago === 'CANCELADO'
                             }">
 
                             {{ cabecera.EstadoPago }}
@@ -195,5 +195,39 @@
         </h2>
 
     </div>
+
+    <div
+    class="card mt-4"
+    *ngIf="cabecera.EstadoPago === 'RECHAZADO'">
+
+    <div class="card-body">
+
+        <h5>
+            La evidencia de pago fue rechazada
+        </h5>
+
+        <p>
+            Adjunta una nueva evidencia para continuar
+            con la validación del pago.
+        </p>
+
+        <input
+            type="file"
+            class="form-control"
+            accept=".jpg,.jpeg,.png"
+            (change)="onFileSelected($event)">
+
+        <button
+            class="btn btn-primary mt-3"
+            [disabled]="!archivoSeleccionado"
+            (click)="reenviarEvidencia()">
+
+            Enviar nueva evidencia
+
+        </button>
+
+    </div>
+
+</div>
 
 </div>

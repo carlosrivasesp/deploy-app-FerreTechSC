@@ -1,107 +1,149 @@
 <div class="catalogo-header">
+  <h1>🔩 Catálogo de Productos</h1>
 
-    <h1>
-
-        🔩 Catálogo de Productos
-
-    </h1>
-
-    <p>
-
-        Encuentra los mejores productos para construcción,
-        ferretería y mejoramiento del hogar.
-
-    </p>
-
+  <p>
+    Encuentra los mejores productos para construcción, ferretería y mejoramiento
+    del hogar.
+  </p>
 </div>
 
 <div class="row">
+  <div
+    class="col-lg-3 col-md-4 col-sm-6 mb-4"
+    *ngFor="let producto of productos"
+  >
+    <div class="card producto-card h-100">
+      <div class="card-body">
+        <span class="badge categoria-badge">
+          {{ producto.Categoria }}
+        </span>
 
-    <div
-        class="col-lg-3 col-md-4 col-sm-6 mb-4"
-        *ngFor="let producto of productos">
+        <h5 class="producto-nombre">
+          {{ producto.Producto }}
+        </h5>
 
-        <div class="card producto-card h-100">
+        <p class="producto-codigo">
+          Código:
+          {{ producto.Codigo }}
+        </p>
 
-            <div class="card-body">
+        <p class="producto-marca">
+          Marca:
+          <strong>{{ producto.Marca }}</strong>
+        </p>
 
-                <span class="badge categoria-badge">
+        <p class="producto-stock">
+          Stock:
+          <strong>
+            {{ producto.StockActual }}
+          </strong>
+        </p>
 
-                    {{ producto.Categoria }}
+        <p class="producto-presentacion">Disponible en varias presentaciones</p>
 
-                </span>
+        <p class="stock-agotado" *ngIf="producto.StockActual <= 0">
+          Sin stock disponible
+        </p>
+      </div>
 
-                <h5 class="producto-nombre">
-
-                    {{ producto.Producto }}
-
-                </h5>
-
-                <p class="producto-codigo">
-
-                    Código:
-                    {{ producto.Codigo }}
-
-                </p>
-
-                <p class="producto-marca">
-
-                    Marca:
-                    <strong>{{ producto.Marca }}</strong>
-
-                </p>
-
-                <p class="producto-stock">
-
-                    Stock:
-                    <strong>
-
-                        {{ producto.StockActual }}
-
-                    </strong>
-
-                </p>
-
-                <p class="producto-unidad">
-
-                    Unidad:
-                    {{ producto.UnidadMedida }}
-
-                </p>
-
-                <h3 class="producto-precio">
-
-                    S/. {{ producto.PrecioVenta }}
-
-                </h3>
-
-                <p
-                    class="stock-agotado"
-                    *ngIf="producto.StockActual <= 0">
-
-                    Sin stock disponible
-
-                </p>
-
-            </div>
-
-            <div class="card-footer bg-white border-0">
-
-                <button
-                    class="btn btn-agregar w-100"
-                    (click)="agregarAlCarrito(producto)"
-                    [disabled]="producto.StockActual <= 0">
-
-                    {{ producto.StockActual <= 0
-                        ? 'Sin Stock'
-                        : '🛒 Agregar al carrito' }}
-
-                </button>
-
-            </div>
-
-        </div>
-
+      <div class="card-footer bg-white border-0">
+        <button
+          class="btn btn-agregar w-100"
+          (click)="agregarAlCarrito(producto)"
+          [disabled]="producto.StockActual <= 0"
+        >
+          {{
+            producto.StockActual <= 0 ? "Sin Stock" : "🛒 Agregar al carrito"
+          }}
+        </button>
+      </div>
     </div>
+  </div>
+</div>
+
+<div
+    class="modal fade show"
+    *ngIf="mostrarModal"
+    style="display:block;background:rgba(0,0,0,.5);">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5>
+
+{{ productoSeleccionado?.Nombre }}
+
+</h5>
+
+</div>
+
+<div class="modal-body">
+
+<label>
+
+Presentación
+
+</label>
+
+<select
+[(ngModel)]="presentacionSeleccionada"
+class="form-select">
+
+<option
+*ngFor="let p of productoSeleccionado.presentaciones"
+[ngValue]="p">
+
+{{ p.DescripcionPresentacion }}
+
+-
+
+S/. {{ p.PrecioVenta }}
+
+</option>
+
+</select>
+
+<br>
+
+<label>
+
+Cantidad
+
+</label>
+
+<input
+type="number"
+min="1"
+class="form-control"
+[(ngModel)]="cantidad">
+
+</div>
+
+<div class="modal-footer">
+
+<button
+class="btn btn-secondary"
+(click)="mostrarModal=false">
+
+Cancelar
+
+</button>
+
+<button
+class="btn btn-primary"
+(click)="confirmarAgregar()">
+
+Agregar
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 </div>

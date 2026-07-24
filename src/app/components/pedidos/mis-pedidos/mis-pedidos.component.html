@@ -71,9 +71,9 @@
                         <span
                             class="badge estado-pago"
                             [ngClass]="{
-                                'bg-warning': pedido.EstadoPago === 'PENDIENTE_PAGO',
+                                'bg-warning': pedido.EstadoPago === 'RECHAZADO',
                                 'bg-info': pedido.EstadoPago === 'PENDIENTE_VALIDACION',
-                                'bg-success': pedido.EstadoPago === 'PAGADO'
+                                'bg-success': pedido.EstadoPago === 'CANCELADO'
                             }">
 
                             {{ pedido.EstadoPago }}
