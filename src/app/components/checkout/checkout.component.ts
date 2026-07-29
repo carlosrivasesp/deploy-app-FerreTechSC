@@ -42,6 +42,14 @@ export class CheckoutComponent {
 
     correo: [''],
 
+    tipoReceptor: ['CLIENTE', Validators.required],
+
+    nombreReceptor: ['', Validators.required],
+
+    documentoReceptor: ['', Validators.required],
+
+    telefonoReceptor: [''],
+
     servicioDelivery: [false],
 
     direccionEntrega: [''],
@@ -58,6 +66,15 @@ export class CheckoutComponent {
   crearPedido() {
     //const idUsuario = this.authService.obtenerIdUsuario();
 
+    if (this.form.value.tipoReceptor === 'CLIENTE') {
+      this.form.patchValue({
+        nombreReceptor: this.form.value.nombre,
+
+        documentoReceptor: this.form.value.nroDocumento,
+
+        telefonoReceptor: this.form.value.telefono,
+      });
+    }
     const request = {
       //idUsuario,
       cliente: {
@@ -73,6 +90,14 @@ export class CheckoutComponent {
 
         correo: this.form.value.correo,
       },
+
+      tipoReceptor: this.form.value.tipoReceptor,
+
+      nombreReceptor: this.form.value.nombreReceptor,
+
+      documentoReceptor: this.form.value.documentoReceptor,
+
+      telefonoReceptor: this.form.value.telefonoReceptor,
 
       servicioDelivery: this.form.value.servicioDelivery,
 
@@ -149,7 +174,7 @@ export class CheckoutComponent {
 
           correo: cliente.Correo,
 
-          tipoDocumento: cliente.TipoDocumento,
+          tipoDocumento: cliente.TipoDocumento
         });
       },
     });

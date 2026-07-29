@@ -81,6 +81,62 @@
 
         <hr />
 
+        <h5 class="section-title">Información del Receptor</h5>
+
+        <div class="mb-3">
+          <label class="form-label">¿Quién recibirá el pedido?</label>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              value="CLIENTE"
+              formControlName="tipoReceptor"
+            />
+
+            <label class="form-check-label"> Mi persona </label>
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              value="OTRO"
+              formControlName="tipoReceptor"
+            />
+
+            <label class="form-check-label"> Otra persona </label>
+          </div>
+        </div>
+
+        <div
+          *ngIf="form.value.tipoReceptor === 'CLIENTE'"
+          class="alert alert-info"
+        >
+          El pedido será entregado al mismo cliente que está realizando la
+          compra.
+        </div>
+
+        <div *ngIf="form.value.tipoReceptor === 'OTRO'">
+          <div class="mb-3">
+            <label>Nombre completo del receptor</label>
+
+            <input class="form-control" formControlName="nombreReceptor" />
+          </div>
+
+          <div class="mb-3">
+            <label>Documento del receptor</label>
+
+            <input class="form-control" formControlName="documentoReceptor" />
+          </div>
+
+          <div class="mb-3">
+            <label>Teléfono del receptor</label>
+
+            <input class="form-control" formControlName="telefonoReceptor" />
+          </div>
+        </div>
+
         <h5 class="section-title">Entrega</h5>
 
         <div class="form-check mb-4">
